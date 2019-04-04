@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testing": "npm start --prefix testing"
+    "server": "nodemon index.js",
+    "testing": "npm start --prefix testing",
+    "dev": "concurrently \"npm run server\" \"npm run testing\""
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
-    "validator": "^10.11.0"
+    "validator": "^10.11.0",
+    "concurrently": "^4.1.0"
   }
 }
