@@ -9,6 +9,7 @@ class Register extends React.Component {
       email: '',
       password: '',
       password2: '',
+      isAdmin: '',
       errors: {}
     }
 
@@ -20,15 +21,22 @@ class Register extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
+
   onSubmit(e){
     e.preventDefault()
+
+
 
     const newUser = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
+      isAdmin: this.state.isAdmin
     }
+// console.log(newUser.name)
+//       console.log(newUser.email)
+      console.log(newUser)
 
     //axios.post('/api/users/register', newUser)
     //     .then(res => console.log(res.data))
@@ -42,7 +50,7 @@ class Register extends React.Component {
         <div className="col-md-8 m-auto">
           <h1 className="display-4 text-center">Sign Up</h1>
           <p className="lead text-center">Create your Quizzical account</p>
-          <form onSubmit={this.onChange}>
+          <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <input type="text" className="form-control form-control-lg"
                 placeholder="Name" name="name" value={this.state.name}
@@ -63,9 +71,13 @@ class Register extends React.Component {
               <input type="password" className="form-control form-control-lg"
                 placeholder="Confirm Password" name="password2" value={this.state.password2}
                 onChange={this.onChange}/>
-
             </div>
-            <input type="submit" className="btn btn-info btn-block mt-4" />
+            <div className="form-group">
+                <input type="text" className="form-control form-control-lg"
+                       placeholder="Is Admin (y/n)" name="isAdmin" value={this.state.isAdmin}
+                       onChange={this.onChange}/>
+            </div>
+            <input type="submit" className="btn btn-info btn-block mt-4"  />
           </form>
         </div>
       </div>
