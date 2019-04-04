@@ -8,45 +8,44 @@ const users = require('./routes/api/users.js');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extened: false}))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-const connection = mysql.createConnection({
-  host: 'quizzical.chkqldbkslgu.us-east-2.rds.amazonaws.com',
-  user: 'QUIZZICAL',
-  password: 'QUIZZICAL418y',
-  database: 'QUIZZICAL',
-  port: 3306,
-  acquireTimeout: 1000000
-})
+// this commented code was for testing the connect to the db along with the querys needed for login/register
 
-connection.connect(function (err) {
-  if(err) throw err;
-  console.log("Connected!");
-})
-
-app.use(bodyParser.json)
-
-// make query
-connection.query('SELECT * FROM USER', function (err, result, fields) {
-  if (err){
-    console.error('Error conecting: ' + err.stack);
-  }
-  var row = JSON.stringify(result)
-  var arr = JSON.parse(row)
-  var pass = JSON.stringify(arr[0].PASSWORD).toString()
-  var len = pass.length
-  var p = pass.substring(1, len-1)
-  console.log(p);
-
-  if (p == "helloworld") {
-   console.log('you are login');
-  }else{
-    console.log('login failed');
-  }
-  console.log(p);
-  //do stuff if valid
-})
+//const connection = mysql.createConnection({
+//  host: 'quizzical.chkqldbkslgu.us-east-2.rds.amazonaws.com',
+//  user: 'QUIZZICAL',
+//  password: 'QUIZZICAL418y',
+//  database: 'QUIZZICAL',
+//  port: 3306,
+//  acquireTimeout: 1000000
+//})
+//
+//connection.connect(function (err) {
+//  if(err) throw err;
+//  console.log("Connected!");
+//})
+//
+//app.use(bodyParser.json)
+//
+//// make queryp
+//var email = "kgalusha@albany.edu"
+//var selectEmail = "select count(*) as emailCount from USER where EMAIL=  "
+//connection.query(selectEmail +"'"+email+"'" , function (err, result, fields) {
+//  if (err){
+//    console.error('Error conecting: ' + err.stack);
+//  }
+//
+//  //if (result[0].PASSWORD == "helloworld") {
+//  // console.log('you are login');
+//  //}else{
+//  //  console.log('login failed');
+//  //}
+//  console.log(result[0].emailCount);
+//
+//  //do stuff if valid
+//})
 
 //app.use(passport.initialize())
 app.use('/api/users', users)
