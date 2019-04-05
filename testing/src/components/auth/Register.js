@@ -33,9 +33,12 @@ class Register extends React.Component {
        password2: this.state.password2,
        isAdmin: this.state.isAdmin
      }
-    fetch('users/register',{
+    fetch('/users/register',{
       method: 'post',
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(newUser),
+      headers:{
+        'Content-Type': 'application/json'
+      }
     });
 console.log(JSON.stringify(newUser))
 

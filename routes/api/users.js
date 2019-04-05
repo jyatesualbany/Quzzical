@@ -14,7 +14,7 @@ const db = connection.db
 
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegister(req.body)
-    console.log("Hello")
+
   if(!isValid){
      return res.status(400).json(errors);
    }
