@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const connection = require('../../config/database.js');
 const validateLogin = require('../../validation/login');
-
 const validateRegister = require('../../validation/register');
 const db = connection.db
 
