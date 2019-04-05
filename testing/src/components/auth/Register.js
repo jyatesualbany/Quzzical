@@ -1,5 +1,6 @@
 import React from 'react';
-//import axios from 'axios';
+import axios from 'axios';
+
 
 class Register extends React.Component {
   constructor(){
@@ -25,22 +26,22 @@ class Register extends React.Component {
   onSubmit(e){
     e.preventDefault()
 
+     const newUser = {
+       name: this.state.name,
+       email: this.state.email,
+       password: this.state.password,
+       password2: this.state.password2,
+       isAdmin: this.state.isAdmin
+     }
+    fetch('users/register',{
+      method: 'post',
+      body: JSON.stringify(newUser)
+    });
+console.log(JSON.stringify(newUser))
 
-
-    const newUser = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2,
-      isAdmin: this.state.isAdmin
-    }
-// console.log(newUser.name)
-//       console.log(newUser.email)
-      console.log(newUser)
-
-    //axios.post('/api/users/register', newUser)
-    //     .then(res => console.log(res.data))
-    //     .catch(err => console.log(err))
+    /*axios.post('/users/register', JSON.stringify(newUser))
+         .then(res => console.log(res.data))
+         .catch(err => console.log(err))*/
   }
   render() {
     return (
@@ -50,34 +51,43 @@ class Register extends React.Component {
         <div className="col-md-8 m-auto">
           <h1 className="display-4 text-center">Sign Up</h1>
           <p className="lead text-center">Create your Quizzical account</p>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit} id="myform" >
             <div className="form-group">
               <input type="text" className="form-control form-control-lg"
-                placeholder="Name" name="name" value={this.state.name}
+                placeholder="Name" name="name"
+                value={this.state.name}
                 onChange={this.onChange}
                 required />
             </div>
             <div className="form-group">
               <input type="email" className="form-control form-control-lg"
-                placeholder="Email Address" name="email" value={this.state.email}
-                onChange={this.onChange}/>
+                placeholder="Email Address" name="email"
+                value={this.state.email}
+                onChange={this.onChange}
+              required />
             </div>
             <div className="form-group">
               <input type="password" className="form-control form-control-lg"
-                placeholder="Password" name="password" value={this.state.password}
-                onChange={this.onChange}/>
+                placeholder="Password" name="password"
+                value={this.state.password}
+                onChange={this.onChange}
+                required />
             </div>
             <div className="form-group">
               <input type="password" className="form-control form-control-lg"
-                placeholder="Confirm Password" name="password2" value={this.state.password2}
-                onChange={this.onChange}/>
+                placeholder="Confirm Password" name="password2"
+                value={this.state.password2}
+                onChange={this.onChange}
+              required/>
             </div>
             <div className="form-group">
                 <input type="text" className="form-control form-control-lg"
-                       placeholder="Is Admin (y/n)" name="isAdmin" value={this.state.isAdmin}
-                       onChange={this.onChange}/>
+                       placeholder="Is Admin (y/n)" name="isAdmin"
+                       value={this.state.isAdmin}
+                       onChange={this.onChange}
+                required/>
             </div>
-            <input type="submit" className="btn btn-info btn-block mt-4"  />
+            <input type="submit" value="submit" className="btn btn-info btn-block mt-4"  />
           </form>
         </div>
       </div>

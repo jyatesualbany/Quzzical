@@ -5,17 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testing": "npm start --prefix testing"
+    "server": "nodemon index.js",
+    "testing": "npm start --prefix testing",
+    "dev": "concurrently \"npm run server\" \"npm run testing\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.16.0",
+    "nodemon": "^1.18.10",
     "passport": "^0.4.0",
     "validator": "^10.11.0"
   }
