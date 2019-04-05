@@ -1,11 +1,20 @@
 import React from 'react';
 import TrueFalse from './TrueFalse.js'
 import './styles.css';
+import MultipleChoice from './MultipleChoice.js';
 
 const props = {
-  Question: "I FUCKING DID IT",
-  Answer: "True",
-  QuestionNum: "1"
+  question: "I FUCKING DID IT",
+  answer: "True",
+  questionNum: "1"
+}
+const props2 = {
+  question: "ITS YA BOI",
+  answer1: "CLEAN AF CODE",
+  answer2: "YALL ARE JUST JELLY",
+  answer3: "CASH ME OUTSIDE",
+  answer4: "HOW BOUT DAH",
+  questionNum: 1
 }
 
 class Login extends React.Component {
@@ -45,7 +54,7 @@ class Login extends React.Component {
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <TrueFalse {...props}/>
-              <TrueFalse {...props}/>
+              <MultipleChoice {...props2}/>
             </div>
             <input type="submit"Enter className="btn btn-info btn-block mt-4" />
           </form>

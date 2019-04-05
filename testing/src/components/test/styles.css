@@ -2,3 +2,11 @@
     margin-right: 20px;
     margin-left: 20px;
 }
+input[type="radio"] {
+    margin-top: -1px;
+    vertical-align: middle;
+}
+.radio label > span {
+    display: inline-block;
+    vertical-align: middle;
+}
