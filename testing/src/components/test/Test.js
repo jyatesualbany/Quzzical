@@ -6,7 +6,7 @@ import MultipleChoice from './MultipleChoice.js';
 const props = {
   question: "I FUCKING DID IT",
   answer: "True",
-  questionNum: "1"
+  questionNum: 1
 }
 const props2 = {
   question: "ITS YA BOI",

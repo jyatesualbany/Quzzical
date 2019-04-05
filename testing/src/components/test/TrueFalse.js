@@ -5,9 +5,9 @@ class TrueFalse extends React.Component {
   constructor(props){
     super()
     this.state = {
-      question: props.Question,
-      answer: props.Answer,
-      questionNum: props.QuestionNum,
+      question: props.question,
+      answer: props.answer,
+      questionNum: props.questionNum,
       errors: {}
     }
 
