@@ -1,4 +1,5 @@
 import React from 'react';
+//import Saved from './Saved.js'
 import './styles.css';
 
 class TrueFalse extends React.Component {
@@ -8,6 +9,9 @@ class TrueFalse extends React.Component {
       question: props.question,
       answer: props.answer,
       questionNum: props.questionNum,
+      pickedAnswer: null,
+      saved: "unsaved",
+      savedCSS: "btn btn-danger btn-space float-right",
       errors: {}
     }
 
@@ -16,30 +20,41 @@ class TrueFalse extends React.Component {
 
   }
   onChange(e){
-    this.setState({[e.target.name]: e.target.value})
+    this.setState({[e.target.name]: e.target.value},()=>{
+      if(this.state.pickedAnswer != null){
+        console.log(this.state.pickedAnswer)
+        this.setState({saved: "saved"})
+        this.setState({savedCSS: "btn btn-success btn-space float-right"})
+      }
+      //setTimeout(InsertAnswer(this.state.pickedAnswer), 5000)
+    })
   }
   onSubmit(e){
     e.preventDefault()
   }
   render() {
     return (
-<div className="test">
-    <div className="container">
+<div className="TrueFalse">
+  <hr />
       <div className="row">
-        <div className="col-md-8 m-auto">
-          <h1 className="display-4 text-center">Question #{this.state.questionNum}</h1>
-          <p className="lead text-center">{this.state.question}</p>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-                <button type="button" class="btn btn-success btn-space" name="True" onChange={this.onChange}>True</button>
-                <button type="button" class="btn btn-danger btn-space" name="True" onChange={this.onChange}>False</button>
-            </div>
-            <input type="submit"Enter className="btn btn-info btn-block mt-4" />
-          </form>
+        <div className="col md">
+          <p className="lead float-left">Question #{this.state.questionNum})</p>
+        </div>
+        <div className="col xl-8">
+          <p className="lead center-text">{this.state.question}</p>
+        </div>
+        <div className="col md">
+          <button type="button" class={this.state.savedCSS}>{this.state.saved}</button>
         </div>
       </div>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+              <button type="button" class="btn btn-success btn-space" name="pickedAnswer" onClick={this.onChange} value = "True">True</button>
+              <button type="button" class="btn btn-danger btn-space" name="pickedAnswer" onClick={this.onChange} value = "False">False</button>
+          </div>
+          {/*<input type="submit"Enter className="btn btn-info btn-block mt-4" />*/}
+        </form>
     </div>
-  </div>
     );
   }
 }
