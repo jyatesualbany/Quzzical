@@ -7,14 +7,14 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const connection = require('../../config/database.js');
 const validateLogin = require('../../validation/login');
-
+const validateRegister = require('../../validation/register');
 const db = connection.db
 
 router.post('/register', (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body)
+  const { errors, isValid } = validateRegister(req.body)
 
   if(!isValid){
-    return res.status(400).json(errors);
+     return res.status(400).json(errors);
   }
 
   const email = req.body.email;
