@@ -21,6 +21,7 @@ router.post('/register', (req, res) => {
      return res.status(400).json(errors);
   }
 
+
   const email = req.body.email;
   const password = req.body.password;
 
@@ -33,13 +34,16 @@ router.post('/register', (req, res) => {
     if(res[0].emailCount != 0){
       errors.email = 'Email already exists'
       return res.status(400).json(errors);
+
     }else{
       // create new user
       const newUser = ({
         name: req.body.name,
+
         email: req.body.email,
         password: req.body.password,
         isAdmin: req.body.admin
+
       })
 
       //insert new user to db
@@ -79,12 +83,17 @@ router.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+
   var selectEmail = "select *from USER where email = '"+email+"'"
+
+
+  let db = connection.db
+//   var selectEmail = "select exists(select * from USERS where email = '"+email+"')"
 
   db.query(selectEmail, function (err, res) {
     if(err){
       console.error('Error conecting: ' + err.stack);
-    }
+   
     const pw = res[0].PASSWORD
     bcrypt.compare(pw, user.password).then(isMatch => {
       if(isMatch){
@@ -106,6 +115,7 @@ router.post('/login', (req, res) => {
         return res.status(400).json(errors);
       }
     })
+
 
   })
   //need to get info from database
