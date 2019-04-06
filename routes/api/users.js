@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -15,6 +17,10 @@ router.post('/register', (req, res) => {
      return res.status(400).json(errors);
   }
 
+  if(!isValid){
+     return res.status(400).json(errors);
+  }
+
 
   const email = req.body.email;
   const password = req.body.password;
@@ -23,18 +29,21 @@ router.post('/register', (req, res) => {
   var selectEmail = "select count(*) as emailCount from USER where email = '"+email+"'"
   db.query(selectEmail, (err, res) => {
     if(err){
-      console.error('Error connecting: ' + err.stack);
+      console.error('Error conecting: ' + err.stack);
     }
-    if(res[0].emailCount !== 0){
-     errors.email = 'Email already exists'
-     return res.status(400).json(errors);
+    if(res[0].emailCount != 0){
+      errors.email = 'Email already exists'
+      return res.status(400).json(errors);
+
     }else{
       // create new user
       const newUser = ({
         name: req.body.name,
-        isAdmin: req.body.isAdmin,
+
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        isAdmin: req.body.admin
+
       })
 
       //insert new user to db
@@ -74,23 +83,39 @@ router.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+
+  var selectEmail = "select *from USER where email = '"+email+"'"
+
+
   let db = connection.db
-  var selectEmail = "select exists(select * from USERS where email = '"+email+"')"
+//   var selectEmail = "select exists(select * from USERS where email = '"+email+"')"
+
   db.query(selectEmail, function (err, res) {
     if(err){
       console.error('Error conecting: ' + err.stack);
-    }
-    var row = JSON.stringify(res)
-    var arr = JSON.parse(row)
-    var pass = JSON.stringify(arr[0].PASSWORD).toString()
-    var len = pass.length
-    var p = pass.substring(1, len-1)
+   
+    const pw = res[0].PASSWORD
+    bcrypt.compare(pw, user.password).then(isMatch => {
+      if(isMatch){
 
-    if(p == password){
-      jwt.sign(
+        const payload = {email: user.email, isAdmin: user.isAdmin}
+        jwt.sign(
+            payload,
+            'secret',
+            {expiresIn: 3600},
+            (err, tok) => {
+              res.json({
+                success: true,
+                token: 'Bearer ' + tok
+              })
+            }
+        )
+      }else{
+        errors.password = 'Password incorrect'
+        return res.status(400).json(errors);
+      }
+    })
 
-      )
-    }
 
   })
   //need to get info from database

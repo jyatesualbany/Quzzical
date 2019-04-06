@@ -3,7 +3,6 @@ const mysql = require('mysql');
 
 const app = express();
 
-
 const connection = mysql.createConnection({
   host: 'quizzical.chkqldbkslgu.us-east-2.rds.amazonaws.com',
   user: 'QUIZZICAL',
@@ -21,3 +20,4 @@ connection.connect(function (err) {
 module.exports = {
   db : connection
 }
+
