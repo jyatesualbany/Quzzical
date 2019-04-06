@@ -17,7 +17,11 @@ router.post('/register', (req, res) => {
 
   if(!isValid){
      return res.status(400).json(errors);
+
    }
+
+  }
+
 
 
   const email = req.body.email;
