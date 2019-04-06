@@ -8,7 +8,7 @@ const users = require('./routes/api/users.js');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extened: false}))
+//app.use(bodyParser.urlencoded({extened: false}))
 app.use(bodyParser.json())
 
 const connection = mysql.createConnection({
