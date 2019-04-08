@@ -92,9 +92,9 @@ router.post('/login', (req, res) => {
 //   var selectEmail = "select exists(select * from USERS where email = '"+email+"')"
 
   db.query(selectEmail, function (err, res) {
-    if(err){
-      console.error('Error conecting: ' + err.stack);
-   
+    if(err) {
+      console.error('Error connecting: ' + err.stack);
+    }
     const pw = res[0].PASSWORD
     bcrypt.compare(pw, user.password).then(isMatch => {
       if(isMatch){
