@@ -7,7 +7,9 @@ import Register from './components/auth/Register.js';
 import './App.css';
 import Register from "./components/auth/Register";
 
+
 class App extends Component {
+
   render() {
     return (
       <Router>
@@ -18,6 +20,7 @@ class App extends Component {
 
           <div className="container">
             <Route exact path="/register" component={Register} />
+
           </div>
           </div>
       </Router>

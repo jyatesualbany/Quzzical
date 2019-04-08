@@ -33,18 +33,18 @@ class Register extends React.Component {
        password2: this.state.password2,
        isAdmin: this.state.isAdmin
      }
-    fetch('/users/register',{
-      method: 'post',
-      body: JSON.stringify(newUser),
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    });
-console.log(JSON.stringify(newUser))
-
-    /*axios.post('/users/register', JSON.stringify(newUser))
-         .then(res => console.log(res.data))
-         .catch(err => console.log(err))*/
+//     fetch('./routes/api/users/register',{
+//       method: 'post',
+//       body: JSON.stringify(newUser),
+//       headers:{
+//         'Content-Type': 'application/json'
+//       }
+//     });
+// console.log(JSON.stringify(newUser))
+    var jsonString = JSON.stringify(newUser);
+    axios.post('http://localhost:5000/api/users/register', newUser)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
   }
   render() {
     return (

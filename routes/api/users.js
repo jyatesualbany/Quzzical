@@ -10,6 +10,7 @@ const validateLogin = require('../../validation/login');
 const validateRegister = require('../../validation/register');
 const db = connection.db
 
+
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegister(req.body)
 
@@ -29,7 +30,7 @@ router.post('/register', (req, res) => {
   var selectEmail = "select count(*) as emailCount from USER where email = '"+email+"'"
   db.query(selectEmail, (err, res) => {
     if(err){
-      console.error('Error conecting: ' + err.stack);
+      console.error('Error connecting: ' + err.stack);
     }
     if(res[0].emailCount != 0){
       errors.email = 'Email already exists'

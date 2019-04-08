@@ -2,7 +2,6 @@ const Validator = require('validator');
 const isEmpty = require('./isEmpty.js');
 
 module.exports = function validateRegister(data) {
-
   let errors = {};
 
   data.name = () => {
