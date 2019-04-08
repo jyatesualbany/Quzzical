@@ -20,7 +20,7 @@ class Navbar extends React.Component {
 
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <Link className="nav-link" to="/register">Sign Up</Link>
+                    <Link className="nav-link" to="/logout">Logout</Link>
                   </li>
 
                 </ul>

@@ -2,6 +2,7 @@ import React from 'react';
 import TrueFalse from './TrueFalse.js'
 import './styles.css';
 import MultipleChoice from './MultipleChoice.js';
+import Countdown from 'react-countdown-now';
 
 const props = {
   question: "REACT IS EZPZ",
@@ -24,9 +25,10 @@ class Login extends React.Component {
       testName: props.testName,
       testTime: props.testTime,               // we need to figoure a format, probably minutes only
       testDescription: props.testDescription,
+      isStarted: props.isStarted,
+      counter: 0,
       errors: {}
     }
-
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
 
@@ -36,26 +38,33 @@ class Login extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
-
-    /*const question = {
-      quetion: this.state.question,
-      answer: this.state.password
-    }*/
-
   }
+
   render() {
+    if(!this.state.isStarted){
+      return(
+        <div className = "Begin Test">
+        <h1 className="display-4 text-center">Do you wish to begin?</h1>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+              <button type="button" class="btn btn-success btn-space" name="isStarted" onClick={this.onChange} value = "true">Yes</button>
+              <button type="button" class="btn btn-danger btn-space" name="isStarted" onClick={this.onChange} value = "false">No</button>
+          </div>
+        </form>
+        </div>
+      )
+    }
     return (
 <div className="test">
       <div className="row">
         <div className="m-auto">
+          {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
           <h1 className="display-4 text-center">{this.state.testName}</h1>
-          <p className="lead text-center">You have {this.state.testTime} minutes to complete the test</p>
+          <p className="lead text-center">You have <Countdown date={Date.now() + 10000000}/> to complete the test</p>
           <form onSubmit={this.onSubmit}>
               <TrueFalse {...props}/>
               <MultipleChoice {...props2}/>
               <TrueFalse {...props}/>
-              <MultipleChoice {...props2}/>
-              <MultipleChoice {...props2}/>
             <div className="form-group">
             </div>
             <input type="submit"Enter className="btn btn-info btn-block mt-4" />

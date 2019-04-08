@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(){
@@ -18,7 +19,6 @@ class Login extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
-
     const user = {
       email: this.state.email,
       password: this.state.password
@@ -47,6 +47,7 @@ class Login extends React.Component {
                 onChange={this.onChange}
               />
             </div>
+            <Link className="btn btn-info btn-block mt-4" to="/dashboard">Login</Link>
             <input type="submit"Enter className="btn btn-info btn-block mt-4" />
           </form>
         </div>
