@@ -40,8 +40,7 @@ class Register extends React.Component {
 //         'Content-Type': 'application/json'
 //       }
 //     });
-// console.log(JSON.stringify(newUser))
-    var jsonString = JSON.stringify(newUser);
+//
     axios.post('http://localhost:5000/api/users/register', newUser)
         .then(res => console.log(res.data))
         .catch(err => console.log(err))

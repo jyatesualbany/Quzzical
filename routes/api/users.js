@@ -27,32 +27,34 @@ router.post('/register', (req, res) => {
   const password = req.body.password;
 
   // query to find if email is in db
-  var selectEmail = "select count(*) as emailCount from USER where email = '"+email+"'"
+  const selectEmail = "select count(*) as emailCount from USER where email = '" + email + "'";
   db.query(selectEmail, (err, res) => {
     if(err){
       console.error('Error connecting: ' + err.stack);
     }
-    if(res[0].emailCount != 0){
-      errors.email = 'Email already exists'
-      return res.status(400).json(errors);
-
-    }else{
+    // if(rows[0].emailCount !== 0){
+    //   errors.email = 'Email already exists'
+    //   return res.status(400).json(errors);
+    // }
+    else{
       // create new user
       const newUser = ({
         name: req.body.name,
 
         email: req.body.email,
         password: req.body.password,
-        isAdmin: req.body.admin
+        isAdmin: req.body.isAdmin
 
       })
 
       //insert new user to db
-      const insert = "insert into USER(NAME,IS_ADMIN, EMAIL, PASSWORD) VALUES ?"
-      bcrypt.getSalt(10, (err, salt) =>{
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
+      const insert = "insert into USER(NAME,IS_ADMIN, EMAIL, PASSWORD) VALUES (?)"
+      bcrypt.genSalt(10, (err, salt) =>{
+        bcrypt.hash(newUser.password., salt, (err, hash) => {
           if(err) throw err
-          newUser.password = hash
+          //newUser.password = hash
+          console.log(newUser.password)
+
           db.query(insert, newUser, (err, res) => {
             if(err){
               return console.error(err.stack);
