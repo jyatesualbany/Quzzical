@@ -1,6 +1,6 @@
 import React, { Component }from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 class Login extends Component {
   constructor(){
@@ -8,6 +8,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      toDashboard: false,
       errors: {}
     }
 
@@ -26,13 +27,18 @@ class Login extends Component {
       password: this.state.password
 
     }
-      axios.post('/api/users/login', user) //passes the input to the login api and user as a payload
+//passes the input to the login api and user as a payload
+     axios.post('/api/users/login', user) 
       .then(res =>{
         console.log(res)
-        console.log(res.data)
+        if(res.data.redirect == '/admindashboard'){
+          window.location = '/admindashboard'
+        }else{
+          window.location = '/userdashboard'
+        }
       })
       .catch(err => this.setState({errors: err.response.data}))
-    // console.log(user);
+     console.log(user);
   }
   render() {
     return (

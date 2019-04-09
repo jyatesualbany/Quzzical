@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classnames from 'classnames'
-import { connect } from 'react-redux'
-import {registerUser} from '../../actions/authAction.js';
 
 class Register extends Component {
   constructor(){
@@ -35,7 +33,6 @@ class Register extends Component {
       isAdmin: this.state.isAdmin
     }
 
-    this.props.registerUser(newUser)
     axios.post('/api/users/register', newUser)
          .then(res => console.log(res.data))
          .catch(err => this.setState({errors: err.response.data}))
@@ -82,7 +79,6 @@ class Register extends Component {
                   {errors.email && (
                     <div className="invalid-feedback">{errors.email}</div>
                   )}
-                  
                 </div>
                 <div className="form-group">
                   <input
@@ -131,4 +127,4 @@ class Register extends Component {
   }
 }
 
-export default connect(null, { registerUser })(Register)
+export default Register

@@ -69,7 +69,7 @@ router.post('/register', (req, res) => {
 })
 
 // this make a post request to the db for the login
-router.post('/login', (req, res) => {
+router.post('/login', (req, result) => {
   const {errors, isValid} = validateLogin(req.body);
 
   if(!isValid){
@@ -89,33 +89,56 @@ router.post('/login', (req, res) => {
       console.error('Error conecting: ' + err.stack);
     }
     if(res == null){
-      console.log('hi')
       return res.status(400).json(errors);
     }
     const pw = res[0].PASSWORD
-    //bcrypt.compare(pw, user.password).then(isMatch => {
-    //  if(isMatch){
-    //     user.isAdmin = res[0].IS_ADMIN
-    //      const payload = {email: user.email, isAdmin: user.isAdmin}
-    //      jwt.sign(
-    //        payload,
-    //        'secret',
-    //        {expiresIn: 3600},
-    //        (err, tok) => {
-    //          res.json({
-    //            success: true,
-    //            token: 'Bearer ' + tok
-    //          })
-    //        }
-    //      )
-    //  }else{
-    //    errors.password = 'Password incorrect'
-    //    return res.status(400).json(errors);
-    //  }
-    //})
+    console.log(pw);
+    const user = {
+      email: req.email,
+      isAdmin: res[0].IS_ADMIN,
+      password: req.password
+    }
+   // bcrypt.compare(pw, req.body.password).then(isMatch => {
+   //   if(isMatch){
+   //       const payload = {email: user.email, isAdmin: user.isAdmin}
+   //       jwt.sign(
+   //         payload,
+   //         'secret',
+   //         {expiresIn: 3600},
+   //         (err, tok) => {
+   //           res.json({
+   //             success: true,
+   //             token: 'Bearer ' + tok
+   //           })
+   //         }
+   //       )
+   //   }else{
+   //     errors.password = 'Password incorrect'
+   //     return res.status(400).json(errors);
+   //   }
+   // })
+    // bcrypt.compare(pw, req.body.password, (err, isMatch) => {
+    //   if(err) throw err
+    //   if(isMatch){
+    //     console.log('logged in');
+    //     const payload = { email: user.email, isAdmin: user.isAdmin }
+    //     var token = jwt.encode(payload, 'secret')
+    //     return res.json({
+    //       success: true,
+    //       token: `JWT ${token}`,
+    //     });
+    //   }
+
+
+    // })
 
     if(pw == password){
       console.log('logged in');
+      if(user.isAdmin == 'y'){
+        return result.json({redirect: '/admindashboard'})
+      }else{
+        return result.json({redirect: '/userdashboard'})
+      }
     }
   })
 })
