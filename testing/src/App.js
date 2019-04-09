@@ -5,25 +5,37 @@ import Navbar from './components/layout/Navbar.js';
 import Dashboard from './components/auth/Dashboard.js';
 import Register from './components/auth/Register.js';
 import Logout from './components/auth/Logout.js';
-import './App.css';
+import AdminViewTest from './components/adminTest/AdminViewTest.js';
+import './components/styles/styles.css';
 
 const test1 = {
-  testName: "THIS IS THE FITNESS GRAM PACER TEST",
-  testTime: 90,
-  testDescription: "this is not all that hard",
-  isStarted: false
+    testId : 123,
+    testName : "THIS IS A TEST",
+    testDescription : "TEST DESCRIPTION"
 }
 const test2 = {
-  testName: "THIS IS THE FITNESS GRAM PACER TEST",
-  testTime: 90,
-  testDescription: "this is not all that hard",
-  isStarted: false
+  testId : 1234,
+  testName : "THIS IS ANOTHER TEST",
+  testDescription : "TEST DESCRIPTION"
+}
+const test3 = {
+  testId : 1235,
+  testName : "ANOTHA ONE",
+  testDescription : "TEST DESCRIPTION"
+}
+const test4 = {
+  testId : 1235,
+  testName : "ANOTHA ONE",
+  testDescription : "TEST DESCRIPTION"
 }
 
 const props = {
-  testList : [test1, test2],
-  isAdmin :  true
+  testList : []
 }
+props.testList.push(test1)
+props.testList.push(test2)
+props.testList.push(test3)
+props.testList.push(test4)
 
 class App extends Component {
   render() {
@@ -34,8 +46,10 @@ class App extends Component {
         <div className="container">
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/dashboard" component={Dashboard} />
+          {/*<Route exact path="/dashboard" component={Dashboard} />*/}
+          <Route exact path="/dashboard" render={()=><Dashboard {...props} />}/>
           <Route exact path="/logout" component={Logout} />
+          <Route path='/adminViewTest' component={AdminViewTest} />
         </div>
         </div>
       </Router>

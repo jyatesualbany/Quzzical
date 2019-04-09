@@ -1,7 +1,7 @@
 import React from 'react';
-import TrueFalse from './TrueFalse.js'
 import '../styles/styles.css';
-import MultipleChoice from './MultipleChoice.js';
+import MultipleChoice from '../test/MultipleChoice.js';
+import TrueFalse from '../test/TrueFalse.js';
 
 const props = {
   question: "REACT IS EZPZ",
@@ -21,11 +21,7 @@ class Login extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testName: props.testName,
-      testTime: props.testTime,               // we need to figoure a format, probably minutes only
-      testDescription: props.testDescription,
-      isStarted: props.isStarted,
-      counter: 0,
+      testId: props.location.state.testId,
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -40,26 +36,13 @@ class Login extends React.Component {
   }
 
   render() {
-    if(!this.state.isStarted){
-      return(
-        <div className = "Begin Test">
-        <h1 className="display-4 text-center">Do you wish to begin?</h1>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-              <button type="button" class="btn btn-success btn-space" name="isStarted" onClick={this.onChange} value = "true">Yes</button>
-              <button type="button" class="btn btn-danger btn-space" name="isStarted" onClick={this.onChange} value = "false">No</button>
-          </div>
-        </form>
-        </div>
-      )
-    }
     return (
 <div className="test">
       <div className="row">
         <div className="m-auto">
-          {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
-          <h1 className="display-4 text-center">{this.state.testName}</h1>
-          <p className="lead text-center">You have TIME to complete the test</p>
+          <h1 className="display-4 text-center">Test ID: {this.state.testId}</h1>
+          <p className="lead text-center">The Test will look like this to the users:</p>
+          <p className="lead text-center">{this.state.testDescription}</p>
           <form onSubmit={this.onSubmit}>
               <TrueFalse {...props}/>
               <MultipleChoice {...props2}/>

@@ -79,6 +79,7 @@ class Register extends Component {
                   {errors.email && (
                     <div className="invalid-feedback">{errors.email}</div>
                   )}
+                  
                 </div>
                 <div className="form-group">
                   <input
