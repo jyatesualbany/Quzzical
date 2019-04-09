@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from './components/auth/Login.js';
 import Navbar from './components/layout/Navbar.js';
-//import Footer from './components/layout/Footer.js';
-import Dashboard from './components/auth/Dashboard.js'
+import Dashboard from './components/auth/Dashboard.js';
 import Register from './components/auth/Register.js';
-import Test from './components/test/Test.js';
+import Logout from './components/auth/Logout.js';
 import './App.css';
 
 const props = {
@@ -25,7 +24,7 @@ class App extends Component {
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/dashboard" component={Dashboard} />
-          {/*<Test {...props} />*/}
+          <Route exact path="/logout" component={Logout} />
         </div>
         </div>
       </Router>
