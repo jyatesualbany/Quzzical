@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from './components/auth/Login.js';
 import Navbar from './components/layout/Navbar.js';
-import Dashboard from './components/auth/Dashboard.js';
+import AdminDashboard from './components/auth/AdminDashboard.js';
+import UserDashboard from './components/auth/UserDashboard.js';
 import Register from './components/auth/Register.js';
 import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
@@ -47,7 +48,8 @@ class App extends Component {
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           {/*<Route exact path="/dashboard" component={Dashboard} />*/}
-          <Route exact path="/dashboard" render={()=><Dashboard {...props} />}/>
+          <Route exact path="/admindashboard" render={()=><AdminDashboard {...props} />}/>
+          <Route exact path="/userdashboard" render={()=><UserDashboard {...props} />}/>
           <Route exact path="/logout" component={Logout} />
           <Route path='/adminViewTest' component={AdminViewTest} />
         </div>
