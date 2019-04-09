@@ -7,11 +7,22 @@ import Register from './components/auth/Register.js';
 import Logout from './components/auth/Logout.js';
 import './App.css';
 
-const props = {
+const test1 = {
   testName: "THIS IS THE FITNESS GRAM PACER TEST",
   testTime: 90,
   testDescription: "this is not all that hard",
-  isStarted: false,
+  isStarted: false
+}
+const test2 = {
+  testName: "THIS IS THE FITNESS GRAM PACER TEST",
+  testTime: 90,
+  testDescription: "this is not all that hard",
+  isStarted: false
+}
+
+const props = {
+  testList : [test1, test2],
+  isAdmin :  true
 }
 
 class App extends Component {

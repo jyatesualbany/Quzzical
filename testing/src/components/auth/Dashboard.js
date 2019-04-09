@@ -30,10 +30,11 @@ const userInfo = {
 }
 
 class Dashboard extends React.Component {
-  constructor(){
+  constructor(props){
     super()
     this.state = {
-        isAdmin : true,
+      testList : props.testList,
+      isAdmin : true
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -44,6 +45,14 @@ class Dashboard extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
+  }
+  deleteTest(){
+    // run query to delete test with corresponding testId
+    for(let i = 0; i < this.state.testList.length; i++){
+    }
+    this.setState({testList : testList},()=>{
+
+    })
   }
   createAdminTable = () => {
     let list = []
@@ -62,7 +71,9 @@ class Dashboard extends React.Component {
       test.push(<td>{i+1}</td>)
       test.push(<td>{testList[i].name}</td>)
       test.push(<td>{testList[i].description}</td>)
-      test.push(<td><Link className="btn btn-danger btn-space" to="/dashboard">Delete</Link></td>)
+      test.push(<td><Link className="btn btn-danger btn-space"
+      to="/dashboard" >Delete</Link></td>)
+      //onClick={this.deleteTest(this.state.testList[i].testId)}
       list.push(<tr>{test}</tr>)
     }
     return list
