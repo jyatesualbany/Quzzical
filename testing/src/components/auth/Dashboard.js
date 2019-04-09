@@ -1,28 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-// fetch list from database
-const testList = []
-const test1 = {
-  name : "THIS IS A TEST",
-  description : "YOLO",
-  grade: 95
-}
-const test2 = {
-  name : "THIS IS A TEST",
-  description : "YOLO",
-  grade: 20
-}
-const test3 = {
-  name : "THIS IS A TEST",
-  description : "YOLO",
-  grade: 80
-}
-testList.push(test1)
-testList.push(test2)
-testList.push(test3)
 
-// fetch admin info from database
 const userInfo = {
     name: "Cory",
     email: "corymarriott@test.gmail",
@@ -30,13 +9,15 @@ const userInfo = {
 }
 
 class Dashboard extends React.Component {
-  constructor(){
+  constructor(props){
     super()
     this.state = {
-        isAdmin : true,
+      testList : props.testList,
+      isAdmin : true,
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.deleteTest = this.deleteTest.bind(this)
 
   }
   onChange(e){
@@ -45,24 +26,39 @@ class Dashboard extends React.Component {
   onSubmit(e){
     e.preventDefault()
   }
+  deleteTest(test){
+    // REMOVE TEST FROM DATABASE
+    const tempList = this.state.testList
+    tempList.splice(tempList.indexOf(test), 1)
+    this.setState({testList : tempList})
+  }
   createAdminTable = () => {
     let list = []
     list.push(
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Test ID</th>
           <th scope="col">Test Name</th>
           <th scope="col">Description</th>
+          <th scope="col">View Test</th>
           <th scope="col">Delete? </th>
         </tr>
       </thead>
     )
-    for (let i = 0; i < testList.length; i++) {
+    for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
-      children.push(<td>{i+1}</td>)
-      children.push(<td>{testList[i].name}</td>)
-      children.push(<td>{testList[i].description}</td>)
-      children.push(<td><Link className="btn btn-danger btn-space" to="/dashboard">Delete</Link></td>)
+      children.push(<td className="align-middle">{i+1}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
+      children.push(<td><Link className="btn btn-success btn-space" to={{
+        pathname: "/AdminViewTest",
+        state: { testId : this.state.testList[i].testId}
+      }} 
+      params={this.state.testList[i]}>View</Link></td>)
+      children.push(<td><Link className="btn btn-danger btn-space" to="/dashboard"
+      onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
@@ -81,17 +77,17 @@ class Dashboard extends React.Component {
         </tr>
       </thead>
     )
-    for (let i = 0; i < testList.length; i++) {
+    for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
-      children.push(<td>{i+1}</td>)
-      children.push(<td>{testList[i].name}</td>)
-      children.push(<td>{testList[i].description}</td>)
-      children.push(<td>{testList[i].grade}</td>)
-      average += testList[i].grade
+      children.push(<td className="align-middle">{i+1}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
+      //children.push(<td>{testList[i].grade}</td>)
+      average += this.state.testList[i].grade
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
-    average = average / testList.length
+    average = average / this.state.testList.length
     if(average < 65){
       list.push(<div className="btn btn-danger btn-space"> Average: {average}</div>)
     }else if(average >= 65 && average < 85){
@@ -111,7 +107,7 @@ class Dashboard extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-4 float-left">
+                <div className="col-md-3 float-left">
                   <p className="lead text-center">USER INFO:</p>
                   <ul className="list-group">
                     <li className="list-group-item">Name: {userInfo.name}</li>
@@ -128,7 +124,7 @@ class Dashboard extends React.Component {
                     </li>
                   </ul>
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-9">
                     <p className="lead text-center">TESTS:</p>
                     <table className="table">
                         {this.createAdminTable()}

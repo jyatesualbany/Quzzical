@@ -19,10 +19,10 @@ class Login extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
-    const user = {
+    /*const user = {
       email: this.state.email,
       password: this.state.password
-    }
+    }*/
   }
   render() {
     return (
