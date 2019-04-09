@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component }from 'react';
+import axios from 'axios';
 
-class Login extends React.Component {
+class Login extends Component {
   constructor(){
     super()
     this.state = {
@@ -22,8 +23,15 @@ class Login extends React.Component {
     const user = {
       email: this.state.email,
       password: this.state.password
+
     }
-    console.log(user);
+      axios.post('/api/users/login', user) //passes the input to the login api and user as a payload
+      .then(res =>{
+        console.log(res)
+        console.log(res.data)
+      })
+      .catch(err => this.setState({errors: err.response.data}))
+    // console.log(user);
   }
   render() {
     return (
@@ -32,7 +40,7 @@ class Login extends React.Component {
       <div className="row">
         <div className="col-md-8 m-auto">
           <h1 className="display-4 text-center">Log In</h1>
-          <p className="lead text-center">Sign in to your Quizzical account</p>
+          <p className="lead text-center">Sign in to your Quzzical account</p>
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <input type="email" className="form-control form-control-lg"

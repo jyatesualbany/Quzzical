@@ -3,11 +3,17 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const connection = require('../../config/database.js');
-const validateLogin = require('../../validation/login');
-const validateRegister = require('../../validation/register');
-const db = connection.db
 
-// router.get('/test', (req, res) => res.json({msg: 'USers Works'}))
+// Load Input Validation
+const validateRegister = require('../../validation/register');
+const validateLogin = require('../../validation/login');
+const db = connection.db
+// Load User model
+
+// @route   GET api/users/test
+// @desc    Tests users route
+// @access  Public
+router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
 
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegister(req.body)
@@ -40,7 +46,7 @@ router.post('/register', (req, res) => {
 
       //insert new user to db
       const insert = "insert into USER(NAME,IS_ADMIN, EMAIL, PASSWORD) VALUES ?"
-      bcrypt.getSalt(10, (err, salt) =>{
+      bcrypt.genSalt(10, (err, salt) =>{
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if(err) throw err
           newUser.password = hash
@@ -59,35 +65,28 @@ router.post('/register', (req, res) => {
 
 })
 
-
-
-//@route GET api/users/login
-//@desc Login user/ Returning JWT Token
-//@access Public
-
+// this make a post request to the db for the login
 router.post('/login', (req, res) => {
-  console.log('hi');
   const {errors, isValid} = validateLogin(req.body);
 
   if(!isValid){
-    return res.status(400).json(errors);
+    console.log(req.body.name)
+    return res.status(666).json(errors);
   }
 
   const email = req.body.email;
   const password = req.body.password;
-
-
+  console.log(email)
   var selectEmail = "select *from USER where email = '"+email+"'"
-
+  // var selectEmail = "select *from USER where email = ?", email
 
   let db = connection.db
-//   var selectEmail = "select exists(select * from USERS where email = '"+email+"')"
-
   db.query(selectEmail, function (err, res) {
     if(err){
       console.error('Error conecting: ' + err.stack);
     }
     if(res == null){
+      console.log('hi')
       return res.status(400).json(errors);
     }
     const pw = res[0].PASSWORD
@@ -115,10 +114,20 @@ router.post('/login', (req, res) => {
     if(pw == password){
       console.log('logged in');
     }
-
-
   })
-  //need to get info from database
 })
+// @route   GET api/users/current
+// @desc    Return current user
+// @access  Private
+// router.get(
+//   '/current',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     res.json({
+//       name: req.user.name,
+//       email: req.user.email
+//     });
+//   }
+// );
 
-module.exports = router
+module.exports = router;

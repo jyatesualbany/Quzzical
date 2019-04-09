@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+import {registerUser} from '../../actions/authAction.js';
 
 class Register extends Component {
   constructor(){
@@ -22,21 +24,21 @@ class Register extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-
   onSubmit(e){
     e.preventDefault()
 
-     const newUser = {
-       name: this.state.name,
-       email: this.state.email,
-       password: this.state.password,
-       password2: this.state.password2,
-       isAdmin: this.state.isAdmin
-     }
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2,
+      isAdmin: this.state.isAdmin
+    }
 
+    this.props.registerUser(newUser)
     axios.post('/api/users/register', newUser)
-        .then(res => console.log(res.data))
-        .catch(err => this.setState({ errors: err.response.data}))
+         .then(res => console.log(res.data))
+         .catch(err => this.setState({errors: err.response.data}))
   }
   render() {
     const { errors } = this.state;
@@ -80,6 +82,7 @@ class Register extends Component {
                   {errors.email && (
                     <div className="invalid-feedback">{errors.email}</div>
                   )}
+                  
                 </div>
                 <div className="form-group">
                   <input
@@ -111,13 +114,12 @@ class Register extends Component {
                     <div className="invalid-feedback">{errors.password2}</div>
                   )}
                 </div>
-
                 <div className="form-group">
                     <input type="text" className="form-control form-control-lg"
                            placeholder="Is Admin (y/n)" name="isAdmin"
                            value={this.state.isAdmin}
                            onChange={this.onChange}
-                    required/>
+                    />
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -128,5 +130,5 @@ class Register extends Component {
     );
   }
 }
-export default Register
 
+export default connect(null, { registerUser })(Register)
