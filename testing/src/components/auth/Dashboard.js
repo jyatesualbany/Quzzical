@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
   constructor(){
     super()
     this.state = {
-        isAdmin : false,
+        isAdmin : true,
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -59,9 +59,9 @@ class Dashboard extends React.Component {
     )
     for (let i = 0; i < testList.length; i++) {
       let children = []
-      for (let j = 0; j < 3; j++) {
-        children.push(<td>{`Column ${j + 1}`}</td>)
-      }
+      children.push(<td>{i+1}</td>)
+      children.push(<td>{testList[i].name}</td>)
+      children.push(<td>{testList[i].description}</td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/dashboard">Delete</Link></td>)
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
@@ -83,7 +83,7 @@ class Dashboard extends React.Component {
     )
     for (let i = 0; i < testList.length; i++) {
       let children = []
-      children.push(<td>{i}</td>)
+      children.push(<td>{i+1}</td>)
       children.push(<td>{testList[i].name}</td>)
       children.push(<td>{testList[i].description}</td>)
       children.push(<td>{testList[i].grade}</td>)
@@ -94,8 +94,7 @@ class Dashboard extends React.Component {
     average = average / testList.length
     if(average < 65){
       list.push(<div className="btn btn-danger btn-space"> Average: {average}</div>)
-    }
-    else if(average >= 65 && average < 85){
+    }else if(average >= 65 && average < 85){
       list.push(<div className="btn btn-warning btn-space"> Average: {average}</div>)
     }else if(average > 85){
       list.push(<div className="btn btn-success btn-space"> Average: {average}</div>)
@@ -112,23 +111,28 @@ class Dashboard extends React.Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-3 float-left">
+                <div className="col-md-4 float-left">
                   <p className="lead text-center">USER INFO:</p>
                   <ul className="list-group">
                     <li className="list-group-item">Name: {userInfo.name}</li>
                     <li className="list-group-item">Email: {userInfo.email}</li>
                     <li className="list-group-item">Account Type: {userInfo.accountType}</li>
+                    <li className="list-group-item">
+                      <Link className="btn btn-success btn-space" to="/register">Create Account</Link>
+                    </li>
+                    <li className="list-group-item">
+                      <Link className="btn btn-warning btn-space" to="/register">Create Test</Link>
+                    </li>
+                    <li className="list-group-item">
+                      <Link className="btn btn-danger btn-space" to="/register">Delete Account</Link>
+                    </li>
                   </ul>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-8">
                     <p className="lead text-center">TESTS:</p>
                     <table className="table">
                         {this.createAdminTable()}
                     </table>
-                </div>
-                <div className="col-md-3 float-right">
-                    <Link className="btn btn-success btn-space" to="/register">Create Account</Link>
-                    <Link className="btn btn-danger btn-space" to="/register">Delete Account</Link>
                 </div>
               </div>
           </div>
