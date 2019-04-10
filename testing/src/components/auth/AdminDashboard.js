@@ -54,8 +54,7 @@ class Dashboard extends React.Component {
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/AdminViewTest",
         state: { testId : this.state.testList[i].testId}
-      }} 
-      params={this.state.testList[i]}>View</Link></td>)
+      }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
       //Create the parent and add the children

@@ -12,26 +12,30 @@ import './components/styles/styles.css';
 const test1 = {
     testId : 123,
     testName : "THIS IS A TEST",
-    testDescription : "TEST DESCRIPTION"
+    testDescription : "TEST DESCRIPTION",
+    testGrade : 60
 }
 const test2 = {
   testId : 1234,
   testName : "THIS IS ANOTHER TEST",
-  testDescription : "TEST DESCRIPTION"
+  testDescription : "TEST DESCRIPTION",
+  testGrade : 100
 }
 const test3 = {
   testId : 1235,
   testName : "ANOTHA ONE",
-  testDescription : "TEST DESCRIPTION"
+  testDescription : "TEST DESCRIPTION",
+  testGrade : 80
 }
 const test4 = {
   testId : 1235,
   testName : "ANOTHA ONE",
-  testDescription : "TEST DESCRIPTION"
+  testDescription : "TEST DESCRIPTION",
+  testGrade : 65
 }
 
 const props = {
-  testList : []
+  testList : [],
 }
 props.testList.push(test1)
 props.testList.push(test2)

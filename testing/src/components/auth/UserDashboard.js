@@ -33,6 +33,7 @@ class Dashboard extends React.Component {
           <th scope="col">Test Name</th>
           <th scope="col">Description</th>
           <th scope="col">Grade</th>
+          <th scope="col">Test Time</th>
         </tr>
       </thead>
     )
@@ -41,8 +42,8 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
-      //children.push(<td>{testList[i].grade}</td>)
-      average += this.state.testList[i].grade
+      children.push(<td>{this.state.testList[i].testGrade}</td>)
+      average += this.state.testList[i].testGrade
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
@@ -65,7 +66,7 @@ class Dashboard extends React.Component {
       </div>
     </div>
     <div className="row">
-      <div className="col-md-4 float-left">
+      <div className="col-md-3 float-left">
         <p className="lead text-center">USER INFO:</p>
         <ul className="list-group">
           <li className="list-group-item">Name: {userInfo.name}</li>
@@ -73,8 +74,8 @@ class Dashboard extends React.Component {
           <li className="list-group-item">Account Type: {userInfo.accountType}</li>
         </ul>
       </div>
-      <div className="col-md-8">
-          <p className="lead text-center">TESTS:</p>
+      <div className="col-md-9">
+          <p className="lead text-center">TESTS GRADES:</p>
           <table className="table">
               {this.createUserTable()}
           </table>

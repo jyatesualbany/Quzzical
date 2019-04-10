@@ -39,6 +39,10 @@ class Login extends Component {
       .catch(err => this.setState({errors: err.response.data}))
      console.log(user);
   }
+
+  loginPost(){
+
+  }
   render() {
     return (
 <div className="login">
@@ -63,7 +67,7 @@ class Login extends Component {
               />
             </div>
             <Link className="btn btn-info btn-block mt-4" to="/userdashboard">Login</Link>
-            <input type="submit"Enter className="btn btn-info btn-block mt-4" />
+            <input type="submit"Enter className="btn btn-info btn-block mt-4" onClick={this.loginPost}/>
           </form>
         </div>
       </div>
