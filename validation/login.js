@@ -1,30 +1,22 @@
 const Validator = require('validator');
-const isEmpty = require('./isEmpty.js');
-// isEmpty is needed because the default isEmpty fn returns a string but we use a object
+const isEmpty = require('./is-empty');
 
-module.exports = function validateLogin(data) {
-  let errors = {}
+module.exports = function validateLoginInput(data) {
+  let errors = {};
 
-  data.email = function () {
-    if(!isEmpty(data.email)){
-      data.email = data.email
-    }else{
-      data.email = ''
-    }
+  data.email = !isEmpty(data.email) ? data.email : '';
+  data.password = !isEmpty(data.password) ? data.password : '';
+
+  if (!Validator.isEmail(data.email)) {
+    errors.email = 'Email is invalid';
   }
 
-  //data.email = !isEmpty(data.email) ? data.email : '';
-  data.password = () => {
-    if (!isEmpty(data.password)) { data.password = data.password; }
-    else{ data.password = '';}
+  if (Validator.isEmpty(data.email)) {
+    errors.email = 'Email field is required';
   }
 
-  if(!Validator.isEmail(data.email)){
-    errors.email = 'Email is not valid'
-  }
-
-  if(Validator.isEmpty(data.email)){
-    errors.password = 'Password is needed'
+  if (Validator.isEmpty(data.password)) {
+    errors.password = 'Password field is required';
   }
 
   return {

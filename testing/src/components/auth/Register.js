@@ -33,7 +33,6 @@ class Register extends Component {
       isAdmin: this.state.isAdmin
     }
 
-    this.props.registerUser(newUser)
     axios.post('/api/users/register', newUser)
          .then(res => console.log(res.data))
          .catch(err => this.setState({errors: err.response.data}))

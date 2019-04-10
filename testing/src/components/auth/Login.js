@@ -1,12 +1,14 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component }from 'react';
+import axios from 'axios';
+import {Link, Redirect} from 'react-router-dom';
 
-class Login extends React.Component {
+class Login extends Component {
   constructor(){
     super()
     this.state = {
       email: '',
       password: '',
+      toDashboard: false,
       errors: {}
     }
 
@@ -19,10 +21,23 @@ class Login extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
-    /*const user = {
+    const user = {
       email: this.state.email,
       password: this.state.password
-    }*/
+
+    }
+//passes the input to the login api and user as a payload
+     axios.post('/api/users/login', user) 
+      .then(res =>{
+        console.log(res)
+        if(res.data.redirect == '/admindashboard'){
+          window.location = '/admindashboard'
+        }else{
+          window.location = '/userdashboard'
+        }
+      })
+      .catch(err => this.setState({errors: err.response.data}))
+     console.log(user);
   }
   render() {
     return (
@@ -47,7 +62,7 @@ class Login extends React.Component {
                 onChange={this.onChange}
               />
             </div>
-            <Link className="btn btn-info btn-block mt-4" to="/dashboard">Login</Link>
+            <Link className="btn btn-info btn-block mt-4" to="/userdashboard">Login</Link>
             <input type="submit"Enter className="btn btn-info btn-block mt-4" />
           </form>
         </div>
