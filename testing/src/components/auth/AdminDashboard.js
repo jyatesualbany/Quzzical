@@ -56,7 +56,7 @@ class Dashboard extends React.Component {
         state: { testId : this.state.testList[i].testId}
       }} 
       params={this.state.testList[i]}>View</Link></td>)
-      children.push(<td><Link className="btn btn-danger btn-space" to="/dashboard"
+      children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
