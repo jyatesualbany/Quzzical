@@ -15,7 +15,6 @@ class Dashboard extends React.Component {
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.deleteTest = this.deleteTest.bind(this)
 
   }
   onChange(e){
