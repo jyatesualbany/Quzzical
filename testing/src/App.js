@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import {Provider} from 'react-redux'
-import store from './store.js'
-import Navbar from './components/layout/Navbar.js';
-import Footer from './components/layout/Footer.js';
-import Register from './components/auth/Register.js';
 import Login from './components/auth/Login.js';
+import Navbar from './components/layout/Navbar.js';
+import Dashboard from './components/auth/Dashboard.js';
+import Register from './components/auth/Register.js';
+import Logout from './components/auth/Logout.js';
 import './App.css';
 
+const props = {
+  testName: "THIS IS THE FITNESS GRAM PACER TEST",
+  testTime: 90,
+  testDescription: "this is not all that hard",
+  isStarted: false,
+}
 
 class App extends Component {
-
   render() {
     return (
-      <Provider store={ store  }>
-        <Router>
-          <div className="App">
-            <Navbar />
-              <Route exact path="/" component= {Login} />
-            <div className="container">
-              <Route exact path="/register" component= {Register} />
-            </div>
-            <Footer />
-          </div>
-        </Router>
-      </Provider>
+      <Router>
+        <div className="App">
+        <Navbar />
+        <div className="container">
+          <Route exact path="/" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/logout" component={Logout} />
+        </div>
+        </div>
+      </Router>
     );
   }
 }
