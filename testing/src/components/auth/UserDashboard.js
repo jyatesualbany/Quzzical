@@ -11,8 +11,7 @@ class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testList : props.testList,
-      isAdmin : false
+      testList : props.testList
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
