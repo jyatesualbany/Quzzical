@@ -9,6 +9,7 @@ import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
 import './components/styles/styles.css';
 
+
 const test1 = {
     testId : 123,
     testName : "THIS IS A TEST",
@@ -31,12 +32,13 @@ const test4 = {
 }
 
 const props = {
-  testList : []
+  testList : [],
 }
 props.testList.push(test1)
 props.testList.push(test2)
 props.testList.push(test3)
 props.testList.push(test4)
+
 
 class App extends Component {
   render() {
