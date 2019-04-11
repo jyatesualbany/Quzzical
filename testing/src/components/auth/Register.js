@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classnames from 'classnames'
-import { connect } from 'react-redux'
-import {registerUser} from '../../actions/authAction.js';
 
 class Register extends Component {
   constructor(){
@@ -35,9 +33,12 @@ class Register extends Component {
       isAdmin: this.state.isAdmin
     }
 
-    this.props.registerUser(newUser)
-    axios.post('/api/users/register', newUser)
-         .then(res => console.log(res.data))
+    axios.post('/api/admin/register', newUser)
+         .then(res => {
+           if(res.data.redirect == '/admindashboard'){
+             window.location = '/admindashboard'
+           }
+         })
          .catch(err => this.setState({errors: err.response.data}))
   }
   render() {
@@ -48,7 +49,7 @@ class Register extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
+              <h1 className="display-4 text-center">Add Student</h1>
               <p className="lead text-center">
                 Create your Quizzical account
               </p>
@@ -131,4 +132,4 @@ class Register extends Component {
   }
 }
 
-export default connect(null, { registerUser })(Register)
+export default Register

@@ -20,50 +20,53 @@ class Login extends Component {
   }
   onSubmit(e){
     e.preventDefault()
-
     const user = {
       email: this.state.email,
       password: this.state.password
 
+      //passes the input to the login api and user as a payload
     }
-      axios.post('/api/users/login', user) //passes the input to the login api and user as a payload
+     axios.post('/api/users/login', user) 
       .then(res =>{
-        console.log(res)
-        console.log(res.data)
+        if(res.data.redirect == '1'){
+          console.log(res.data.redirect)
+          window.location = '/admindashboard'
+        }else{
+          window.location = '/userdashboard'
+        }
       })
       .catch(err => this.setState({errors: err.response.data}))
-    // console.log(user);
   }
   render() {
     return (
-<div className="login">
-    <div className="container">
-      <div className="row">
-        <div className="col-md-8 m-auto">
-          <h1 className="display-4 text-center">Log In</h1>
-          <p className="lead text-center">Sign in to your Quizzical account</p>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <input type="email" className="form-control form-control-lg"
-                placeholder="Email Address" name="email"
-                value={this.state.email}
-                onChange={this.onChange}
-              />
+      <div className="login">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-8 m-auto">
+                <h1 className="display-4 text-center">Log In</h1>
+                <p className="lead text-center">Sign in to your Quizzical account</p>
+                <form onSubmit={this.onSubmit}>
+                  <div className="form-group">
+                    <input type="email" className="form-control form-control-lg"
+                      placeholder="Email Address" name="email"
+                      value={this.state.email}
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input type="password" className="form-control form-control-lg"
+                      placeholder="Password" name="password"
+                      value={this.state.password}
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <Link className="btn btn-info btn-block mt-4" to="/dashboard">Login</Link>
+                  <input type="submit"Enter className="btn btn-info btn-block mt-4" />
+                </form>
+              </div>
             </div>
-            <div className="form-group">
-              <input type="password" className="form-control form-control-lg"
-                placeholder="Password" name="password"
-                value={this.state.password}
-                onChange={this.onChange}
-              />
-            </div>
-            <Link className="btn btn-info btn-block mt-4" to="/dashboard">Login</Link>
-            <input type="submit"Enter className="btn btn-info btn-block mt-4" />
-          </form>
         </div>
       </div>
-    </div>
-  </div>
     );
   }
 }
