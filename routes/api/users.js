@@ -68,6 +68,7 @@ router.post('/current', (req, result) => {
   var getUser = "select * from USER where USER_ID = '"+user.id+"'"
   db.query(getUser, (err, res) => {
     if(err) throw err
+    console.log(res[0].email)
     return result.json({
       email: res[0].EMAIL,
       name: res[0].NAME

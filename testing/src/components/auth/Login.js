@@ -65,15 +65,6 @@ class Login extends Component {
                 </form>
               </div>
             </div>
-            <div className="form-group">
-              <input type="password" className="form-control form-control-lg"
-                placeholder="Password" name="password"
-                value={this.state.password}
-                onChange={this.onChange}
-              />
-            </div>
-            <Link className="btn btn-info btn-block mt-4" to="/userdashboard">Login</Link>
-            <input type="submit"Enter className="btn btn-info btn-block mt-4" />
         </div>
       </div>
     );
