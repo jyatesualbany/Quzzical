@@ -116,6 +116,7 @@ router.post('/login', (req, res) => {
 
     if(pw == password){
       console.log('logged in');
+      return()
     }
   })
 })
