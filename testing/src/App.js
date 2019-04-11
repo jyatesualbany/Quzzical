@@ -9,6 +9,47 @@ import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
 import './components/styles/styles.css';
 
+const quest1 = {
+  questionId : 987654321,
+  question :"THIS IS A QUESTION",
+  answer1 : "THIS IS A MEME",
+  answer2 : ":THINKINGFACE:",
+  answer3 : "SO MUCH REACT",
+  answer4 : "*THIS IS THE RIGHT ANSWER"
+}
+const quest2 = {
+  questionId : 112345,
+  question :"THIS IS A QUESTION",
+  answer1 : "THIS IS A MEME",
+  answer2 : ":THINKINGFACE:",
+  answer3 : "SO MUCH REACT",
+  answer4 : "*THIS IS THE RIGHT ANSWER"
+}
+const quest3 = {
+  questionId : 321,
+  question :"THIS IS A QUESTION",
+  answer1 : "THIS IS A MEME",
+  answer2 : ":THINKINGFACE:",
+  answer3 : "SO MUCH REACT",
+  answer4 : "*THIS IS THE RIGHT ANSWER"
+}
+const quest4 = {
+  questionId : 456,
+  question :"THIS IS A QUESTION",
+  answer1 : "THIS IS A MEME",
+  answer2 : ":THINKINGFACE:",
+  answer3 : "SO MUCH REACT",
+  answer4 : "*THIS IS THE RIGHT ANSWER"
+}
+const quest5 = {
+  questionId : 123,
+  question :"THIS IS A QUESTION",
+  answer1 : "THIS IS A MEME",
+  answer2 : ":THINKINGFACE:",
+  answer3 : "SO MUCH REACT",
+  answer4 : "*THIS IS THE RIGHT ANSWER"
+}
+
 const test1 = {
     testId : 123,
     testName : "THIS IS A TEST",
@@ -24,7 +65,7 @@ const test2 = {
 const test3 = {
   testId : 1235,
   testName : "ANOTHA ONE",
-  testDescription : "TEST DESCRIPTION",
+  testDescription : "THIS IS A REALLY LONG DESCRIPTION TEST I WANT TO SEE HOW BOOTSTRAP HANDLES REALLY LONG DESCRIPTIONS",
   testGrade : 80
 }
 const test4 = {
@@ -36,11 +77,17 @@ const test4 = {
 
 const props = {
   testList : [],
+  questionList : []
 }
 props.testList.push(test1)
 props.testList.push(test2)
 props.testList.push(test3)
 props.testList.push(test4)
+props.questionList.push(quest1)
+props.questionList.push(quest2)
+props.questionList.push(quest3)
+props.questionList.push(quest4)
+props.questionList.push(quest5)
 
 class App extends Component {
   render() {

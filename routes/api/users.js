@@ -135,6 +135,7 @@ router.post('/login', (req, result) => {
     if(pw == password){
       console.log('logged in');
       if(user.isAdmin == 'y'){
+        console.log(user.email)
         return result.json({redirect: '/admindashboard'})
       }else{
         return result.json({redirect: '/userdashboard'})
