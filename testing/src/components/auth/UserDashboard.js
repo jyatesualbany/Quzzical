@@ -10,12 +10,6 @@ const userInfo = {
     errors: {}
 }
 
- axios.post('/api/users/current', userInfo)
-     .then(res => {
-       userInfo.name = res.data.name
-       userInfo.email = res.data.email
-     }).catch(err =>  console.log(err.response.data))
-
 class Dashboard extends React.Component {
   constructor(props){
     super()
@@ -23,10 +17,22 @@ class Dashboard extends React.Component {
       testList : props.testList,
       userName:  userInfo.name,
       userEmail: userInfo.email,
+      userType: userInfo.accountType,
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+  }
+  
+  componentDidMount(){
+    axios.post('/api/users/current', userInfo)
+        .then(res => {
+          this.setState({
+            userName: res.data.name,
+            userEmail: res.data.email,
+            userType: 'Student'
+          })
+        }).catch(err =>  console.log(err.response.data))
   }
   
   
@@ -83,7 +89,7 @@ class Dashboard extends React.Component {
         <ul className="list-group">
           <li className="list-group-item">Name: {this.state.userName}</li>
           <li className="list-group-item">Email: {this.state.userEmail}</li>
-          <li className="list-group-item">Account Type: {userInfo.accountType}</li>
+          <li className="list-group-item">Account Type: {this.state.userType}</li>
         </ul>
       </div>
       <div className="col-md-8">
