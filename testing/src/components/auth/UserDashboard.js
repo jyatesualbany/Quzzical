@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 
 const userInfo = {
-    name: '',
+    name: 'hi',
     email: '',
     accountType: '',
     errors: {}

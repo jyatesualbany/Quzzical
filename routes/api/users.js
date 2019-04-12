@@ -49,13 +49,9 @@ router.post('/login', (req, result) => {
 
       console.log(user.isAdmin)
       if(user.isAdmin === 'y'){
-        console.log('hi')
         return result.json({redirect: '1'})
       }else{
-        const token = {
-          id: res[0].USER_ID
-        }
-        localStorage.setItem('user', token)
+        req.session.userId = res[0].USER_ID
         return result.json({redirect: '2'} )
       }
     }
@@ -63,12 +59,13 @@ router.post('/login', (req, result) => {
 })
 
 router.post('/current', (req, result) => {
-  const user = localStorage.getItem('user')
-  console.log(user.id)
-  var getUser = "select * from USER where USER_ID = '"+user.id+"'"
+  const user = req.session.userId
+  console.log(user)
+  var getUser = "select * from USER where USER_ID = '"+user+"'"
   db.query(getUser, (err, res) => {
     if(err) throw err
-    console.log(res[0].email)
+    console.log(res[0])
+    console.log(res[0].EMAIL)
     return result.json({
       email: res[0].EMAIL,
       name: res[0].NAME
