@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios'
 
 const userInfo = {
     name: "Cory",
@@ -13,11 +14,25 @@ class Dashboard extends React.Component {
     this.state = {
       testList : props.testList,
       isAdmin : true,
+      userName: '',
+      userEmail: '',
+      userType: 'Administrator'
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.deleteTest = this.deleteTest.bind(this)
 
+  }
+
+  componentDidMount(){
+    axios.post('/api/users/current', userInfo)
+      .then(res => {
+        console.log(res.data.email)
+        this.setState({
+          userEmail: res.data.email,
+          userName: res.data.name
+        })
+      })
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -109,8 +124,8 @@ class Dashboard extends React.Component {
                 <div className="col-md-3 float-left">
                   <p className="lead text-center">USER INFO:</p>
                   <ul className="list-group">
-                    <li className="list-group-item">Name: {userInfo.name}</li>
-                    <li className="list-group-item">Email: {userInfo.email}</li>
+                    <li className="list-group-item">Name: {this.state.userName}</li>
+                    <li className="list-group-item">Email: {this.state.userEmail}</li>
                     <li className="list-group-item">Account Type: {userInfo.accountType}</li>
                     <li className="list-group-item">
                       <Link className="btn btn-success btn-space" to="/register">Create Account</Link>

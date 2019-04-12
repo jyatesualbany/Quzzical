@@ -46,9 +46,10 @@ router.post('/login', (req, result) => {
 
     if(pw == password){
       console.log('logged in');
-
       console.log(user.isAdmin)
+
       if(user.isAdmin === 'y'){
+        req.session.userId = res[0].USER_ID
         return result.json({redirect: '1'})
       }else{
         req.session.userId = res[0].USER_ID
@@ -64,27 +65,12 @@ router.post('/current', (req, result) => {
   var getUser = "select * from USER where USER_ID = '"+user+"'"
   db.query(getUser, (err, res) => {
     if(err) throw err
-    console.log(res[0])
-    console.log(res[0].EMAIL)
     return result.json({
       email: res[0].EMAIL,
-      name: res[0].NAME
+      name: res[0].NAME,
+      isAdmin: res[0].IS_ADMIN
     })
   })
 })
-
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
-// router.get(
-//   '/current',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     res.json({
-//       name: req.user.name,
-//       email: req.user.email
-//     });
-//   }
-// );
 
 module.exports = router;
