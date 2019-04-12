@@ -12,7 +12,6 @@ router.post('/register', (req, results) => {
   if(!isValid){
      return res.status(400).json(errors);
   }
-
   const email = req.body.email;
 
   // query to find if email is in db
@@ -32,15 +31,10 @@ router.post('/register', (req, results) => {
         EMAIL: req.body.email,
         PASSWORD: req.body.password,
         IS_ADMIN: req.body.isAdmin
-
       })
 
       //insert new user to db
       const insert = "insert into USER(NAME, IS_ADMIN, EMAIL, PASSWORD) VALUES (?, ?, ?, ?)"
-      // bcrypt.genSalt(10, (err, salt) =>{
-      //   bcrypt.hash(newUser.PASSWORD, salt, (err, hash) => {
-      //     if(err) throw err
-      //     newUser.PASSWORD = hash
           var values = [newUser.NAME, newUser.IS_ADMIN, newUser.EMAIL, newUser.PASSWORD]
 
           db.query(insert, values, (err, res) => {
@@ -51,8 +45,6 @@ router.post('/register', (req, results) => {
               return results.json({redirect: '/admindashboard'})
             }
           })
-        // })
-      // })
     }
   })
 })
