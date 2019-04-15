@@ -63,7 +63,7 @@ class Test extends React.Component {
 
     for(let i=0; i < questionListFromDB.length; i++){
       if(questionListFromDB[i].isMult == true){
-        var component = 
+        //var component = 
         questionList.push(<MultipleChoice {...questionListFromDB[i]}> </MultipleChoice>)
       }else{
         questionList.push(<TrueFalse {...questionListFromDB[i]}> </TrueFalse>)
