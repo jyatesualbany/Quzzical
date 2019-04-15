@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const connection = require('../../config/database.js');
-const localStorage = require('localStorage')
 
 // Load Input Validation
 const validateLogin = require('../../validation/login');
@@ -20,6 +19,7 @@ router.post('/login', (req, result) => {
   const {errors, isValid} = validateLogin(req.body);
 
   if(!isValid){
+    console.log(req.body.name)
     return res.status(666).json(errors);
   }
 
@@ -29,6 +29,7 @@ router.post('/login', (req, result) => {
   var selectEmail = "select *from USER where email = '"+email+"'"
   // var selectEmail = "select *from USER where email = ?", email
 
+  let db = connection.db
   db.query(selectEmail, function (err, res) {
     if(err){
       console.error('Error conecting: ' + err.stack);
@@ -37,27 +38,61 @@ router.post('/login', (req, result) => {
       return res.status(400).json(errors);
     }
     const pw = res[0].PASSWORD
-    // console.log(pw);
+    console.log(pw);
     const user = {
       email: req.email,
       isAdmin: res[0].IS_ADMIN,
       password: req.password
     }
+   // bcrypt.compare(pw, req.body.password).then(isMatch => {
+   //   if(isMatch){
+   //       const payload = {email: user.email, isAdmin: user.isAdmin}
+   //       jwt.sign(
+   //         payload,
+   //         'secret',
+   //         {expiresIn: 3600},
+   //         (err, tok) => {
+   //           res.json({
+   //             success: true,
+   //             token: 'Bearer ' + tok
+   //           })
+   //         }
+   //       )
+   //   }else{
+   //     errors.password = 'Password incorrect'
+   //     return res.status(400).json(errors);
+   //   }
+   // })
+    // bcrypt.compare(pw, req.body.password, (err, isMatch) => {
+    //   if(err) throw err
+    //   if(isMatch){
+    //     console.log('logged in');
+    //     const payload = { email: user.email, isAdmin: user.isAdmin }
+    //     var token = jwt.encode(payload, 'secret')
+    //     return res.json({
+    //       success: true,
+    //       token: `JWT ${token}`,
+    //     });
+    //   }
+
+
+    // })
 
     if(pw == password){
       console.log('logged in');
       console.log(user.isAdmin)
-
-      if(user.isAdmin === 'y'){
+      if(user.isAdmin == 'y'){
+        console.log(user.email)
         req.session.userId = res[0].USER_ID
         return result.json({redirect: '1'})
       }else{
         req.session.userId = res[0].USER_ID
-        return result.json({redirect: '2'} )
+        return result.json({redirect: '2'})
       }
     }
   })
 })
+<<<<<<< Updated upstream
 
 router.post('/current', (req, result) => {
   const user = req.session.userId
@@ -72,5 +107,20 @@ router.post('/current', (req, result) => {
     })
   })
 })
+=======
+// @route   GET api/users/current
+// @desc    Return current user
+// @access  Private
+// router.get(
+//   '/current',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     res.json({
+//       name: req.user.name,
+//       email: req.user.email
+//     });
+//   }
+// );
+>>>>>>> Stashed changes
 
 module.exports = router;

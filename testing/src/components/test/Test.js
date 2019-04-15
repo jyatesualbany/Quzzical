@@ -17,7 +17,7 @@ const props2 = {
   questionNum: 2
 }
 
-class Login extends React.Component {
+class Test extends React.Component {
   constructor(props){
     super()
     this.state = {
@@ -37,6 +37,10 @@ class Login extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
+  }
+  componentDidMount(){
+    // arraylist of questions from database
+    this.setState({})
   }
 
   render() {
@@ -75,4 +79,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default Test
