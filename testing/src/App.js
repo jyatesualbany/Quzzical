@@ -7,6 +7,7 @@ import UserDashboard from './components/auth/UserDashboard.js';
 import Register from './components/auth/Register.js';
 import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
+import Test from './components/test/Test.js';
 import './components/styles/styles.css';
 
 const quest1 = {
@@ -104,6 +105,7 @@ class App extends Component {
           <Route exact path="/userdashboard" render={()=><UserDashboard {...props} />}/>
           <Route exact path="/logout" component={Logout} />
           <Route path='/adminViewTest' component={AdminViewTest} />
+          <Route path='/Test' component={Test} />
         </div>
         </div>
       </Router>

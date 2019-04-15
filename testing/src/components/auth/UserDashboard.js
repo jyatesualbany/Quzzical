@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Test Name</th>
-          <th scope="col">Description</th>
+          <th scope="col">Take Test</th>
           <th scope="col">Grade</th>
           <th scope="col">Test Time</th>
         </tr>
@@ -60,8 +60,12 @@ class Dashboard extends React.Component {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
+      children.push(<td><Link className="btn btn-success btn-space" to={{
+        pathname: "/Test",
+        state: { testId : this.state.testList[i].testId}
+      }}>Take Test</Link></td>)
       children.push(<td>{this.state.testList[i].testGrade}</td>)
+
       average += this.state.testList[i].testGrade
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)

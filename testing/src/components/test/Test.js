@@ -12,6 +12,7 @@ class Test extends React.Component {
   constructor(props){
     super()
     this.state = {
+      testId : props.location.state.testId,
       testName: props.testName,
       testTime: props.testTime,               // we need to figoure a format, probably minutes only
       testDescription: props.testDescription,
@@ -62,6 +63,7 @@ class Test extends React.Component {
 
     for(let i=0; i < questionListFromDB.length; i++){
       if(questionListFromDB[i].isMult == true){
+        var component = 
         questionList.push(<MultipleChoice {...questionListFromDB[i]}> </MultipleChoice>)
       }else{
         questionList.push(<TrueFalse {...questionListFromDB[i]}> </TrueFalse>)
@@ -87,12 +89,13 @@ class Test extends React.Component {
     return (
 <div className="test">
       <div className="row">
-        <div className="m-auto">
+        <div className="m-auto col-xl">
           {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
-          <h1 className="display-4 text-center">{this.state.testName}</h1>
-          <p className="lead text-center">You have TIME to complete the test</p>
+          <h1 className="display-4 text-center">Name: {this.state.testName}</h1>
+          <p className="lead text-center">Test ID: {this.state.testId}</p>
+          <p className="lead text-center">You have ___ to complete the test</p>
           <form onSubmit={this.onSubmit}>
-              {this.createTest}
+              {this.createTest()}
             <div className="form-group">
             </div>
             <input type="submit"Enter className="btn btn-info btn-block mt-4" />
