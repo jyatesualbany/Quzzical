@@ -107,4 +107,18 @@ router.post('/current', (req, result) => {
   })
 })
 
+/*router.post('/getTest', (req, result) => {
+  const user = req.session.userId
+  console.log(user)
+  var getUser = "select * from USER where USER_ID = '"+user+"'"
+  db.query(getUser, (err, res) => {
+    if(err) throw err
+    return result.json({
+      email: res[0].EMAIL,
+      name: res[0].NAME,
+      isAdmin: res[0].IS_ADMIN
+    })
+  })
+})*/
+
 module.exports = router;

@@ -16,7 +16,8 @@ class Dashboard extends React.Component {
       isAdmin : true,
       userName: '',
       userEmail: '',
-      userType: 'Administrator'
+      userType: 'Administrator',
+      questionList : props.questionList
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -131,11 +132,12 @@ class Dashboard extends React.Component {
                       <th scope="col">Email:</th>
                       <th scope="col">Create Account</th>
                       <th scope="col">Create Test</th>
+
                       <th scope="col">Delete Account</th>
                     </tr>
                     <tr>
-                      <td className="align-middle">{userInfo.name}</td>
-                      <td className="align-middle">{userInfo.email}</td>
+                      <td className="align-middle">{this.state.userName}</td>
+                      <td className="align-middle">{this.state.userEmail}</td>
                       <td className="align-middle">
                         <Link className="btn btn-success btn-space" to="/register">Create Account</Link>
                       </td>
