@@ -1,22 +1,41 @@
 import React from 'react';
+import axios from 'axios' 
 import {Link} from 'react-router-dom';
 
+
 const userInfo = {
-    name: "Cory",
-    email: "corymarriott@test.gmail",
-    accountType: "Administrator",
+    name: 'hi',
+    email: '',
+    accountType: '',
+    errors: {}
 }
 
 class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testList : props.testList
+      testList : props.testList,
+      userName:  userInfo.name,
+      userEmail: userInfo.email,
+      userType: userInfo.accountType,
+      errors: {}
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-
   }
+  
+  componentDidMount(){
+    axios.post('/api/users/current', userInfo)
+        .then(res => {
+          this.setState({
+            userName: res.data.name,
+            userEmail: res.data.email,
+            userType: 'Student'
+          })
+        }).catch(err =>  console.log(err.response.data))
+  }
+  
+  
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
@@ -69,9 +88,9 @@ class Dashboard extends React.Component {
       <div className="col-md-3 float-left">
         <p className="lead text-center">USER INFO:</p>
         <ul className="list-group">
-          <li className="list-group-item">Name: {userInfo.name}</li>
-          <li className="list-group-item">Email: {userInfo.email}</li>
-          <li className="list-group-item">Account Type: {userInfo.accountType}</li>
+          <li className="list-group-item">Name: {this.state.userName}</li>
+          <li className="list-group-item">Email: {this.state.userEmail}</li>
+          <li className="list-group-item">Account Type: {this.state.userType}</li>
         </ul>
       </div>
       <div className="col-md-9">

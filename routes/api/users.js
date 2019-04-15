@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const connection = require('../../config/database.js');
 
 // Load Input Validation
-const validateRegister = require('../../validation/register');
 const validateLogin = require('../../validation/login');
 const db = connection.db
 // Load User model
@@ -14,59 +13,6 @@ const db = connection.db
 // @desc    Tests users route
 // @access  Public
 router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
-
-router.post('/register', (req, res) => {
-  const { errors, isValid } = validateRegister(req.body)
-
-  if(!isValid){
-     return res.status(400).json(errors);
-  }
-
-  const email = req.body.email;
-
-  // query to find if email is in db
-  const selectEmail = "select count(*) as emailCount from USER where email = '" + email + "'";
-  db.query(selectEmail, (err, res) => {
-    if(err){
-      console.error('Error connecting: ' + err.stack);
-    }
-    // if(rows[0].emailCount !== 0){
-    //   errors.email = 'Email already exists'
-    //   return res.status(400).json(errors);
-    // }
-    else{
-      // create new user
-      const newUser = ({
-        NAME: req.body.name,
-        EMAIL: req.body.email,
-        PASSWORD: req.body.password,
-        IS_ADMIN: req.body.isAdmin
-
-      })
-
-      //insert new user to db
-      const insert = "insert into USER(NAME, IS_ADMIN, EMAIL, PASSWORD) VALUES (?, ?, ?, ?)"
-      bcrypt.genSalt(10, (err, salt) =>{
-        bcrypt.hash(newUser.PASSWORD, salt, (err, hash) => {
-          if(err) throw err
-          newUser.PASSWORD = hash
-          var values = [newUser.NAME, newUser.IS_ADMIN, newUser.EMAIL, newUser.PASSWORD]
-
-
-          db.query(insert, values, (err, res) => {
-            if(err){
-              return console.error(err.stack);
-            }else{
-              console.log('hello new user');
-            }
-          })
-        })
-      })
-    }
-  })
-
-
-})
 
 // this make a post request to the db for the login
 router.post('/login', (req, result) => {
@@ -134,27 +80,31 @@ router.post('/login', (req, result) => {
 
     if(pw == password){
       console.log('logged in');
+      console.log(user.isAdmin)
       if(user.isAdmin == 'y'){
         console.log(user.email)
-        return result.json({redirect: '/admindashboard'})
+        req.session.userId = res[0].USER_ID
+        return result.json({redirect: '1'})
       }else{
-        return result.json({redirect: '/userdashboard'})
+        req.session.userId = res[0].USER_ID
+        return result.json({redirect: '2'})
       }
     }
   })
 })
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
-// router.get(
-//   '/current',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     res.json({
-//       name: req.user.name,
-//       email: req.user.email
-//     });
-//   }
-// );
+
+router.post('/current', (req, result) => {
+  const user = req.session.userId
+  console.log(user)
+  var getUser = "select * from USER where USER_ID = '"+user+"'"
+  db.query(getUser, (err, res) => {
+    if(err) throw err
+    return result.json({
+      email: res[0].EMAIL,
+      name: res[0].NAME,
+      isAdmin: res[0].IS_ADMIN
+    })
+  })
+})
 
 module.exports = router;

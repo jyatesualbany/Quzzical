@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios'
 
 const userInfo = {
     name: "Cory",
@@ -12,12 +13,26 @@ class Dashboard extends React.Component {
     super()
     this.state = {
       testList : props.testList,
-      questionList : props.questionList
+      isAdmin : true,
+      userName: '',
+      userEmail: '',
+      userType: 'Administrator'
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.deleteTest = this.deleteTest.bind(this)
 
+  }
+
+  componentDidMount(){
+    axios.post('/api/users/current', userInfo)
+      .then(res => {
+        console.log(res.data.email)
+        this.setState({
+          userEmail: res.data.email,
+          userName: res.data.name
+        })
+      })
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
