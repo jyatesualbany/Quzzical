@@ -92,7 +92,6 @@ router.post('/login', (req, result) => {
     }
   })
 })
-<<<<<<< Updated upstream
 
 router.post('/current', (req, result) => {
   const user = req.session.userId
@@ -107,20 +106,5 @@ router.post('/current', (req, result) => {
     })
   })
 })
-=======
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
-// router.get(
-//   '/current',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     res.json({
-//       name: req.user.name,
-//       email: req.user.email
-//     });
-//   }
-// );
->>>>>>> Stashed changes
 
 module.exports = router;
