@@ -132,8 +132,8 @@ class Dashboard extends React.Component {
                       <th scope="col">Email:</th>
                       <th scope="col">Create Account</th>
                       <th scope="col">Create Test</th>
-
-                      <th scope="col">Delete Account</th>
+                      <th scope="col">Upload Test</th>
+                      <th scope="col">Update Password</th>
                     </tr>
                     <tr>
                       <td className="align-middle">{this.state.userName}</td>
@@ -142,10 +142,13 @@ class Dashboard extends React.Component {
                         <Link className="btn btn-success btn-space" to="/register">Create Account</Link>
                       </td>
                       <td className="align-middle">
-                        <Link className="btn btn-warning btn-space" to="/register">Create Test</Link>
+                        <Link className="btn btn-warning btn-space" to="/createtest">Create Test</Link>
                       </td>
                       <td className="align-middle">
-                        <Link className="btn btn-danger btn-space" to="/register">Delete Account</Link>
+                        <Link className="btn btn-success btn-space" to="/upload">Upload Test</Link>
+                      </td>
+                      <td className="align-middle">
+                        <Link className="btn btn-warning btn-space" to="/updatepassword">Update Password</Link>
                       </td>
                     </tr>
                   </table>
