@@ -13,7 +13,7 @@ const db = connection.db
 // @desc    Tests users route
 // @access  Public
 router.get('/test', (req, result) => {
-  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME FROM USER_TEST UT\n' +
+  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
       'WHERE UT.USER_ID=?'
@@ -26,13 +26,22 @@ router.get('/test', (req, result) => {
     if(err){
         return console.error(err.stack);
     }else{
-      console.log("query results: " + results)
-      console.log("test id: " + results[0].TEST_ID)
+      var i = 0
+      //console.log("query results: " + results)
+      //console.log("test id: " + results[0].TEST_ID)
+      for(let i =0; i<results.length; i++){
+        let test = {
+          testId : results[i].TEST_ID,
+          testDesc : results[i].TEST_DESCRIPTION,
+          testName : results[i].NAME,
+          timeLimit: results[i].TIME_LIMIT
+        }
+        testList.push(test)
+      }
+      //console.log("TESTLIST:" + testList)
       return result.json({
-        TEST_ID: results[0].TEST_ID,
-        NAME: results[0].NAME,
-        DESCRIPTION: results[0].DESCRIPTION
-      })
+        testList
+      })  
       }
     })
   })

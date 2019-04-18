@@ -16,7 +16,6 @@ class Dashboard extends React.Component {
     super()
     this.state = {
       testList : [],
-      testId: '',
       userName:  userInfo.name,
       userEmail: userInfo.email,
       userType: userInfo.accountType,
@@ -41,12 +40,10 @@ class Dashboard extends React.Component {
   axios.get('/api/users/test/',
     {params: {userId: this.state.userId}} )
         .then(res => {
-          console.log(res.data.TEST_ID)
           this.setState({
-            testList: res.data
-           
+            testList: res.data.testList
           })
-          console.log(this.state.testList.TEST_ID)
+          //console.log(this.state.testList[0].TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
   
@@ -75,13 +72,14 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.testList.NAME}</td>)
-      children.push(<td className="align-middle">{this.state.testList.TEST_ID}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/Test",
-        state: { testId : this.state.testList.TEST_ID}
+        state: { testId : this.state.testList[i].testId}
       }}>Take Test</Link></td>)
       children.push(<td>{this.state.testList[i].testGrade}</td>)
+      children.push(<td>{this.state.testList[i].timeLimit}</td>)
 
       average += this.state.testList[i].testGrade
       //Create the parent and add the children
