@@ -37,6 +37,10 @@ class Login extends Component {
       })
       .catch(err => this.setState({errors: err.response.data}))
   }
+
+  loginPost(){
+
+  }
   render() {
     return (
       <div className="login">
