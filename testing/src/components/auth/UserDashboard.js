@@ -7,6 +7,7 @@ const userInfo = {
     name: 'hi',
     email: '',
     accountType: '',
+    userId: '',
     errors: {}
 }
 
@@ -14,10 +15,12 @@ class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testList : props.testList,
+      testList : [],
+      testId: '',
       userName:  userInfo.name,
       userEmail: userInfo.email,
       userType: userInfo.accountType,
+      userId: '',
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -30,8 +33,20 @@ class Dashboard extends React.Component {
           this.setState({
             userName: res.data.name,
             userEmail: res.data.email,
-            userType: 'Student'
+            userType: 'Student',
+            userId: res.data.userId
           })
+        }).catch(err =>  console.log(err.response.data))
+
+  axios.get('/api/users/test/',
+    {params: {userId: this.state.userId}} )
+        .then(res => {
+          console.log(res.data.TEST_ID)
+          this.setState({
+            testList: res.data
+           
+          })
+          console.log(this.state.testList.TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
   
@@ -60,11 +75,11 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
+      children.push(<td className="align-middle">{this.state.testList.NAME}</td>)
+      children.push(<td className="align-middle">{this.state.testList.TEST_ID}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/Test",
-        state: { testId : this.state.testList[i].testId}
+        state: { testId : this.state.testList.TEST_ID}
       }}>Take Test</Link></td>)
       children.push(<td>{this.state.testList[i].testGrade}</td>)
 
@@ -95,6 +110,7 @@ class Dashboard extends React.Component {
         <p className="lead text-center">USER INFO:</p>
         <ul className="list-group">
           <li className="list-group-item">Name: {this.state.userName}</li>
+          <li className="list-group-item">User ID: {this.state.userId}</li>
           <li className="list-group-item">Email: {this.state.userEmail}</li>
           <li className="list-group-item">Account Type: {this.state.userType}</li>
         </ul>

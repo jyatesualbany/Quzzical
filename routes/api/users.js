@@ -12,7 +12,30 @@ const db = connection.db
 // @route   GET api/users/test
 // @desc    Tests users route
 // @access  Public
-router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
+router.get('/test', (req, result) => {
+  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME FROM USER_TEST UT\n' +
+      'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
+      'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
+      'WHERE UT.USER_ID=?'
+  
+  console.log("this is req ses",req.session.userId)
+  
+  var values = [req.session.userId]
+  res = db.query(select, req.session.userId, (err, results, fields) => {
+    let testList = []
+    if(err){
+        return console.error(err.stack);
+    }else{
+      console.log("query results: " + results)
+      console.log("test id: " + results[0].TEST_ID)
+      return result.json({
+        TEST_ID: results[0].TEST_ID,
+        NAME: results[0].NAME,
+        DESCRIPTION: results[0].DESCRIPTION
+      })
+      }
+    })
+  })
 
 // this make a post request to the db for the login
 router.post('/login', (req, result) => {
@@ -102,7 +125,8 @@ router.post('/current', (req, result) => {
     return result.json({
       email: res[0].EMAIL,
       name: res[0].NAME,
-      isAdmin: res[0].IS_ADMIN
+      isAdmin: res[0].IS_ADMIN,
+      userId: res[0].USER_ID
     })
   })
 })
