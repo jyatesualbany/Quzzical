@@ -35,16 +35,10 @@ class UploadTest extends React.Component {
                 <div className="col-md-8 m-auto">
                     <h1 className="display-4 text-center">Add Test</h1>
                     <p className="lead text-center">Upload your CSV file:</p>
-
                     //submit button - sends file
                     <input id='fileid' type='file' hidden/>
                     <input id='buttonid' type='button' value='Upload CSV' onsubmit="OnSubmit()"/>
                     //send file to the onSubmit function
-
-
-
-
-
                 </div>
             </div>
         </div>
