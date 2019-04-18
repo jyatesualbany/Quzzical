@@ -39,7 +39,7 @@ class Login extends React.Component {
     return (
 <div className="test">
       <div className="row">
-        <div className="m-auto">
+        <div className="m-auto col-xl">
           <h1 className="display-4 text-center">Test ID: {this.state.testId}</h1>
           <p className="lead text-center">The Test will look like this to the users:</p>
           <p className="lead text-center">{this.state.testDescription}</p>
