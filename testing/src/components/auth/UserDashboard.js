@@ -7,6 +7,7 @@ const userInfo = {
     name: 'hi',
     email: '',
     accountType: '',
+    userId: '',
     errors: {}
 }
 
@@ -14,10 +15,11 @@ class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testList : props.testList,
+      testList : [],
       userName:  userInfo.name,
       userEmail: userInfo.email,
       userType: userInfo.accountType,
+      userId: '',
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -30,8 +32,18 @@ class Dashboard extends React.Component {
           this.setState({
             userName: res.data.name,
             userEmail: res.data.email,
-            userType: 'Student'
+            userType: 'Student',
+            userId: res.data.userId
           })
+        }).catch(err =>  console.log(err.response.data))
+
+  axios.get('/api/users/test/',
+    {params: {userId: this.state.userId}} )
+        .then(res => {
+          this.setState({
+            testList: res.data.testList
+          })
+          //console.log(this.state.testList[0].TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
   
@@ -50,8 +62,10 @@ class Dashboard extends React.Component {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Test Name</th>
-          <th scope="col">Description</th>
+          <th scope="col">Test ID</th>
+          <th scope="col">Take Test</th>
           <th scope="col">Grade</th>
+          <th scope="col">Test Time</th>
         </tr>
       </thead>
     )
@@ -59,9 +73,15 @@ class Dashboard extends React.Component {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
-      //children.push(<td>{testList[i].grade}</td>)
-      average += this.state.testList[i].grade
+      children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
+      children.push(<td><Link className="btn btn-success btn-space" to={{
+        pathname: "/Test",
+        state: { testId : this.state.testList[i].testId}
+      }}>Take Test</Link></td>)
+      children.push(<td>{this.state.testList[i].testGrade}</td>)
+      children.push(<td>{this.state.testList[i].timeLimit}</td>)
+
+      average += this.state.testList[i].testGrade
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
@@ -84,16 +104,17 @@ class Dashboard extends React.Component {
       </div>
     </div>
     <div className="row">
-      <div className="col-md-4 float-left">
+      <div className="col-md-3 float-left">
         <p className="lead text-center">USER INFO:</p>
         <ul className="list-group">
           <li className="list-group-item">Name: {this.state.userName}</li>
+          <li className="list-group-item">User ID: {this.state.userId}</li>
           <li className="list-group-item">Email: {this.state.userEmail}</li>
           <li className="list-group-item">Account Type: {this.state.userType}</li>
         </ul>
       </div>
-      <div className="col-md-8">
-          <p className="lead text-center">TESTS:</p>
+      <div className="col-md-9">
+          <p className="lead text-center">TESTS GRADES:</p>
           <table className="table">
               {this.createUserTable()}
           </table>

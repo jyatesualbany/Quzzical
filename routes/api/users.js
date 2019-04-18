@@ -12,7 +12,39 @@ const db = connection.db
 // @route   GET api/users/test
 // @desc    Tests users route
 // @access  Public
-router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
+router.get('/test', (req, result) => {
+  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
+      'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
+      'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
+      'WHERE UT.USER_ID=?'
+  
+  console.log("this is req ses",req.session.userId)
+  
+  var values = [req.session.userId]
+  res = db.query(select, req.session.userId, (err, results, fields) => {
+    let testList = []
+    if(err){
+        return console.error(err.stack);
+    }else{
+      var i = 0
+      //console.log("query results: " + results)
+      //console.log("test id: " + results[0].TEST_ID)
+      for(let i =0; i<results.length; i++){
+        let test = {
+          testId : results[i].TEST_ID,
+          testDesc : results[i].TEST_DESCRIPTION,
+          testName : results[i].NAME,
+          timeLimit: results[i].TIME_LIMIT
+        }
+        testList.push(test)
+      }
+      //console.log("TESTLIST:" + testList)
+      return result.json({
+        testList
+      })  
+      }
+    })
+  })
 
 // this make a post request to the db for the login
 router.post('/login', (req, result) => {
@@ -102,9 +134,24 @@ router.post('/current', (req, result) => {
     return result.json({
       email: res[0].EMAIL,
       name: res[0].NAME,
-      isAdmin: res[0].IS_ADMIN
+      isAdmin: res[0].IS_ADMIN,
+      userId: res[0].USER_ID
     })
   })
 })
+
+/*router.post('/getTest', (req, result) => {
+  const user = req.session.userId
+  console.log(user)
+  var getUser = "select * from USER where USER_ID = '"+user+"'"
+  db.query(getUser, (err, res) => {
+    if(err) throw err
+    return result.json({
+      email: res[0].EMAIL,
+      name: res[0].NAME,
+      isAdmin: res[0].IS_ADMIN
+    })
+  })
+})*/
 
 module.exports = router;

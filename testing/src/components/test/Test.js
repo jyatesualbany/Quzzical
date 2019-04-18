@@ -1,30 +1,23 @@
 import React from 'react';
 import TrueFalse from './TrueFalse.js'
 import '../styles/styles.css';
+import axios from 'axios' 
 import MultipleChoice from './MultipleChoice.js';
 
-const props = {
-  question: "REACT IS EZPZ",
-  answer: "True",
-  questionNum: 1
-}
-const props2 = {
-  question: "IS JEFF YATES THE BEST PROFESSOR EVER?",
-  answer1: "YES",
-  answer2: "OF COURSE HE IS",
-  answer3: "THAT MAN IS A LEGEND",
-  answer4: "ALL OF THE ABOVE",
-  questionNum: 2
+const questions = {
+  questionListFromDB : []
 }
 
 class Test extends React.Component {
   constructor(props){
     super()
     this.state = {
+      testId : props.location.state.testId,
       testName: props.testName,
       testTime: props.testTime,               // we need to figoure a format, probably minutes only
       testDescription: props.testDescription,
       isStarted: props.isStarted,
+      questionListFromDB : [],
       counter: 0,
       errors: {}
     }
@@ -38,9 +31,45 @@ class Test extends React.Component {
   onSubmit(e){
     e.preventDefault()
   }
-  componentDidMount(){
+  /*componentDidMount(){
     // arraylist of questions from database
-    this.setState({})
+    axios.post('/api/users/getTest', questions)
+        .then(res => {
+          this.setState({
+            questionListFromDB: res.data.questionList
+          })
+        }).catch(err =>  console.log(err.response.data))
+  }*/
+  createTest(){
+    let questionList = []
+    let questionListFromDB = [] // FILL WITH QUERY
+    const props2 = {
+      question: "IS JEFF YATES THE BEST PROFESSOR EVER?",
+      answer1: "YES",
+      answer2: "OF COURSE HE IS",
+      answer3: "THAT MAN IS A LEGEND",
+      answer4: "ALL OF THE ABOVE",
+      isMult: true,
+      questionNum: 2
+    }
+    const props = {
+      question: "REACT IS EZPZ",
+      answer: "True",
+      isMult: false,
+      questionNum: 1
+    }
+    questionListFromDB.push(props)
+    questionListFromDB.push(props2)
+
+    for(let i=0; i < questionListFromDB.length; i++){
+      if(questionListFromDB[i].isMult == true){
+        //var component = 
+        questionList.push(<MultipleChoice {...questionListFromDB[i]}> </MultipleChoice>)
+      }else{
+        questionList.push(<TrueFalse {...questionListFromDB[i]}> </TrueFalse>)
+      }
+    }
+    return questionList
   }
 
   render() {
@@ -60,14 +89,13 @@ class Test extends React.Component {
     return (
 <div className="test">
       <div className="row">
-        <div className="m-auto">
+        <div className="m-auto col-xl">
           {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
-          <h1 className="display-4 text-center">{this.state.testName}</h1>
-          <p className="lead text-center">You have TIME to complete the test</p>
+          <h1 className="display-4 text-center">Name: {this.state.testName}</h1>
+          <p className="lead text-center">Test ID: {this.state.testId}</p>
+          <p className="lead text-center">You have ___ to complete the test</p>
           <form onSubmit={this.onSubmit}>
-              <TrueFalse {...props}/>
-              <MultipleChoice {...props2}/>
-              <TrueFalse {...props}/>
+              {this.createTest()}
             <div className="form-group">
             </div>
             <input type="submit"Enter className="btn btn-info btn-block mt-4" />
