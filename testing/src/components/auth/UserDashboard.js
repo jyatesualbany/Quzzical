@@ -3,22 +3,16 @@ import axios from 'axios'
 import {Link} from 'react-router-dom';
 
 
-const userInfo = {
-    name: 'hi',
-    email: '',
-    accountType: '',
-    userId: '',
-    errors: {}
-}
+
 
 class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
       testList : [],
-      userName:  userInfo.name,
-      userEmail: userInfo.email,
-      userType: userInfo.accountType,
+      userName:  '',
+      userEmail: '',
+      userType: '',
       userId: '',
       errors: {}
     }
@@ -27,7 +21,7 @@ class Dashboard extends React.Component {
   }
   
   componentDidMount(){
-    axios.post('/api/users/current', userInfo)
+    axios.post('/api/users/current')
         .then(res => {
           this.setState({
             userName: res.data.name,
@@ -76,7 +70,10 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/Test",
-        state: { testId : this.state.testList[i].testId}
+        state: { testId : this.state.testList[i].testId,
+          timeLimit : this.state.testList[i].timeLimit,
+          testName : this.state.testList[i].testName}
+
       }}>Take Test</Link></td>)
       children.push(<td>{this.state.testList[i].testGrade}</td>)
       children.push(<td>{this.state.testList[i].timeLimit}</td>)

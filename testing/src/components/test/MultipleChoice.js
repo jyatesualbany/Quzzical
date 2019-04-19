@@ -5,11 +5,11 @@ class MultipleChoice extends React.Component {
   constructor(props){
     super()
     this.state = {
-      question: props.question,
-      answer1: props.answer1,
-      answer2: props.answer2,
-      answer3: props.answer3,
-      answer4: props.answer4,
+      question: props.questionText,
+      answer1: props.answer1Text,
+      answer2: props.answer2Text,
+      answer3: props.answer3Text,
+      answer4: props.answer4Text,
       questionNum: props.questionNum,
       pickedAnswer: null,
       isChecked: false,
