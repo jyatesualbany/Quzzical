@@ -13,13 +13,14 @@ class Test extends React.Component {
     super()
     this.state = {
       testId : props.location.state.testId,
-      testName: props.testName,
-      testTime: props.testTime,               // we need to figoure a format, probably minutes only
+      testName: props.location.state.testName,
+      timeLimit: props.location.state.timeLimit,               // we need to figoure a format, probably minutes only
       testDescription: props.testDescription,
       isStarted: props.isStarted,
       questionListFromDB : [],
       counter: 0,
       errors: {}
+
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -31,42 +32,37 @@ class Test extends React.Component {
   onSubmit(e){
     e.preventDefault()
   }
-  /*componentDidMount(){
+  componentDidMount(){
+    axios.post('/api/users/current')
+        .then(res => {
+          this.setState({
+            userId: res.data.userId
+          })
+        }).catch(err =>  console.log(err.response.data))
+
     // arraylist of questions from database
-    axios.post('/api/users/getTest', questions)
+    axios.post('/api/users/getTest',
+        {params: {userId: this.state.userId, testId: this.state.testId}} )
         .then(res => {
           this.setState({
             questionListFromDB: res.data.questionList
           })
         }).catch(err =>  console.log(err.response.data))
-  }*/
+
+  }
+
   createTest(){
     let questionList = []
     let questionListFromDB = [] // FILL WITH QUERY
-    const props2 = {
-      question: "IS JEFF YATES THE BEST PROFESSOR EVER?",
-      answer1: "YES",
-      answer2: "OF COURSE HE IS",
-      answer3: "THAT MAN IS A LEGEND",
-      answer4: "ALL OF THE ABOVE",
-      isMult: true,
-      questionNum: 2
-    }
-    const props = {
-      question: "REACT IS EZPZ",
-      answer: "True",
-      isMult: false,
-      questionNum: 1
-    }
-    questionListFromDB.push(props)
-    questionListFromDB.push(props2)
 
-    for(let i=0; i < questionListFromDB.length; i++){
-      if(questionListFromDB[i].isMult == true){
+
+    for(let i=0; i < this.state.questionListFromDB.length; i++){
+      this.state.questionListFromDB[i].questionNum = i + 1;
+      if(this.state.questionListFromDB[i].isMult == true){
         //var component = 
-        questionList.push(<MultipleChoice {...questionListFromDB[i]}> </MultipleChoice>)
+        questionList.push(<MultipleChoice {...this.state.questionListFromDB[i]}> </MultipleChoice>)
       }else{
-        questionList.push(<TrueFalse {...questionListFromDB[i]}> </TrueFalse>)
+        questionList.push(<TrueFalse {...this.state.questionListFromDB[i]}> </TrueFalse>)
       }
     }
     return questionList
@@ -93,7 +89,7 @@ class Test extends React.Component {
           {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
           <h1 className="display-4 text-center">Name: {this.state.testName}</h1>
           <p className="lead text-center">Test ID: {this.state.testId}</p>
-          <p className="lead text-center">You have ___ to complete the test</p>
+          <p className="lead text-center">You have {this.state.timeLimit} to complete the test</p>
           <form onSubmit={this.onSubmit}>
               {this.createTest()}
             <div className="form-group">
