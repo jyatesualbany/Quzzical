@@ -72,43 +72,11 @@ router.post('/login', (req, result) => {
     const pw = res[0].PASSWORD
     console.log(pw);
     const user = {
-      email: req.email,
+      email: email,
       isAdmin: res[0].IS_ADMIN,
       password: req.password
     }
-   // bcrypt.compare(pw, req.body.password).then(isMatch => {
-   //   if(isMatch){
-   //       const payload = {email: user.email, isAdmin: user.isAdmin}
-   //       jwt.sign(
-   //         payload,
-   //         'secret',
-   //         {expiresIn: 3600},
-   //         (err, tok) => {
-   //           res.json({
-   //             success: true,
-   //             token: 'Bearer ' + tok
-   //           })
-   //         }
-   //       )
-   //   }else{
-   //     errors.password = 'Password incorrect'
-   //     return res.status(400).json(errors);
-   //   }
-   // })
-    // bcrypt.compare(pw, req.body.password, (err, isMatch) => {
-    //   if(err) throw err
-    //   if(isMatch){
-    //     console.log('logged in');
-    //     const payload = { email: user.email, isAdmin: user.isAdmin }
-    //     var token = jwt.encode(payload, 'secret')
-    //     return res.json({
-    //       success: true,
-    //       token: `JWT ${token}`,
-    //     });
-    //   }
-
-
-    // })
+   
 
     if(pw == password){
       console.log('logged in');
