@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const connection = require('../../config/database.js');
 const validateRegister = require('../../validation/register');
+const csv = require('csv-parse')
+const fs = require('fs')
+const multer = require('multer')
 const db = connection.db
+
+const input = multer({dest: 'uploads/'})
 
 router.post('/register', (req, results) => {
   const { errors, isValid } = validateRegister(req.body)
@@ -47,6 +50,32 @@ router.post('/register', (req, results) => {
           })
     }
   })
+})
+
+router.post('/upload', input.single('file'), (req, res) => {
+  const results = []
+  const output = {// this is a object for the output of the csv parse 
+    quest: '',
+    ans: [],
+    correct: ''
+  }
+  const temp = req.file
+  fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
+    .on('end', () => {
+      output.quest = results[1][0]
+      var j = 0;
+      for(var i = 1; i < results[1].length-1; i++){
+        // console.log(results[1][i])
+        output.ans[j] = results[1][i]
+        j++
+      }
+      output.correct = results[1][results[1].length-1] 
+      
+      //----------------------------------------------------
+      // DB stuff goes here
+
+    })
+    return res.json({status: 'good'})
 })
 
 module.exports = router

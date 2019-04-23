@@ -28,7 +28,7 @@ class Dashboard extends React.Component {
   componentDidMount(){
     axios.post('/api/users/current', userInfo)
       .then(res => {
-        console.log(res.data.email)
+        // console.log(res.data.email)
         this.setState({
           userEmail: res.data.email,
           userName: res.data.name
@@ -164,7 +164,9 @@ class Dashboard extends React.Component {
                     <table className="table table-striped">
                       {this.createQuestionBankTable()}
                     </table>
+                    
                 </div>
+               
               </div>
           </div>
           )
