@@ -70,10 +70,11 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/Test",
-        state: { testId : this.state.testList[i].testId,
+        state: { 
+          testId : this.state.testList[i].testId,
           timeLimit : this.state.testList[i].timeLimit,
-          testName : this.state.testList[i].testName}
-
+          testName : this.state.testList[i].testName
+        }
       }}>Take Test</Link></td>)
       children.push(<td>{this.state.testList[i].testGrade}</td>)
       children.push(<td>{this.state.testList[i].timeLimit}</td>)
