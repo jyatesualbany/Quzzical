@@ -54,6 +54,7 @@ router.post('/register', (req, results) => {
 
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
+  const object = []
   const output = {// this is a object for the output of the csv parse 
     quest: '',
     ans: [],
@@ -62,14 +63,20 @@ router.post('/upload', input.single('file'), (req, res) => {
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
     .on('end', () => {
-      output.quest = results[1][0]
-      var j = 0;
-      for(var i = 1; i < results[1].length-1; i++){
-        // console.log(results[1][i])
-        output.ans[j] = results[1][i]
-        j++
+      var k = 0;
+      for(var i = 1; i < results.length; i++){
+        output.quest = results[i][0]
+        console.log(output.quest)
+        for(var j = 0; j < results[i].length-1; j++){
+          if(j === results[i].length-2){
+            output.correct = results[i][j]
+          }
+          output.ans[j] = results[i][j]
+        }
+        object[k] = output
+        console.log(object[k])
+        k++
       }
-      output.correct = results[1][results[1].length-1] 
       
       //----------------------------------------------------
       // DB stuff goes here
