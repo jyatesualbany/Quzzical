@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import axios from 'axios'
 
 const userInfo = {
-    name: "Cory",
-    email: "corymarriott@test.gmail",
+    name: "",
+    email: "",
     accountType: "Administrator",
 }
 
@@ -12,12 +12,12 @@ class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testList : props.testList,
+      testList : [],
       isAdmin : true,
       userName: '',
       userEmail: '',
       userType: 'Administrator',
-      questionList : props.questionList
+      questionList : []
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -34,6 +34,14 @@ class Dashboard extends React.Component {
           userName: res.data.name
         })
       })
+      axios.get('/api/admin/test/',
+    {params: {userId: this.state.userId}} )
+        .then(res => {
+          this.setState({
+            testList: res.data.testList
+          })
+          //console.log(this.state.testList[0].TEST_ID)
+        }).catch(err =>  console.log(err.response.data))
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -47,7 +55,7 @@ class Dashboard extends React.Component {
     tempList.splice(tempList.indexOf(test), 1)
     this.setState({testList : tempList})
   }
-  createAdminTable = () => {
+  createAdminTestTable = () => {
     let list = []
     list.push(
       <thead>
@@ -66,10 +74,15 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].testDesc}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/AdminViewTest",
-        state: { testId : this.state.testList[i].testId}
+        state: { 
+          testId : this.state.testList[i].testId,
+          timeLimit : this.state.testList[i].timeLimit,
+          testName : this.state.testList[i].testName,
+          testDesc : this.state.testList[i].testDesc
+        }
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
@@ -158,7 +171,7 @@ class Dashboard extends React.Component {
                 <div className="col-md-12">
                   <h1 className="display-12 text-center">TESTS:</h1>
                     <table className="table table-striped">
-                        {this.createAdminTable()}
+                        {this.createAdminTestTable()}
                     </table>
                     <h1 className="display-12 text-center">Question Bank:</h1>
                     <table className="table table-striped">
