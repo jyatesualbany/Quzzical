@@ -6,9 +6,10 @@ class TrueFalse extends React.Component {
   constructor(props){
     super()
     this.state = {
-      question: props.question,
+      question: props.questionText,
       answer: props.answer,
       questionNum: props.questionNum,
+
       pickedAnswer: null,
       saved: "unsaved",
       savedCSS: "btn btn-danger btn-space float-right",
