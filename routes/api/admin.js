@@ -74,7 +74,35 @@ router.post('/upload', input.single('file'), (req, res) => {
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
     .on('end', () => {
-      console.log(results)
+      //console.log(results)
+      //use results[i]
+      for (var i=0; i<results.length; i++){
+        //results[i]=1 question
+        //console.log(results[i])
+        var temp= ''
+        for (var j=0; j<results[0].length; j++) {
+          //console.log(results[i][j])
+          if(results[i][j].charAt(0)=='*'){
+            temp=results[i][j-1]
+            console.log(results[i][j-1])
+          }
+        }
+        //ar parts= results[i].split(",")
+        const question = {
+          quest: results[i][0],
+          ans1: results[i][1],
+          A: results[i][2],
+          ans2: results[i][3],
+          B: results[i][4],
+          ans3: results[i][5],
+          C: results[i][6],
+          ans4:results[i][7],
+          D: results[i][8],
+          correct: temp,
+        }
+      }
+
+      //var question = JSON.parse('{"Question":results[0],"A":results[1],"Ans1":results[2],}');
 
       // for(var i = 0; i < results.length; i++){
       //   results[i].forEach(x => {
