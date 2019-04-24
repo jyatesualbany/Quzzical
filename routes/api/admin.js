@@ -54,30 +54,60 @@ router.post('/register', (req, results) => {
 
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
-  const object = []
-  const output = {// this is a object for the output of the csv parse 
+  // const input = [{
+  //   text: '',
+  //   ans: ''
+  // }]
+  // // this is a object for the output of the csv parse 
+  // const output = {
+  //   quest: [],
+  //   ans: [input],
+  //   correct: []
+  // }
+
+  const output = {
     quest: '',
-    ans: [],
-    correct: ''
+    ans: []
   }
+  const arrofOutput = [output]
+
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
     .on('end', () => {
-      var k = 0;
-      for(var i = 1; i < results.length; i++){
-        output.quest = results[i][0]
-        console.log(output.quest)
-        for(var j = 0; j < results[i].length-1; j++){
-          if(j === results[i].length-2){
-            output.correct = results[i][j]
-          }
-          output.ans[j] = results[i][j]
-        }
-        object[k] = output
-        console.log(object[k])
-        k++
-      }
-      
+      console.log(results)
+
+      // for(var i = 0; i < results.length; i++){
+      //   results[i].forEach(x => {
+          
+      //     console.log(x)
+      //   })
+      // }
+
+      // this parses the file into a array of objects and the answers for each question is seperated by '**'
+      // for(var i = 0; i < results.length; i++){
+      //   output.quest[i] = results[i][0]
+      //   for(var j = 1; j < results[i].length-1; j++){
+      //     output.ans.push([{text: results[i][j], ans: results[i][j+1]}])
+      //     j++
+      //   }
+      //   output.correct.push(results[i][results[i].length-1])
+      //   output.ans.push('**')
+      // }
+
+      // this gets the answer for the first question
+      // var b = true
+      // for(var i = 1; i < output.ans.length; i++){
+      //   for(var j = 0; j < output.ans[i].length; j++){
+      //     if(output.ans[i] != '**'){
+      //       if(output.ans[i][j].ans == output.correct[0]){
+      //         console.log(output.ans[i][j].ans + ":" + output.ans[i][j].text)
+      //         b = false
+      //         break
+      //       }
+      //     }
+      //   }
+      //   if(!b) {break;}
+      // }
       //----------------------------------------------------
       // DB stuff goes here
 
