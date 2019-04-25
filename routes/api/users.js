@@ -64,7 +64,7 @@ router.post('/login', (req, result) => {
   let db = connection.db
   db.query(selectEmail, function (err, res) {
     if(err){
-      console.error('Error conecting: ' + err.stack);
+      console.error('Error connecting: ' + err.stack);
     }
     if(res == null){
       return res.status(400).json(errors);
@@ -72,43 +72,11 @@ router.post('/login', (req, result) => {
     const pw = res[0].PASSWORD
     console.log(pw);
     const user = {
-      email: req.email,
+      email: email,
       isAdmin: res[0].IS_ADMIN,
       password: req.password
     }
-   // bcrypt.compare(pw, req.body.password).then(isMatch => {
-   //   if(isMatch){
-   //       const payload = {email: user.email, isAdmin: user.isAdmin}
-   //       jwt.sign(
-   //         payload,
-   //         'secret',
-   //         {expiresIn: 3600},
-   //         (err, tok) => {
-   //           res.json({
-   //             success: true,
-   //             token: 'Bearer ' + tok
-   //           })
-   //         }
-   //       )
-   //   }else{
-   //     errors.password = 'Password incorrect'
-   //     return res.status(400).json(errors);
-   //   }
-   // })
-    // bcrypt.compare(pw, req.body.password, (err, isMatch) => {
-    //   if(err) throw err
-    //   if(isMatch){
-    //     console.log('logged in');
-    //     const payload = { email: user.email, isAdmin: user.isAdmin }
-    //     var token = jwt.encode(payload, 'secret')
-    //     return res.json({
-    //       success: true,
-    //       token: `JWT ${token}`,
-    //     });
-    //   }
-
-
-    // })
+   
 
     if(pw == password){
       console.log('logged in');
@@ -140,18 +108,55 @@ router.post('/current', (req, result) => {
   })
 })
 
-/*router.post('/getTest', (req, result) => {
-  const user = req.session.userId
-  console.log(user)
-  var getUser = "select * from USER where USER_ID = '"+user+"'"
-  db.query(getUser, (err, res) => {
-    if(err) throw err
-    return result.json({
-      email: res[0].EMAIL,
-      name: res[0].NAME,
-      isAdmin: res[0].IS_ADMIN
-    })
+router.post('/getTest', (req, result) => {
+  const select = 'SELECT Q.*, UT.FINISHED, TA.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
+  'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n'+
+  'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n'+
+  'INNER JOIN TEST_LIST TL on T.TEST_ID = TL.TEST_ID\n' +
+  'INNER JOIN QUESTION Q on TL.QUESTION_ID = Q.QUESTION_ID\n'+
+  'WHERE UT.USER_ID = ? AND UT.TEST_ID = ?;'
+
+
+  console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+
+  var values = [req.session.userId, req.body.params.testId]
+  res = db.query(select, values, (err, results, fields) => {
+    let questionList = []
+    if(err){
+      return console.error(err.stack);
+    }else{
+      var i = 0
+      //console.log("query results: " + results)
+      //console.log("test id: " + results[0].TEST_ID)
+      for(let i =0; i<results.length; i++){
+        let question = {
+          questionId: results[i].QUESTION_ID,
+          questionText: results[i].QUESTION_TEXT,
+          answer1Text: results[i].ANSWER_ONE_TEXT,
+          answer1: results[i].ANSWER_ONE,
+          answer2Text: results[i].ANSWER_TWO_TEXT,
+          answer2: results[i].ANSWER_TWO,
+          answer3Text: results[i].ANSWER_THREE_TEXT,
+          answer3: results[i].ANSWER_THREE,
+          answer4Text: results[i].ANSWER_FOUR_TEXT,
+          answer4: results[i].ANSWER_FOUR,
+          answer5Text: results[i].ANSWER_FIVE_TEXT,
+          answer5: results[i].ANSWER_FIVE,
+          answer6Text: results[i].ANSWER_SIX_TEXT,
+          answer6: results[i].ANSWER_SIX,
+          isMult: results[i].IS_MULTIPLE,
+          testTime: results[i].TIME_LIMIT,
+          name: results[i].NAME
+        }
+        questionList.push(question)
+        console.log(questionList[i].testTime)
+      }
+      //console.log("TESTLIST:" + testList)
+      return result.json({
+        questionList
+      })
+    }
   })
-})*/
+})
 
 module.exports = router;
