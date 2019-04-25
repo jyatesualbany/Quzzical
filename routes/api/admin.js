@@ -65,6 +65,7 @@ router.post('/upload', input.single('file'), (req, res) => {
           if(results[i][j].charAt(0)=='*'){
             temp=results[i][j-1]
             console.log(results[i][j-1])
+            //or change to results[i][j] if you want to store A_ instead
           }
         }
         question = {
