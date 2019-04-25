@@ -54,41 +54,20 @@ router.post('/register', (req, results) => {
 
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
-  // const input = [{
-  //   text: '',
-  //   ans: ''
-  // }]
-  // // this is a object for the output of the csv parse 
-  // const output = {
-  //   quest: [],
-  //   ans: [input],
-  //   correct: []
-  // }
-
-  const output = {
-    quest: '',
-    ans: []
-  }
-  const arrofOutput = [output]
-
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
     .on('end', () => {
-      //console.log(results)
       //use results[i]
+      var question = {}
       for (var i=0; i<results.length; i++){
-        //results[i]=1 question
-        //console.log(results[i])
         var temp= ''
         for (var j=0; j<results[0].length; j++) {
-          //console.log(results[i][j])
           if(results[i][j].charAt(0)=='*'){
             temp=results[i][j-1]
             console.log(results[i][j-1])
           }
         }
-        //ar parts= results[i].split(",")
-        const question = {
+        question = {
           quest: results[i][0],
           ans1: results[i][1],
           A: results[i][2],
@@ -100,45 +79,10 @@ router.post('/upload', input.single('file'), (req, res) => {
           D: results[i][8],
           correct: temp,
         }
+        //----------------------------------------------------
+        // DB stuff goes here
+        console.log(question)
       }
-
-      //var question = JSON.parse('{"Question":results[0],"A":results[1],"Ans1":results[2],}');
-
-      // for(var i = 0; i < results.length; i++){
-      //   results[i].forEach(x => {
-          
-      //     console.log(x)
-      //   })
-      // }
-
-      // this parses the file into a array of objects and the answers for each question is seperated by '**'
-      // for(var i = 0; i < results.length; i++){
-      //   output.quest[i] = results[i][0]
-      //   for(var j = 1; j < results[i].length-1; j++){
-      //     output.ans.push([{text: results[i][j], ans: results[i][j+1]}])
-      //     j++
-      //   }
-      //   output.correct.push(results[i][results[i].length-1])
-      //   output.ans.push('**')
-      // }
-
-      // this gets the answer for the first question
-      // var b = true
-      // for(var i = 1; i < output.ans.length; i++){
-      //   for(var j = 0; j < output.ans[i].length; j++){
-      //     if(output.ans[i] != '**'){
-      //       if(output.ans[i][j].ans == output.correct[0]){
-      //         console.log(output.ans[i][j].ans + ":" + output.ans[i][j].text)
-      //         b = false
-      //         break
-      //       }
-      //     }
-      //   }
-      //   if(!b) {break;}
-      // }
-      //----------------------------------------------------
-      // DB stuff goes here
-
     })
     return res.json({status: 'good'})
 })
