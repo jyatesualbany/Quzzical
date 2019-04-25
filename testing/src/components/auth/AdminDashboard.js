@@ -34,14 +34,11 @@ class Dashboard extends React.Component {
           userName: res.data.name
         })
       })
-      axios.get('/api/admin/test/',
-    {params: {userId: this.state.userId}} )
-        .then(res => {
-          this.setState({
-            testList: res.data.testList
-          })
-          //console.log(this.state.testList[0].TEST_ID)
-        }).catch(err =>  console.log(err.response.data))
+    
+    axios.post('/api/admin/getQuestion', {})
+      .then(res => {
+        console.log(res.data)
+      })
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
