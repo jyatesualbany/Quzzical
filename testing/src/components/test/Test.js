@@ -31,6 +31,8 @@ class Test extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
+    console.log('hi');
+    
   }
   componentDidMount(){
     axios.post('/api/users/current')
