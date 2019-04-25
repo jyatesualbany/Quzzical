@@ -34,6 +34,11 @@ class Dashboard extends React.Component {
           userName: res.data.name
         })
       })
+    
+    axios.post('/api/admin/getQuestion', {})
+      .then(res => {
+        console.log(res.data)
+      })
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
