@@ -5,11 +5,16 @@ class MultipleChoice extends React.Component {
   constructor(props){
     super()
     this.state = {
+        questionID: props.questionId,
       question: props.questionText,
       answer1: props.answer1Text,
+        a1: props.answer1,
       answer2: props.answer2Text,
+        a2: props.answer2,
       answer3: props.answer3Text,
+        a3: props.answer3,
       answer4: props.answer4Text,
+        a4: props.answer4,
       questionNum: props.questionNum,
       pickedAnswer: null,
       isChecked: false,
@@ -57,7 +62,7 @@ class MultipleChoice extends React.Component {
                 <tr>
                     <div className="radio float-left radio-space-wrapper">
                         <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.answer1} onChange={this.onChange}/>
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a1} onChange={this.onChange}/>
                             {this.state.answer1}
                         </label> 
                     </div>
@@ -65,7 +70,7 @@ class MultipleChoice extends React.Component {
                 <tr>
                     <div className="radio float-left radio-space-wrapper">   
                         <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.answer2} onChange={this.onChange}/>
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a2} onChange={this.onChange}/>
                             {this.state.answer2}
                         </label>
                     </div>
@@ -73,7 +78,7 @@ class MultipleChoice extends React.Component {
                 <tr>
                     <div className="radio float-left radio-space-wrapper">     
                         <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.answer3} onChange={this.onChange} />
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a3} onChange={this.onChange} />
                             {this.state.answer3}
                         </label>
                     </div>
@@ -81,7 +86,7 @@ class MultipleChoice extends React.Component {
                 <tr>
                     <div className="radio float-left radio-space-wrapper">
                         <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.answer4} onChange={this.onChange} />
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a4} onChange={this.onChange} />
                             {this.state.answer4}
                         </label>
                     </div>
