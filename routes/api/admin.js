@@ -125,24 +125,49 @@ router.post('/upload', input.single('file'), (req, res) => {
     return res.json({status: 'good'})
 })
 
-router.post('/getQuestion', (req, results) => {
-  db.query('select * from QUESTION', (err, res) => {
-    if(err){
-      console.error('Error connecting: ' + err.stack)
-    }
-    console.log(res[0].ANSWER_ONE_TEXT)
-    return results.json({ques: res})
-  })
-})
+router.post('/getQuestionBank', (req, result) => {
+  const select = 'SELECT * FROM QUESTION;'
 
-router.post('/getTest', (req, results) => {
-  db.query('select * from TEST_ASSIGNMENT', (err, res) => {
+
+
+  console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+
+
+  res = db.query(select, (err, results, fields) => {
+    let questionList = []
     if(err){
-      console.error('Error connecting: ' + err.stack)
+      return console.error(err.stack);
+    }else{
+      var i = 0
+      //console.log("query results: " + results)
+      //console.log("test id: " + results[0].TEST_ID)
+      for(let i =0; i<results.length; i++){
+        let question = {
+          questionId: results[i].QUESTION_ID,
+          questionText: results[i].QUESTION_TEXT,
+          answer1Text: results[i].ANSWER_ONE_TEXT,
+          answer1: results[i].ANSWER_ONE,
+          answer2Text: results[i].ANSWER_TWO_TEXT,
+          answer2: results[i].ANSWER_TWO,
+          answer3Text: results[i].ANSWER_THREE_TEXT,
+          answer3: results[i].ANSWER_THREE,
+          answer4Text: results[i].ANSWER_FOUR_TEXT,
+          answer4: results[i].ANSWER_FOUR,
+          answer5Text: results[i].ANSWER_FIVE_TEXT,
+          answer5: results[i].ANSWER_FIVE,
+          answer6Text: results[i].ANSWER_SIX_TEXT,
+          answer6: results[i].ANSWER_SIX,
+          isMult: results[i].IS_MULTIPLE,
+
+        }
+        questionList.push(question)
+        console.log(questionList[i].testTime)
+      }
+      //console.log("TESTLIST:" + testList)
+      return result.json({
+        questionList
+      })
     }
-    console.log(res);
-    
-    return results.json({test: res})
   })
 })
 
