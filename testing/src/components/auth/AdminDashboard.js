@@ -165,7 +165,9 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{this.state.testList[i].td}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/AdminViewTest",
-        state: { testId : this.state.testList[i].tID}
+        state: { testId : this.state.testList[i].tID,
+          testName : this.state.testList[i].tn,
+          timeLimit: this.state.testList[i].tl}
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
