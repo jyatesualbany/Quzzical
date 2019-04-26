@@ -84,19 +84,8 @@ router.post('/upload', input.single('file'), (req, res) => {
         for (var j=0; j<results[0].length; j++) {
           if(results[i][j].charAt(0)=='*'){
             results[i][j] = results[i][j].charAt(1)
-            temp=results[i][j-1]
-<<<<<<< HEAD
-            console.log(results[i][j-1])
+            temp=results[i][j]
             //or change to results[i][j] if you want to store A_ instead
-=======
-            // console.log(results[i][j-1])
-          }
-          if(results[i][j] != null && j > 8){
-           if(j == 9){an5 = results[i][9]; } 
-           if(j == 10){e = results[i][10]; }
-           if(j == 11){an6 = results[i][11]; }
-           if(j == 12){f = results[i][12]; }
->>>>>>> Dev-Branch
           }
         }
         question = {
@@ -141,8 +130,19 @@ router.post('/getQuestion', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
     }
-    console.log(res)
-    return results.json({res})
+    console.log(res[0].ANSWER_ONE_TEXT)
+    return results.json({ques: res})
+  })
+})
+
+router.post('/getTest', (req, results) => {
+  db.query('select * from TEST_ASSIGNMENT', (err, res) => {
+    if(err){
+      console.error('Error connecting: ' + err.stack)
+    }
+    console.log(res);
+    
+    return results.json({test: res})
   })
 })
 
