@@ -114,22 +114,22 @@ class Dashboard extends React.Component {
           
           const test = {
             tID: x.TEST_ID,
+            tn: x.NAME,
             td: x.TEST_DESCRIPTION,
-            tl: x.TIME_LIMIT 
+            tl: x.TIME_LIMIT
           }
           // console.log(test.tID);
-          
+
           array.push(test)
           // console.log(array[0].tID);
-          
+
         })
         this.setState({
           testList: array
         })
         console.log(this.state.testList);
         console.log(this.state.testList.tID);
-        
-      })  
+      })
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -160,17 +160,12 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].tId}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].tID}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].tn}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].td}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/AdminViewTest",
-        state: { 
-          testId : this.state.testList[i].testId,
-          timeLimit : this.state.testList[i].timeLimit,
-          testName : this.state.testList[i].testName,
-          testDesc : this.state.testList[i].testDesc
-        }
+        state: { testId : this.state.testList[i].tID}
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
