@@ -1,32 +1,26 @@
 import React from 'react';
 import '../styles/styles.css';
-import MultipleChoice from '../test/MultipleChoice.js';
-import TrueFalse from '../test/TrueFalse.js';
+import MultipleChoice from '../adminTest/AdminViewMult';
+import TrueFalse from '../adminTest/AdminViewTrueFalse';
 
 class questionView extends React.Component {
   constructor(props){
     super()
     this.state = {
-      questID: props.location.state.questionId,
-      qName: props.location.state.questName,
-      qA1: props.location.state.questionAns1,
-      qA2: props.location.state.questionAns2,
-      qA3: props.location.state.questionAns3,
-      qA4: props.location.state.questionAns4,
-      qA5: props.location.state.questionAns5,
-      qA6: props.location.state.questionAns6,
+      question: props.location.state.question,
       errors: {}
     }
     // console.log(questID)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.renderQuestion = this.renderQuestion.bind(this)
 
   }
 
   componentDidMount(){
-    console.log('qName: ' + this.state.qName);
+    //console.log('qName: ' + this.state.qName);
     
-    console.log('this is the question id: ' + this.state.questID)
+    //console.log('this is the question id: ' + this.state.questID)
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -34,16 +28,26 @@ class questionView extends React.Component {
   onSubmit(e){
     e.preventDefault()
   }
+  renderQuestion(){
+    if(this.state.question.isMult == 0){
+      //console.log("TF:", this.state.question)
+      return<TrueFalse {...this.state.question}> </TrueFalse>
+    }
+    else{
+      //console.log("MULT:", this.state.question)
+      return<MultipleChoice {...this.state.question}> </MultipleChoice>
+    }
+  }
 
   render() {
     return (
 <div className="test">
       <div className="row">
         <div className="m-auto col-xl">
-          <h1 className="display-4 text-center">Question ID: {this.state.questID}</h1>
-          <p className="lead text-center">The question will look like this to the users:</p>
-          
-          {/* <p className="lead text-center">{this.state.testDescription}</p> */}
+          <h1 className="display-4 text-center">Question ID: {this.state.question.qID}</h1>
+          <h1 className="lead text-center">The question will look like this to the users:</h1>
+          {this.renderQuestion()}
+
           {/* <form onSubmit={this.onSubmit}>
               {/* <TrueFalse {...props}/>
               <MultipleChoice {...props2}/>

@@ -35,6 +35,7 @@ class Dashboard extends React.Component {
         an3: x.ANSWER_THREE_TEXT,
         an4: x.ANSWER_FOUR_TEXT,
         qID: x.QUESTION_ID,
+        isMult: x.IS_MULTIPLE,
         correct: x.CORRECT
       }
       return input
@@ -47,6 +48,7 @@ class Dashboard extends React.Component {
         an4: x.ANSWER_FOUR_TEXT,
         an5: x.ANSWER_FIVE_TEXT,
         qID: x.QUESTION_ID,
+        isMult: x.IS_MULTIPLE,
         correct: x.CORRECT
       }
       return input
@@ -60,6 +62,7 @@ class Dashboard extends React.Component {
         an5: x.ANSWER_FIVE_TEXT,
         an6: x.ANSWER_SIX_TEXT,
         qID: x.QUESTION_ID,
+        isMult: x.IS_MULTIPLE,
         correct: x.CORRECT
       }
     }
@@ -76,7 +79,7 @@ class Dashboard extends React.Component {
     
     axios.post('/api/admin/getQuestion', {})
       .then(res => {
-        console.log(res.data.ques)
+        //console.log(res.data.ques)
         var array = []
         res.data.ques.forEach(x => {
           if(x.IS_MULTIPLE == 0){
@@ -86,6 +89,7 @@ class Dashboard extends React.Component {
               an2: x.ANSWER_TWO_TEXT,
               qID: x.QUESTION_ID,
               correct: x.CORRECT,
+              isMult: x.IS_MULTIPLE
             }
             // console.log('this is the quest id' + quest.qID);
             array.push(quest)
@@ -101,7 +105,7 @@ class Dashboard extends React.Component {
         this.setState({
           questionList: array 
         })
-        console.log('state quest id: ' + this.state.questionList[0].qID)
+        //console.log('state quest id: ' + this.state.questionList[0].qID)
       })
 
     axios.post('/api/admin/getTest', {})
@@ -149,7 +153,6 @@ class Dashboard extends React.Component {
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Test ID</th>
           <th scope="col">Test Name</th>
           <th scope="col">Description</th>
           <th scope="col">View Test</th>
@@ -160,7 +163,6 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].tID}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].tn}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].td}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
@@ -183,7 +185,6 @@ class Dashboard extends React.Component {
       <thead>
         <tr>
           <th scope="col" className="align-middle">#</th>
-          <th scope="col" className="align-middle">Question ID</th>
           <th scope="col" className="align-middle">Question </th>
           <th scope="col" className="align-middle">Answer #1</th>
           <th scope="col" className="align-middle">Answer #2</th>
@@ -199,7 +200,6 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.questionList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].qID}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].q}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an1}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an2}</td>)
@@ -211,15 +211,17 @@ class Dashboard extends React.Component {
       
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/questionView",
-        state: { questionId : this.state.questionList[i].qID,
+        state: { question: this.state.questionList[i],
+                 /*questionId : this.state.questionList[i].qID,
                  questName: this.state.questionList[i].q,
                  questAns1: this.state.questionList[i].an1,
                  questAns2: this.state.questionList[i].an2,
-                 questAns1: this.state.questionList[i].an3,
-                 questAns1: this.state.questionList[i].an4,
-                 questAns1: this.state.questionList[i].an5,
-                 questAns1: this.state.questionList[i].an6,
-                 correct: this.state.questionList[i].correct
+                 questAns3: this.state.questionList[i].an3,
+                 questAns4: this.state.questionList[i].an4,
+                 questAns5: this.state.questionList[i].an5,
+                 questAns6: this.state.questionList[i].an6,
+                 isMult: this.state.questionList[i].isMult,
+                 correct: this.state.questionList[i].correct*/
                 }
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
@@ -269,7 +271,7 @@ class Dashboard extends React.Component {
                 </div>
                 <div className="row">
                 <div className="col-md-12">
-                  <h1 className="display-12 text-center">TESTS:</h1>
+                  <h1 className="display-12 text-center">Tests:</h1>
                     <table className="table table-striped">
                         {this.createAdminTestTable()}
                     </table>
