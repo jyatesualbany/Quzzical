@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import update from 'react-addons-update';
 
 
 class CreateTest extends React.Component {
@@ -9,13 +10,12 @@ class CreateTest extends React.Component {
     this.state = {
       isAdmin : true,
       // questionList : props.questionList,
-      questionList : [],
-      selectedQuestions : [],
+      questionList : []
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.addQuestion = this.addQuestion.bind(this)
     this.createTest = this.createTest.bind(this)
+    this.isChecked = this.isChecked.bind(this)
 
   }
    makeObj(input, x){
@@ -27,7 +27,8 @@ class CreateTest extends React.Component {
         an3: x.ANSWER_THREE_TEXT,
         an4: x.ANSWER_FOUR_TEXT,
         qID: x.QUESTION_ID,
-        correct: x.CORRECT
+        correct: x.CORRECT,
+        isChecked: false
       }
       return input
     }else if(x.ANSWER_SIX_TEXT == null){
@@ -39,7 +40,8 @@ class CreateTest extends React.Component {
         an4: x.ANSWER_FOUR_TEXT,
         an5: x.ANSWER_FIVE_TEXT,
         qID: x.QUESTION_ID,
-        correct: x.CORRECT
+        correct: x.CORRECT,
+        isChecked: false
       }
       return input
     }else{
@@ -52,14 +54,15 @@ class CreateTest extends React.Component {
         an5: x.ANSWER_FIVE_TEXT,
         an6: x.ANSWER_SIX_TEXT,
         qID: x.QUESTION_ID,
-        correct: x.CORRECT
+        correct: x.CORRECT,
+        isChecked: false
       }
     }
   }
   componentDidMount(){
     axios.post('/api/admin/getQuestion', {})
       .then(res => {
-        console.log(res.data.ques)
+        //console.log(res.data.ques)
         var array = []
         res.data.ques.forEach(x => {
           if(x.IS_MULTIPLE == 0){
@@ -69,6 +72,7 @@ class CreateTest extends React.Component {
               an2: x.ANSWER_TWO_TEXT,
               qID: x.QUESTION_ID,
               correct: x.CORRECT,
+              isChecked: false
             }
             // console.log('this is the quest id' + quest.qID);
             array.push(quest)
@@ -93,11 +97,16 @@ class CreateTest extends React.Component {
   onSubmit(e){
     e.preventDefault()
   }
-  addQuestion(question){
-    const tempList = this.state.selectedQuestions
-    tempList.push(question)
-    this.setState({selectedQuestions : tempList})
-    console.log(this.state.selectedQuestions[0].q)
+  isChecked(index){
+    //console.log("questionList:", this.state.questionList)
+    let temp = this.state.questionList
+    if(temp[index].isChecked === true){
+      temp[index].isChecked = false
+      this.setState({ questionList : temp})
+    }else{
+      temp[index].isChecked = true
+      this.setState({ questionList : temp})
+    }
   }
   createQuestionTable = () => {
     let list = []
@@ -124,7 +133,7 @@ class CreateTest extends React.Component {
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">
         <input className="form-check-input text-align:center" type="checkbox" id="inlineCheckbox1" 
-        value={this.state.questionList[i]} onClick={this.addQuestion.bind(this, this.state.questionList[i])}/>
+        onClick={this.isChecked.bind(this, i)}/>
       </td>)
       children.push(<td className="align-middle">{this.state.questionList[i].q}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an1}</td>)
@@ -139,7 +148,14 @@ class CreateTest extends React.Component {
     return list
   }
   createTest(){
-
+    let selectedQuestions = []
+    for(let i=0; i<this.state.questionList.length; i++){
+      if(this.state.questionList[i].isChecked ===  true){
+        selectedQuestions.push(this.state.questionList[i])
+      }
+    }
+    //console.log("SELECTED QUESTIONS:", selectedQuestions)
+    // QUERY DB WITH LIST OF SELECTED QUESTIONS AND TEXT FROM INPUT BOXES
   }
   render() {
           return(
