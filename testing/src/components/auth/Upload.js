@@ -29,17 +29,21 @@ class Upload extends Component{
     render(){
         return (
             <div className="container">
-	            <div className="row">
-	              <div className="col-md-6">
 	                  <form method="post" action="#" id="#">
-                         <div className="form-group files">
-                           <label>Upload Your File </label>
-                           <input type="file" name="file" onChange={this.onChangeHandler}/>
-                         </div>
-                         <button type="button" className="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button>
+                      <div className="row">
+                        <div className="col-md-6 m-auto">
+                            <div className="form-group files">
+                            <h1>Upload Your File: </h1>
+                            <input className = "float-right m-4" type="file" name="file" onChange={this.onChangeHandler}/>
+                            </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6 m-auto">
+                            <button type="button" className="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button>
+                        </div>
+                      </div>
                      </form>
-	              </div>
-	            </div>
             </div>
         )
     }
