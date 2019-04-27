@@ -87,7 +87,7 @@ class Dashboard extends React.Component {
               qID: x.QUESTION_ID,
               correct: x.CORRECT,
             }
-            // console.log(quest);
+            // console.log('this is the quest id' + quest.qID);
             array.push(quest)
             // console.log(array);
             
@@ -101,7 +101,7 @@ class Dashboard extends React.Component {
         this.setState({
           questionList: array 
         })
-        console.log(this.state.questionList[2].qID)
+        console.log('state quest id: ' + this.state.questionList[0].qID)
       })
 
     axios.post('/api/admin/getTest', {})
@@ -110,7 +110,7 @@ class Dashboard extends React.Component {
         
         var array = []
         res.data.test.forEach(x => {
-          console.log(x.TEST_ID);
+          // console.log(x.TEST_ID);
           
           const test = {
             tID: x.TEST_ID,
@@ -118,17 +118,11 @@ class Dashboard extends React.Component {
             td: x.TEST_DESCRIPTION,
             tl: x.TIME_LIMIT
           }
-          // console.log(test.tID);
-
           array.push(test)
-          // console.log(array[0].tID);
-
         })
         this.setState({
           testList: array
         })
-        console.log(this.state.testList);
-        console.log(this.state.testList.tID);
       })
   }
   onChange(e){
@@ -189,6 +183,8 @@ class Dashboard extends React.Component {
           <th scope="col" className="align-middle">Answer #2</th>
           <th scope="col" className="align-middle">Answer #3</th>
           <th scope="col" className="align-middle">Answer #4</th>
+          <th scope="col" className="align-middle">Answer #5</th>
+          <th scope="col" className="align-middle">Answer #6</th>
           <th scope="col" className="align-middle">View</th>
           <th scope="col" className="align-middle">Delete? </th>
         </tr>
@@ -203,9 +199,22 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{this.state.questionList[i].an2}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an3}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an4}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an5}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an6}</td>)
+      console.log("Question Text:", this.state.questionList[i].q);
+      
       children.push(<td><Link className="btn btn-success btn-space" to={{
-        pathname: "/AdminViewTest",
-        state: { questionId : this.state.questionList[i].questionId}
+        pathname: "/questionView",
+        state: { questionId : this.state.questionList[i].qID,
+                 questName: this.state.questionList[i].q,
+                 questAns1: this.state.questionList[i].an1,
+                 questAns2: this.state.questionList[i].an2,
+                 questAns1: this.state.questionList[i].an3,
+                 questAns1: this.state.questionList[i].an4,
+                 questAns1: this.state.questionList[i].an5,
+                 questAns1: this.state.questionList[i].an6,
+                 correct: this.state.questionList[i].correct
+                }
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)

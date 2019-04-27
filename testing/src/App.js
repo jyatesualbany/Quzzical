@@ -8,6 +8,7 @@ import Register from './components/auth/Register.js';
 import Upload from './components/auth/Upload.js';
 import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
+import questionView from './components/adminTest/questionView';
 import Test from './components/test/Test.js';
 import CreateTest from './components/adminTest/CreateTest.js';
 import './components/styles/styles.css';
@@ -43,6 +44,7 @@ class App extends Component {
           {/*<Route exact path="/createtest" component={CreateTest}/>*/}
           <Route exact path="/logout" component={Logout} />
           <Route path='/adminViewTest' component={AdminViewTest} />
+          <Route path='/questionView' component={questionView} />
           <Route path='/Test' component={Test} />
         </div>
         </div>

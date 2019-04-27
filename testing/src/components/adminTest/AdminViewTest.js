@@ -34,8 +34,6 @@ class AdminViewTest extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
-    console.log('hi');
-
   }
   componentDidMount(){
     axios.post('/api/users/current')
@@ -44,6 +42,8 @@ class AdminViewTest extends React.Component {
             userId: res.data.userId
           })
         }).catch(err =>  console.log(err.response.data))
+        // console.log('this is the test id' + this.state.testId);
+        
 
     // arraylist of questions from database
     axios.post('/api/admin/getTestQuestion',
