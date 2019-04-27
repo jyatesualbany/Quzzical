@@ -9,7 +9,22 @@ import Upload from './components/auth/Upload.js';
 import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
 import Test from './components/test/Test.js';
+import CreateTest from './components/adminTest/CreateTest.js';
 import './components/styles/styles.css';
+
+const question = {
+  questionText : "THIS IS A QUESTION",
+  questionAnswer1 : "ThIsAnAnSwEr",
+  questionAnswer2 : "ThIsAnAnSwEr",
+  questionAnswer3 : "ThIsAnAnSwEr",
+  questionAnswer4 : "ThIsAnAnSwEr",
+  questionAnswer5 : "ThIsAnAnSwEr",
+  questionAnswer6 : "ThIsAnAnSwEr",
+}
+const props = {
+  questionList : []
+}
+props.questionList.push(question)
 
 
 class App extends Component {
@@ -24,6 +39,8 @@ class App extends Component {
           <Route exact path="/upload" component={Upload} />
           <Route exact path="/admindashboard" component={AdminDashboard}/>
           <Route exact path="/userdashboard" component={UserDashboard}/>
+          <Route exact path="/createtest" render={()=><CreateTest {...props} />}/>
+          {/*<Route exact path="/createtest" component={CreateTest}/>*/}
           <Route exact path="/logout" component={Logout} />
           <Route path='/adminViewTest' component={AdminViewTest} />
           <Route path='/Test' component={Test} />
