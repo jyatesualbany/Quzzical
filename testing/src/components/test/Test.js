@@ -28,9 +28,13 @@ class Test extends React.Component {
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
+    //Post to answers
+    
   }
   onSubmit(e){
     e.preventDefault()
+    console.log('hi');
+    
   }
   componentDidMount(){
     axios.post('/api/users/current')
@@ -76,7 +80,7 @@ class Test extends React.Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
               <button type="button" class="btn btn-success btn-space" name="isStarted" onClick={this.onChange} value = "true">Yes</button>
-              <button type="button" class="btn btn-danger btn-space" name="isStarted" onClick={this.onChange} value = "false">No</button>
+              <button type="button" class="btn btn-danger btn-space" name="isStarted" value = "false">No</button>
           </div>
         </form>
         </div>

@@ -13,7 +13,7 @@ router.post('/register', (req, results) => {
   const { errors, isValid } = validateRegister(req.body)
 
   if(!isValid){
-     return res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
   const email = req.body.email;
 
@@ -38,51 +38,162 @@ router.post('/register', (req, results) => {
 
       //insert new user to db
       const insert = "insert into USER(NAME, IS_ADMIN, EMAIL, PASSWORD) VALUES (?, ?, ?, ?)"
-          var values = [newUser.NAME, newUser.IS_ADMIN, newUser.EMAIL, newUser.PASSWORD]
+      var values = [newUser.NAME, newUser.IS_ADMIN, newUser.EMAIL, newUser.PASSWORD]
 
-          db.query(insert, values, (err, res) => {
-            if(err){
-              return console.error(err.stack);
-            }else{
-              console.log('hello new user');
-              return results.json({redirect: '/admindashboard'})
-            }
-          })
+      db.query(insert, values, (err, res) => {
+        if(err){
+          return console.error(err.stack);
+        }else{
+          console.log('hello new user');
+          return results.json({redirect: '/admindashboard'})
+        }
+      })
     }
   })
 })
 
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
-  const object = []
-  const output = {// this is a object for the output of the csv parse 
-    quest: '',
-    ans: [],
-    correct: ''
-  }
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
-    .on('end', () => {
-      var k = 0;
-      for(var i = 1; i < results.length; i++){
-        output.quest = results[i][0]
-        console.log(output.quest)
-        for(var j = 0; j < results[i].length-1; j++){
-          if(j === results[i].length-2){
-            output.correct = results[i][j]
-          }
-          output.ans[j] = results[i][j]
+      .on('end', () => {
+        //use results[i]
+        // console.log(results[0][9])
+        var question = {
+          quest: null,
+          ans1: null,
+          A: null,
+          ans2: null,
+          B: null,
+          ans3: null,
+          C: null,
+          ans4: null,
+          D: null,
+          ans5: null,
+          E: null,
+          ans6: null,
+          F: null,
+          correct: temp,
         }
-        object[k] = output
-        console.log(object[k])
-        k++
-      }
-      
-      //----------------------------------------------------
-      // DB stuff goes here
+        for (var i=0; i<results.length; i++){
+          var an5 = null
+          var e = null
+          var an6 = null
+          var f = null
+          var temp= ''
+          for (var j=0; j<results[0].length; j++) {
+            if(results[i][j].charAt(0)=='*'){
+              results[i][j] = results[i][j].charAt(1)
+              temp=results[i][j]
+              //or change to results[i][j] if you want to store A_ instead
+            }
+          }
+          question = {
+            quest: results[i][0],
+            ans1: results[i][1],
+            A: results[i][2],
+            ans2: results[i][3],
+            B: results[i][4],
+            ans3: results[i][5],
+            C: results[i][6],
+            ans4:results[i][7],
+            D: results[i][8],
+            ans5: an5,
+            E: e,
+            ans6: an6,
+            F: f,
+            correct: temp,
+          }
+          //----------------------------------------------------
+          // DB stuff goes here
+          const insert = 'insert into QUESTION(QUESTION_TEXT, ANSWER_ONE_TEXT, ANSWER_ONE, ANSWER_TWO_TEXT, ANSWER_TWO, ANSWER_THREE_TEXT, ANSWER_THREE, ANSWER_FOUR_TEXT, ANSWER_FOUR, ANSWER_FIVE_TEXT, ANSWER_FIVE, ANSWER_SIX_TEXT, ANSWER_SIX, CORRECT, IS_MULTIPLE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+          var values = [question.quest, question.ans1, question.A,
+            question.ans2, question.B, question.ans3,
+            question.C, question.ans4, question.D,
+            question.ans5, question.E, question.ans6, question.F, question.correct, 1]
 
-    })
-    return res.json({status: 'good'})
+          console.log(question)
+          db.query(insert, values, (err, res) => {
+            if(err){
+              return console.log(err.stack)
+            }else{
+              console.log('test add')
+            }
+          })
+        }
+      })
+  return res.json({status: 'good'})
+})
+
+router.post('/getQuestion', (req, results) => {
+  db.query('select * from QUESTION', (err, res) => {
+    if(err){
+      console.error('Error connecting: ' + err.stack)
+    }
+    console.log(res[0].ANSWER_ONE_TEXT)
+    return results.json({ques: res})
+  })
+})
+
+router.post('/getTest', (req, results) => {
+  db.query('SELECT TA.*, T.NAME FROM TEST_ASSIGNMENT TA\n' +
+      'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID;', (err, res) => {
+    if(err){
+      console.error('Error connecting: ' + err.stack)
+    }
+    console.log(res);
+
+    return results.json({test: res})
+  })
+})
+
+
+router.post('/getTestQuestion', (req, result) => {
+  const select = 'SELECT Q.* FROM TEST_LIST TL\n'+
+  'INNER JOIN QUESTION Q on TL.QUESTION_ID = Q.QUESTION_ID\n'+
+  'WHERE TEST_ID = ?;'
+
+
+  console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+
+  var values = [req.body.params.testId]
+  res = db.query(select, values, (err, results, fields) => {
+    let questionList = []
+    if(err){
+      return console.error(err.stack);
+    }else{
+      var i = 0
+      //console.log("query results: " + results)
+      //console.log("test id: " + results[0].TEST_ID)
+      for(let i =0; i<results.length; i++){
+        let question = {
+          questionId: results[i].QUESTION_ID,
+          questionText: results[i].QUESTION_TEXT,
+          answer1Text: results[i].ANSWER_ONE_TEXT,
+          answer1: results[i].ANSWER_ONE,
+          answer2Text: results[i].ANSWER_TWO_TEXT,
+          answer2: results[i].ANSWER_TWO,
+          answer3Text: results[i].ANSWER_THREE_TEXT,
+          answer3: results[i].ANSWER_THREE,
+          answer4Text: results[i].ANSWER_FOUR_TEXT,
+          answer4: results[i].ANSWER_FOUR,
+          answer5Text: results[i].ANSWER_FIVE_TEXT,
+          answer5: results[i].ANSWER_FIVE,
+          answer6Text: results[i].ANSWER_SIX_TEXT,
+          answer6: results[i].ANSWER_SIX,
+          isMult: results[i].IS_MULTIPLE,
+          testTime: results[i].TIME_LIMIT,
+          name: results[i].NAME
+        }
+        questionList.push(question)
+        console.log(questionList[i].testTime)
+      }
+      //console.log("TESTLIST:" + testList)
+      return result.json({
+        questionList
+      })
+    }
+  })
 })
 
 router.get('/test', (req, result) => {
