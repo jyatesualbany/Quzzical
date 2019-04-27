@@ -1,4 +1,4 @@
-.container a {
+.header a {
     display: inline-block;
     vertical-align: top; /* Adjust if multi-line text */
     margin: 10px;
@@ -8,16 +8,17 @@
     text-align: center;
     text-decoration: none;
 }
-.container a img {
-    display: block;
-    margin: auto;
+.header a img {
+    margin: 1px;
     border: 0;
     background: none !important;
     background-image:none;
 }
-.container a span {
-    display: block;
-    color: #FFFFFF;
+.header span {
+    text-align: center;
+    color: #61dafb;
+    margin: 9px;
+    column-span: all;
 }
 .navbar-color {
     color: #FFFFFF;
