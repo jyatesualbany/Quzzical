@@ -272,7 +272,7 @@ class Dashboard extends React.Component {
                         <Link className="btn btn-success btn-space" to="/upload">Upload Test</Link>
                       </td>
                       <td className="align-middle">
-                        <Link className="btn btn-warning btn-space" to="/updatepassword">Update Password</Link>
+                        <Link className="btn btn-warning btn-space" to="/updatepassword">Update Passwd</Link>
                       </td>
                       <td className="align-middle">
                         <Link className="btn btn-warning btn-space" to="/custom">Customize</Link>

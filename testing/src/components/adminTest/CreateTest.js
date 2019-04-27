@@ -8,11 +8,14 @@ class CreateTest extends React.Component {
     super()
     this.state = {
       isAdmin : true,
-      questionList : []
+      // questionList : props.questionList,
+      questionList : [],
+      selectedQuestions : [],
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.deleteQuestion = this.deleteQuestion.bind(this)
+    this.addQuestion = this.addQuestion.bind(this)
+    this.createTest = this.createTest.bind(this)
 
   }
    makeObj(input, x){
@@ -90,11 +93,11 @@ class CreateTest extends React.Component {
   onSubmit(e){
     e.preventDefault()
   }
-  deleteQuestion(question){
-    // REMOVE QUESTION FROM DATABASE
-    const tempList = this.state.questionList
-    tempList.splice(tempList.indexOf(question), 1)
-    this.setState({questionList : tempList})
+  addQuestion(question){
+    const tempList = this.state.selectedQuestions
+    tempList.push(question)
+    this.setState({selectedQuestions : tempList})
+    console.log(this.state.selectedQuestions[0].q)
   }
   createQuestionTable = () => {
     let list = []
@@ -120,13 +123,9 @@ class CreateTest extends React.Component {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">
-        <input className="form-check-input text-align:center" type="checkbox" id="inlineCheckbox1" value={this.state.questionList[i].qID}/>
+        <input className="form-check-input text-align:center" type="checkbox" id="inlineCheckbox1" 
+        value={this.state.questionList[i]} onClick={this.addQuestion.bind(this, this.state.questionList[i])}/>
       </td>)
-      // children.push(<td className="align-middle">{this.state.questionList[i].questionText}</td>)
-      // console.log(this.state.questionList.questionList[i].questionList);
-      console.log('hi');
-            
-      // children.push(<td className="align-middle">{this.state.questionList[i].qID}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].q}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an1}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an2}</td>)
@@ -134,12 +133,13 @@ class CreateTest extends React.Component {
       children.push(<td className="align-middle">{this.state.questionList[i].an4}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an5}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an6}</td>)
-      // children.push(<td><Link className="btn btn-danger btn-space" to="/createTest"
-      // onClick={this.deleteQuestion.bind(this, this.state.questionList[i])}>Delete</Link></td>)
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
     return list
+  }
+  createTest(){
+
   }
   render() {
           return(
@@ -156,6 +156,7 @@ class CreateTest extends React.Component {
                       <th scope="col">Test Name:</th>
                       <th scope="col">Test Description:</th>
                       <th scope="col">Time Alloted (Minutes):</th>
+                      <th scope="col">Create Test: </th>
                     </tr>
                     <tr>
                       <td className="align-middle">
@@ -177,12 +178,18 @@ class CreateTest extends React.Component {
                         </div>
                       </td>
                       <td className="align-middle">
-                      <div className="form-group">
+                        <div className="form-group">
                             <input type="Test Time" className="form-control form-control-lg"
                             placeholder="Test Time" name="Test Time"
                             value={this.state.testTime}
                             onChange={this.onChange}
                             />
+                        </div>
+                      </td>
+                      <td className="align-middle">
+                        <div className="form-group">
+                        <Link className="btn btn-success btn-space" to="/admindashboard"
+                            onClick={this.createTest.bind(this, this.state.questionList)}>Create Test</Link>
                         </div>
                       </td>
                     </tr>

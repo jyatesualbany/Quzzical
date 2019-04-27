@@ -13,11 +13,18 @@ class Navbar extends React.Component {
         <nav className="navbar navbar-color navbar-default navbar-light" >
 
             <div className="container div" >
-              <Link className="nav-link" to="/">Quizzical </Link>
-              <a href="">
-              <img src={'https://icon2.kisspng.com/20180501/eiq/kisspng-university-at-albany-suny-albany-great-danes-men-heart-beat-logo-5ae80c0d308f12.9001985515251568771989.jpg'} ALIGN="left" alt=" UAlbany" width="100" height="100"/>
-              <span>University at Albany</span>
-              </a>
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                  <Link className="nav-link" to="/">
+                    <img src={'https://icon2.kisspng.com/20180501/eiq/kisspng-university-at-albany-suny-albany-great-danes-men-heart-beat-logo-5ae80c0d308f12.9001985515251568771989.jpg'} ALIGN="left" alt=" UAlbany" width="50" height="50"/>
+                    </Link>
+                  </li>
+              </ul>
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <h1 className="align-center">University at Albany</h1>
+                </li>
+              </ul>
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
                 <span className="navbar-toggler-icon"></span>
               </button>
