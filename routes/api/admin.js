@@ -112,7 +112,7 @@ router.post('/upload', input.single('file'), (req, res) => {
             question.C, question.ans4, question.D,
             question.ans5, question.E, question.ans6, question.F, question.correct, 1]
 
-          console.log(question)
+          // console.log(question)
           db.query(insert, values, (err, res) => {
             if(err){
               return console.log(err.stack)
@@ -130,7 +130,7 @@ router.post('/getQuestion', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
     }
-    console.log(res[0].QUESTION_TEXT)
+    // console.log(res[0].QUESTION_TEXT)
     return results.json({ques: res})
   })
 })
@@ -141,7 +141,7 @@ router.post('/getTest', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
     }
-    console.log(res);
+    // console.log(res);
 
     return results.json({test: res})
   })
@@ -154,7 +154,7 @@ router.post('/getTestQuestion', (req, result) => {
   'WHERE TEST_ID = ?;'
 
 
-  console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+  // console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
 
   var values = [req.body.params.testId]
   res = db.query(select, values, (err, results, fields) => {
@@ -186,7 +186,7 @@ router.post('/getTestQuestion', (req, result) => {
           name: results[i].NAME
         }
         questionList.push(question)
-        console.log(questionList[i].testTime)
+        // console.log(questionList[i].testTime)
       }
       //console.log("TESTLIST:" + testList)
       return result.json({
@@ -282,20 +282,12 @@ router.get('/test', (req, result) => {
 
   router.post('/getQuestions', (req, result) => {
     const select = 'SELECT * FROM QUESTION;'
-  
-  
-  
-    console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
-  
-  
     res = db.query(select, (err, results, fields) => {
       let questionList = []
       if(err){
         return console.error(err.stack);
       }else{
         var i = 0
-        //console.log("query results: " + results)
-        //console.log("test id: " + results[0].TEST_ID)
         for(let i =0; i<results.length; i++){
           let question = {
             questionId: results[i].QUESTION_ID,
@@ -316,14 +308,25 @@ router.get('/test', (req, result) => {
   
           }
           questionList.push(question)
-          console.log(questionList[i].testTime)
         }
-        //console.log("TESTLIST:" + testList)
         return result.json({
           questionList
         })
       }
     })
   })
+
+ router.post('/deleteTest', (req, result) => {
+    const test = req.body.test
+    console.log(test);
+   //-----------------------------------------
+   // DB stuff here KOSTIN 
+    console.log('does it hit');
+    
+ })
+
+ router.post('/createTest', (req, result) => {
+
+ })
 
 module.exports = router

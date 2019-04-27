@@ -123,6 +123,7 @@ class Dashboard extends React.Component {
           testList: array
         })
       })
+      
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -133,8 +134,13 @@ class Dashboard extends React.Component {
   deleteTest(test){
     // REMOVE TEST FROM DATABASE
     const tempList = this.state.testList
-    tempList.splice(tempList.indexOf(test), 1)
-    this.setState({testList : tempList})
+    console.log('test: ' + test.tID);
+    axios.post('/api/admin/deleteTest', {test: test}) 
+      .then(res => {
+        tempList.splice(tempList.indexOf(test), 1)
+        this.setState({testList : tempList})
+      })
+    
   }
   deleteQuestion(question){
     // REMOVE TEST FROM DATABASE
@@ -206,7 +212,7 @@ class Dashboard extends React.Component {
       children.push(<td className="align-middle">{this.state.questionList[i].an4}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an5}</td>)
       children.push(<td className="align-middle">{this.state.questionList[i].an6}</td>)
-      console.log("Question Text:", this.state.questionList[i].q);
+      // console.log("Question Text:", this.state.questionList[i].q);
       
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/questionView",
