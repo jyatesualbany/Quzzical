@@ -249,6 +249,7 @@ class Dashboard extends React.Component {
                       <th scope="col">Create Test</th>
                       <th scope="col">Upload Test</th>
                       <th scope="col">Update Password</th>
+                      <th scope="col">Customize</th>
                     </tr>
                     <tr>
                       <td className="align-middle">{this.state.userName}</td>
@@ -264,6 +265,9 @@ class Dashboard extends React.Component {
                       </td>
                       <td className="align-middle">
                         <Link className="btn btn-warning btn-space" to="/updatepassword">Update Password</Link>
+                      </td>
+                      <td className="align-middle">
+                        <Link className="btn btn-warning btn-space" to="/custom">Customize</Link>
                       </td>
                     </tr>
                   </table>

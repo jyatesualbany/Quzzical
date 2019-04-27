@@ -56,53 +56,47 @@ router.post('/upload', input.single('file'), (req, res) => {
   const results = []
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
-      .on('end', () => {
-        //use results[i]
-        // console.log(results[0][9])
-        var question = {
-          quest: null,
-          ans1: null,
-          A: null,
-          ans2: null,
-          B: null,
-          ans3: null,
-          C: null,
-          ans4: null,
-          D: null,
-          ans5: null,
-          E: null,
-          ans6: null,
-          F: null,
-          correct: temp,
-        }
-        for (var i=0; i<results.length; i++){
-          var an5 = null
-          var e = null
-          var an6 = null
-          var f = null
-          var temp= ''
-          for (var j=0; j<results[0].length; j++) {
-            if(results[i][j].charAt(0)=='*'){
-              results[i][j] = results[i][j].charAt(1)
-              temp=results[i][j]
-              //or change to results[i][j] if you want to store A_ instead
-            }
+    .on('end', () => {
+      //use results[i]
+      // console.log(results[0][9])
+      var question = {
+        quest: null,
+        ans1: null,
+        A: null,
+        ans2: null,
+        B: null,
+        ans3: null,
+        C: null,
+        ans4: null,
+        D: null,
+        ans5: null,
+        E: null,
+        ans6: null,
+        F: null,
+        correct: temp,
+      }
+      for (var i=0; i<results.length; i++){
+        var an5 = null
+        var e = null
+        var an6 = null
+        var f = null
+        var temp= ''
+        for (var j=0; j<results[0].length; j++) {
+          if(results[i][j].charAt(0)=='*'){
+            results[i][j] = results[i][j].charAt(1)
+            temp=results[i][j]
+//<<<<<<< HEAD
+            console.log(results[i][j-1])
+            //or change to results[i][j] if you want to store A_ instead
+//=======
+            // console.log(results[i][j-1])
           }
-          question = {
-            quest: results[i][0],
-            ans1: results[i][1],
-            A: results[i][2],
-            ans2: results[i][3],
-            B: results[i][4],
-            ans3: results[i][5],
-            C: results[i][6],
-            ans4:results[i][7],
-            D: results[i][8],
-            ans5: an5,
-            E: e,
-            ans6: an6,
-            F: f,
-            correct: temp,
+          if(results[i][j] != null && j > 8){
+           if(j == 9){an5 = results[i][9]; } 
+           if(j == 10){e = results[i][10]; }
+           if(j == 11){an6 = results[i][11]; }
+           if(j == 12){f = results[i][12]; }
+//>>>>>>> Dev-Branch
           }
           //----------------------------------------------------
           // DB stuff goes here
