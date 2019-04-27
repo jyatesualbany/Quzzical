@@ -149,8 +149,11 @@ class Dashboard extends React.Component {
   deleteQuestion(question){
     // REMOVE TEST FROM DATABASE
     const tempList = this.state.questionList
-    tempList.splice(tempList.indexOf(question), 1)
-    this.setState({questionList : tempList})
+    axios.post('/api/admin/deleteQuestion', {question: question}) 
+      .then(res => {
+        tempList.splice(tempList.indexOf(question), 1)
+        this.setState({questionList : tempList})
+      })
   }
   createAdminTestTable = () => {
     let list = []
