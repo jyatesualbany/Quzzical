@@ -1,28 +1,27 @@
 import React from 'react';
+import TrueFalse from '../test/TrueFalse.js'
 import '../styles/styles.css';
+import axios from 'axios'
 import MultipleChoice from '../test/MultipleChoice.js';
-import TrueFalse from '../test/TrueFalse.js';
 
-const props = {
-  question: "REACT IS EZPZ",
-  answer: "True",
-  questionNum: 1
-}
-const props2 = {
-  question: "IS JEFF YATES THE BEST PROFESSOR EVER?",
-  answer1: "YES",
-  answer2: "OF COURSE HE IS",
-  answer3: "THAT MAN IS A LEGEND",
-  answer4: "ALL OF THE ABOVE",
-  questionNum: 2
+const questions = {
+  questionListFromDB : []
 }
 
-class Login extends React.Component {
+class AdminViewTest extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testId: props.location.state.testId,
+
+      testId : props.location.state.testId,
+      testName: props.location.state.testName,
+      timeLimit: props.location.state.timeLimit,               // we need to figoure a format, probably minutes only
+      testDescription: props.testDescription,
+      isStarted: props.isStarted,
+      questionListFromDB : [],
+      counter: 0,
       errors: {}
+
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -30,32 +29,70 @@ class Login extends React.Component {
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
+    //Post to answers
+
   }
   onSubmit(e){
     e.preventDefault()
   }
+  componentDidMount(){
+    axios.post('/api/users/current')
+        .then(res => {
+          this.setState({
+            userId: res.data.userId
+          })
+        }).catch(err =>  console.log(err.response.data))
+        // console.log('this is the test id' + this.state.testId);
+        
+
+    // arraylist of questions from database
+    axios.post('/api/admin/getTestQuestion',
+        {params: {testId: this.state.testId}})
+        .then(res => {
+          this.setState({
+            questionListFromDB: res.data.questionList
+          })
+        }).catch(err =>  console.log(err.response.data))
+
+  }
+
+  createTest(){
+    let questionList = []
+    let questionListFromDB = [] // FILL WITH QUERY
+
+
+    for(let i=0; i < this.state.questionListFromDB.length; i++){
+      this.state.questionListFromDB[i].questionNum = i + 1;
+      if(this.state.questionListFromDB[i].isMult == true){
+        //var component =
+        questionList.push(<MultipleChoice {...this.state.questionListFromDB[i]}> </MultipleChoice>)
+      }else{
+        questionList.push(<TrueFalse {...this.state.questionListFromDB[i]}> </TrueFalse>)
+      }
+    }
+    return questionList
+  }
 
   render() {
     return (
-<div className="test">
-      <div className="row">
-        <div className="m-auto col-xl">
-          <h1 className="display-4 text-center">Test ID: {this.state.testId}</h1>
-          <p className="lead text-center">The Test will look like this to the users:</p>
-          <p className="lead text-center">{this.state.testDescription}</p>
-          <form onSubmit={this.onSubmit}>
-              <TrueFalse {...props}/>
-              <MultipleChoice {...props2}/>
-              <TrueFalse {...props}/>
-            <div className="form-group">
+        <div className="test">
+          <div className="row">
+            <div className="m-auto col-xl">
+              {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
+              <h1 className="display-4 text-center">Name: {this.state.testName}</h1>
+              <p className="lead text-center">Test ID: {this.state.testId}</p>
+              <p className="lead text-center">You have {this.state.timeLimit} minutes to complete the test</p>
+              <form onSubmit={this.onSubmit}>
+                {this.createTest()}
+                <div className="form-group">
+                </div>
+                <input type="submit"Enter className="btn btn-info btn-block mt-4" />
+              </form>
             </div>
-            <input type="submit"Enter className="btn btn-info btn-block mt-4" />
-          </form>
+          </div>
         </div>
-      </div>
-  </div>
     );
   }
 }
 
-export default Login
+export default AdminViewTest

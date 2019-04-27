@@ -5,16 +5,20 @@ class MultipleChoice extends React.Component {
   constructor(props){
     super()
     this.state = {
-        questionID: props.questionId,
-      question: props.questionText,
-      answer1: props.answer1Text,
+        questionID: props.qID,
+      question: props.q,
+      answer1: props.an1,
         a1: props.answer1,
-      answer2: props.answer2Text,
+      answer2: props.an2,
         a2: props.answer2,
-      answer3: props.answer3Text,
+      answer3: props.an3,
         a3: props.answer3,
-      answer4: props.answer4Text,
+      answer4: props.an4,
         a4: props.answer4,
+      answer5: props.an5,
+        a5: props.answer5,
+      answer6 : props.an6,
+        a6 : props.answer6,
       questionNum: props.questionNum,
       pickedAnswer: null,
       isChecked: false,
@@ -46,7 +50,7 @@ class MultipleChoice extends React.Component {
 <hr/>
       <div className="row">
         <div className="col-md">
-            <p className="lead float-left">Question #{this.state.questionNum})</p>
+            <p className="lead float-left">Question: </p>
         </div>
         <div className="col-xl-8">
           <p className="lead center-text">{this.state.question}</p>

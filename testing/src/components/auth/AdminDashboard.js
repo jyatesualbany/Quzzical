@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import axios from 'axios'
 
 const userInfo = {
-    name: "Cory",
-    email: "corymarriott@test.gmail",
+    name: "",
+    email: "",
     accountType: "Administrator",
 }
 
@@ -12,19 +12,60 @@ class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      testList : props.testList,
+      testList : [],
       isAdmin : true,
       userName: '',
       userEmail: '',
       userType: 'Administrator',
-      questionList : props.questionList
+      questionList : []
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.deleteTest = this.deleteTest.bind(this)
+    this.deleteQuestion = this.deleteQuestion.bind(this)
 
   }
-
+  makeObj(input, x){
+    if(x.ANSWER_FIVE_TEXT == null){
+      input = {
+        q: x.QUESTION_TEXT,
+        an1: x.ANSWER_ONE_TEXT,
+        an2: x.ANSWER_TWO_TEXT,
+        an3: x.ANSWER_THREE_TEXT,
+        an4: x.ANSWER_FOUR_TEXT,
+        qID: x.QUESTION_ID,
+        isMult: x.IS_MULTIPLE,
+        correct: x.CORRECT
+      }
+      return input
+    }else if(x.ANSWER_SIX_TEXT == null){
+       input = {
+        q: x.QUESTION_TEXT,
+        an1: x.ANSWER_ONE_TEXT,
+        an2: x.ANSWER_TWO_TEXT,
+        an3: x.ANSWER_THREE_TEXT,
+        an4: x.ANSWER_FOUR_TEXT,
+        an5: x.ANSWER_FIVE_TEXT,
+        qID: x.QUESTION_ID,
+        isMult: x.IS_MULTIPLE,
+        correct: x.CORRECT
+      }
+      return input
+    }else{
+      input = {
+        q: x.QUESTION_TEXT,
+        an1: x.ANSWER_ONE_TEXT,
+        an2: x.ANSWER_TWO_TEXT,
+        an3: x.ANSWER_THREE_TEXT,
+        an4: x.ANSWER_FOUR_TEXT,
+        an5: x.ANSWER_FIVE_TEXT,
+        an6: x.ANSWER_SIX_TEXT,
+        qID: x.QUESTION_ID,
+        isMult: x.IS_MULTIPLE,
+        correct: x.CORRECT
+      }
+    }
+  }
   componentDidMount(){
     axios.post('/api/users/current', userInfo)
       .then(res => {
@@ -37,8 +78,56 @@ class Dashboard extends React.Component {
     
     axios.post('/api/admin/getQuestion', {})
       .then(res => {
-        console.log(res.data)
+        //console.log(res.data.ques)
+        var array = []
+        res.data.ques.forEach(x => {
+          if(x.IS_MULTIPLE == 0){
+            const quest = {
+              q: x.QUESTION_TEXT,
+              an1: x.ANSWER_ONE_TEXT,
+              an2: x.ANSWER_TWO_TEXT,
+              qID: x.QUESTION_ID,
+              correct: x.CORRECT,
+              isMult: x.IS_MULTIPLE
+            }
+            // console.log('this is the quest id' + quest.qID);
+            array.push(quest)
+            // console.log(array);
+            
+          }else{
+            var input = {}
+            input = this.makeObj(input, x)
+            // console.log(input);
+            array.push(input)
+          }
+        })
+        this.setState({
+          questionList: array 
+        })
+        //console.log('state quest id: ' + this.state.questionList[0].qID)
       })
+
+    axios.post('/api/admin/getTest', {})
+      .then(res => {
+        // console.log(res);
+        
+        var array = []
+        res.data.test.forEach(x => {
+          // console.log(x.TEST_ID);
+          
+          const test = {
+            tID: x.TEST_ID,
+            tn: x.NAME,
+            td: x.TEST_DESCRIPTION,
+            tl: x.TIME_LIMIT
+          }
+          array.push(test)
+        })
+        this.setState({
+          testList: array
+        })
+      })
+      
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -49,16 +138,26 @@ class Dashboard extends React.Component {
   deleteTest(test){
     // REMOVE TEST FROM DATABASE
     const tempList = this.state.testList
-    tempList.splice(tempList.indexOf(test), 1)
-    this.setState({testList : tempList})
+    console.log('test: ' + test.tID);
+    axios.post('/api/admin/deleteTest', {test: test}) 
+      .then(res => {
+        tempList.splice(tempList.indexOf(test), 1)
+        this.setState({testList : tempList})
+      })
+    
   }
-  createAdminTable = () => {
+  deleteQuestion(question){
+    // REMOVE TEST FROM DATABASE
+    const tempList = this.state.questionList
+    tempList.splice(tempList.indexOf(question), 1)
+    this.setState({questionList : tempList})
+  }
+  createAdminTestTable = () => {
     let list = []
     list.push(
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Test ID</th>
           <th scope="col">Test Name</th>
           <th scope="col">Description</th>
           <th scope="col">View Test</th>
@@ -69,12 +168,13 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
-      children.push(<td className="align-middle">{this.state.testList[i].testDescription}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].tn}</td>)
+      children.push(<td className="align-middle">{this.state.testList[i].td}</td>)
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/AdminViewTest",
-        state: { testId : this.state.testList[i].testId}
+        state: { testId : this.state.testList[i].tID,
+          testName : this.state.testList[i].tn,
+          timeLimit: this.state.testList[i].tl}
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
@@ -90,12 +190,13 @@ class Dashboard extends React.Component {
       <thead>
         <tr>
           <th scope="col" className="align-middle">#</th>
-          <th scope="col" className="align-middle">Question ID</th>
           <th scope="col" className="align-middle">Question </th>
           <th scope="col" className="align-middle">Answer #1</th>
           <th scope="col" className="align-middle">Answer #2</th>
           <th scope="col" className="align-middle">Answer #3</th>
           <th scope="col" className="align-middle">Answer #4</th>
+          <th scope="col" className="align-middle">Answer #5</th>
+          <th scope="col" className="align-middle">Answer #6</th>
           <th scope="col" className="align-middle">View</th>
           <th scope="col" className="align-middle">Delete? </th>
         </tr>
@@ -104,18 +205,32 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.questionList.length; i++) {
       let children = []
       children.push(<td className="align-middle">{i+1}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].questionId}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].question}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].answer1}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].answer2}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].answer3}</td>)
-      children.push(<td className="align-middle">{this.state.questionList[i].answer4}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].q}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an1}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an2}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an3}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an4}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an5}</td>)
+      children.push(<td className="align-middle">{this.state.questionList[i].an6}</td>)
+      // console.log("Question Text:", this.state.questionList[i].q);
+      
       children.push(<td><Link className="btn btn-success btn-space" to={{
-        pathname: "/AdminViewTest",
-        state: { questionId : this.state.questionList[i].questionId}
+        pathname: "/questionView",
+        state: { question: this.state.questionList[i],
+                 /*questionId : this.state.questionList[i].qID,
+                 questName: this.state.questionList[i].q,
+                 questAns1: this.state.questionList[i].an1,
+                 questAns2: this.state.questionList[i].an2,
+                 questAns3: this.state.questionList[i].an3,
+                 questAns4: this.state.questionList[i].an4,
+                 questAns5: this.state.questionList[i].an5,
+                 questAns6: this.state.questionList[i].an6,
+                 isMult: this.state.questionList[i].isMult,
+                 correct: this.state.questionList[i].correct*/
+                }
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
-      onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
+      onClick={this.deleteQuestion.bind(this, this.state.questionList[i])}>Delete</Link></td>)
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
@@ -165,9 +280,9 @@ class Dashboard extends React.Component {
                 </div>
                 <div className="row">
                 <div className="col-md-12">
-                  <h1 className="display-12 text-center">TESTS:</h1>
+                  <h1 className="display-12 text-center">Tests:</h1>
                     <table className="table table-striped">
-                        {this.createAdminTable()}
+                        {this.createAdminTestTable()}
                     </table>
                     <h1 className="display-12 text-center">Question Bank:</h1>
                     <table className="table table-striped">
