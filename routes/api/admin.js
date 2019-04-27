@@ -130,7 +130,7 @@ router.post('/getQuestion', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
     }
-    console.log(res[0].ANSWER_ONE_TEXT)
+    console.log(res[0].QUESTION_TEXT)
     return results.json({ques: res})
   })
 })
