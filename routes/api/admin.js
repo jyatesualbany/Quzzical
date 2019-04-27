@@ -235,6 +235,17 @@ router.post('/getTestQuestion', (req, result) => {
     
  })
 
+ router.post('/deleteQuestion', (req, result) => {
+   const question = req.body.question.qID
+   console.log(question);
+    db.query("delete from QUESTION where QUESTION_ID = '"+question+"'", (err, res) => {
+      if(err) throw err
+      console.log('it works');
+      return result.json({output: 'good'})
+    }) 
+
+ })
+
  router.post('/createTest', (req, result) => {
 
  })

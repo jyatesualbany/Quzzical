@@ -8,7 +8,6 @@ class CreateTest extends React.Component {
     super()
     this.state = {
       isAdmin : true,
-      // questionList : props.questionList,
       questionList : []
     }
     this.onChange = this.onChange.bind(this)
