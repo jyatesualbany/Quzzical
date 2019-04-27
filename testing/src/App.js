@@ -6,6 +6,7 @@ import AdminDashboard from './components/auth/AdminDashboard.js';
 import UserDashboard from './components/auth/UserDashboard.js';
 import Register from './components/auth/Register.js';
 import Upload from './components/auth/Upload.js';
+import Custom from './components/auth/AdminCustom.js';
 import Logout from './components/auth/Logout.js';
 import AdminViewTest from './components/adminTest/AdminViewTest.js';
 import Test from './components/test/Test.js';
@@ -102,6 +103,7 @@ class App extends Component {
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/upload" component={Upload} />
+          <Route exact path="/custom" component={Custom} />
           {/*<Route exact path="/dashboard" component={Dashboard} />*/}
           <Route exact path="/admindashboard" render={()=><AdminDashboard {...props} />}/>
           <Route exact path="/userdashboard" render={()=><UserDashboard {...props} />}/>
