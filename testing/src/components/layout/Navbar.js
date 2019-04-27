@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import '../styles/styles.css';
 //<ul><img src={'./testing/src/Dog.png'} alt=" UAlbany" style={{color:'white'}}/></ul>
 //<h1 className="display-12">UAlbany</h1>
+//<span>University at Albany</span>
 
 class Navbar extends React.Component {
 
