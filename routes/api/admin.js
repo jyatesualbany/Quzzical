@@ -50,7 +50,7 @@ router.post('/register', (req, results) => {
       })
     }
   })
-})
+});
 
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
@@ -123,7 +123,7 @@ router.post('/upload', input.single('file'), (req, res) => {
         }
       })
   return res.json({status: 'good'})
-})
+});
 
 router.post('/getQuestion', (req, results) => {
   db.query('select * from QUESTION', (err, res) => {
@@ -133,10 +133,10 @@ router.post('/getQuestion', (req, results) => {
     // console.log(res[0].QUESTION_TEXT)
     return results.json({ques: res})
   })
-})
+});
 
 router.post('/getTest', (req, results) => {
-  db.query('SELECT TA.*, T.NAME FROM TEST_ASSIGNMENT TA\n' +
+  db.query('SELECT TA.*, T.* FROM TEST_ASSIGNMENT TA\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID;', (err, res) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
@@ -145,7 +145,7 @@ router.post('/getTest', (req, results) => {
 
     return results.json({test: res})
   })
-})
+});
 
 
 router.post('/getTestQuestion', (req, result) => {
@@ -194,10 +194,10 @@ router.post('/getTestQuestion', (req, result) => {
       })
     }
   })
-})
+});
 
 router.get('/test', (req, result) => {
-  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
+  const select = 'SELECT UT.TEST_ID, T.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID;'
   
@@ -223,12 +223,12 @@ router.get('/test', (req, result) => {
       })  
       }
     })
-  })
+  });
 
   // THE QUERY BELOW DOES NOT WORK YET. PLS FIX KOSTIN <3
 
   router.post('/getTest', (req, result) => {
-    const select = 'SELECT Q.*, UT.FINISHED, TA.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
+    const select = 'SELECT Q.*, UT.FINISHED, T.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
     'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n'+
     'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n'+
     'INNER JOIN TEST_LIST TL on T.TEST_ID = TL.TEST_ID\n' +
@@ -275,7 +275,7 @@ router.get('/test', (req, result) => {
         })
       }
     })
-  })
+  });
 
   router.post('/getQuestions', (req, result) => {
     const select = 'SELECT * FROM QUESTION;'
@@ -311,16 +311,20 @@ router.get('/test', (req, result) => {
         })
       }
     })
-  })
+  });
 
  router.post('/deleteTest', (req, result) => {
     const test = req.body.test
     console.log(test);
    //-----------------------------------------
    // DB stuff here KOSTIN <3
+   db.query("delete from TEST where TEST_ID = '"+req.body.test.tID+"'", (err, res) => {
+     if(err) throw err
+     console.log('it works');
+     return result.json({output: 'good'})
     console.log('does it hit');
-    
- })
+   })
+ });
 
  router.post('/deleteQuestion', (req, result) => {
    const question = req.body.question.qID
@@ -331,12 +335,21 @@ router.get('/test', (req, result) => {
       return result.json({output: 'good'})
     }) 
 
- })
+ });
 
  router.post('/createTest', (req, result) => {
     console.log(req.body.test) 
     //-----------------------------------------
    // DB stuff here KOSTIN <3
- })
+
+   db.query(insert, values, (err, res) => {
+     if(err){
+       return console.log(err.stack)
+     }else{
+       console.log('test add')
+     }
+   })
+
+ });
 
 module.exports = router

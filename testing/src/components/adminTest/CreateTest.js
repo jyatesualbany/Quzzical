@@ -176,7 +176,7 @@ class CreateTest extends React.Component {
                     <tr>
                       <th scope="col">Test Name:</th>
                       <th scope="col">Test Description:</th>
-                      <th scope="col">Time Alloted (Minutes):</th>
+                      <th scope="col">Time Allotted (Minutes):</th>
                       <th scope="col">Create Test: </th>
                     </tr>
                     <tr>
