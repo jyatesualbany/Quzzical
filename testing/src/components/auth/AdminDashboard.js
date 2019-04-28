@@ -12,18 +12,17 @@ class Dashboard extends React.Component {
   constructor(props){
     super()
     this.state = {
-      // testList : props.testList,
       testList : [],
       isAdmin : true,
       userName: '',
       userEmail: '',
       userType: 'Administrator',
-      // questionList : props.questionList
       questionList : []
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.deleteTest = this.deleteTest.bind(this)
+    this.deleteQuestion = this.deleteQuestion.bind(this)
 
   }
   makeObj(input, x){
@@ -234,7 +233,7 @@ class Dashboard extends React.Component {
                 }
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
-      onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
+      onClick={this.deleteQuestion.bind(this, this.state.questionList[i])}>Delete</Link></td>)
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
