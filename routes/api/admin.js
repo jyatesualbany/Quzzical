@@ -209,8 +209,6 @@ router.get('/test', (req, result) => {
         return console.error(err.stack);
     }else{
       var i = 0
-      //console.log("query results: " + results)
-      //console.log("test id: " + results[0].TEST_ID)
       for(let i =0; i<results.length; i++){
         let test = {
           testId : results[i].TEST_ID,
@@ -220,7 +218,6 @@ router.get('/test', (req, result) => {
         }
         testList.push(test)
       }
-      //console.log("TESTLIST:" + testList)
       return result.json({
         testList
       })  
@@ -320,7 +317,7 @@ router.get('/test', (req, result) => {
     const test = req.body.test
     console.log(test);
    //-----------------------------------------
-   // DB stuff here KOSTIN 
+   // DB stuff here KOSTIN <3
     console.log('does it hit');
     
  })
@@ -337,7 +334,9 @@ router.get('/test', (req, result) => {
  })
 
  router.post('/createTest', (req, result) => {
-
+    console.log(req.body.test) 
+    //-----------------------------------------
+   // DB stuff here KOSTIN <3
  })
 
 module.exports = router

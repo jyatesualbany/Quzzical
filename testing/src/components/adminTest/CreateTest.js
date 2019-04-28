@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import update from 'react-addons-update';
 
 
 class CreateTest extends React.Component {
@@ -94,10 +95,11 @@ class CreateTest extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
   onSubmit(e){
+    
     e.preventDefault()
   }
   isChecked(index){
-    //console.log("questionList:", this.state.questionList)
+    console.log("questionList:", this.state.questionList)
     let temp = this.state.questionList
     if(temp[index].isChecked === true){
       temp[index].isChecked = false
@@ -153,6 +155,10 @@ class CreateTest extends React.Component {
         selectedQuestions.push(this.state.questionList[i])
       }
     }
+    axios.post('/api/admin/createTest', {test: selectedQuestions})
+      .then(res => {
+        console.log('it worked')
+      })
     //console.log("SELECTED QUESTIONS:", selectedQuestions)
     // QUERY DB WITH LIST OF SELECTED QUESTIONS AND TEXT FROM INPUT BOXES
   }
