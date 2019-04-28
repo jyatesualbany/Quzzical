@@ -112,7 +112,7 @@ router.post('/upload', input.single('file'), (req, res) => {
             question.C, question.ans4, question.D,
             question.ans5, question.E, question.ans6, question.F, question.correct, 1]
 
-          console.log(question)
+          // console.log(question)
           db.query(insert, values, (err, res) => {
             if(err){
               return console.log(err.stack)
@@ -130,7 +130,7 @@ router.post('/getQuestion', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
     }
-    console.log(res[0].ANSWER_ONE_TEXT)
+    // console.log(res[0].QUESTION_TEXT)
     return results.json({ques: res})
   })
 })
@@ -141,7 +141,7 @@ router.post('/getTest', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack)
     }
-    console.log(res);
+    // console.log(res);
 
     return results.json({test: res})
   })
@@ -154,7 +154,7 @@ router.post('/getTestQuestion', (req, result) => {
   'WHERE TEST_ID = ?;'
 
 
-  console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+  // console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
 
   var values = [req.body.params.testId]
   res = db.query(select, values, (err, results, fields) => {
@@ -186,7 +186,7 @@ router.post('/getTestQuestion', (req, result) => {
           name: results[i].NAME
         }
         questionList.push(question)
-        console.log(questionList[i].testTime)
+        // console.log(questionList[i].testTime)
       }
       //console.log("TESTLIST:" + testList)
       return result.json({
@@ -195,5 +195,148 @@ router.post('/getTestQuestion', (req, result) => {
     }
   })
 })
+
+router.get('/test', (req, result) => {
+  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
+      'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
+      'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID;'
+  
+  console.log("this is req ses",req.session.userId)
+  
+  res = db.query(select, (err, results, fields) => {
+    let testList = []
+    if(err){
+        return console.error(err.stack);
+    }else{
+      var i = 0
+      for(let i =0; i<results.length; i++){
+        let test = {
+          testId : results[i].TEST_ID,
+          testDesc : results[i].TEST_DESCRIPTION,
+          testName : results[i].NAME,
+          timeLimit: results[i].TIME_LIMIT
+        }
+        testList.push(test)
+      }
+      return result.json({
+        testList
+      })  
+      }
+    })
+  })
+
+  // THE QUERY BELOW DOES NOT WORK YET. PLS FIX KOSTIN <3
+
+  router.post('/getTest', (req, result) => {
+    const select = 'SELECT Q.*, UT.FINISHED, TA.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
+    'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n'+
+    'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n'+
+    'INNER JOIN TEST_LIST TL on T.TEST_ID = TL.TEST_ID\n' +
+    'INNER JOIN QUESTION Q on TL.QUESTION_ID = Q.QUESTION_ID\n'+
+    'UT.TEST_ID = ?;'
+  
+  
+    //console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+  
+    res = db.query(select, req.body.params.testId, (err, results, fields) => {
+      let questionList = []
+      if(err){
+        return console.error(err.stack);
+      }else{
+        var i = 0
+        //console.log("query results: " + results)
+        //console.log("test id: " + results[0].TEST_ID)
+        for(let i =0; i<results.length; i++){
+          let question = {
+            questionId: results[i].QUESTION_ID,
+            questionText: results[i].QUESTION_TEXT,
+            answer1Text: results[i].ANSWER_ONE_TEXT,
+            answer1: results[i].ANSWER_ONE,
+            answer2Text: results[i].ANSWER_TWO_TEXT,
+            answer2: results[i].ANSWER_TWO,
+            answer3Text: results[i].ANSWER_THREE_TEXT,
+            answer3: results[i].ANSWER_THREE,
+            answer4Text: results[i].ANSWER_FOUR_TEXT,
+            answer4: results[i].ANSWER_FOUR,
+            answer5Text: results[i].ANSWER_FIVE_TEXT,
+            answer5: results[i].ANSWER_FIVE,
+            answer6Text: results[i].ANSWER_SIX_TEXT,
+            answer6: results[i].ANSWER_SIX,
+            isMult: results[i].IS_MULTIPLE,
+            testTime: results[i].TIME_LIMIT,
+            name: results[i].NAME
+          }
+          questionList.push(question)
+          console.log(questionList[i].testTime)
+        }
+        //console.log("TESTLIST:" + testList)
+        return result.json({
+          questionList
+        })
+      }
+    })
+  })
+
+  router.post('/getQuestions', (req, result) => {
+    const select = 'SELECT * FROM QUESTION;'
+    res = db.query(select, (err, results, fields) => {
+      let questionList = []
+      if(err){
+        return console.error(err.stack);
+      }else{
+        var i = 0
+        for(let i =0; i<results.length; i++){
+          let question = {
+            questionId: results[i].QUESTION_ID,
+            questionText: results[i].QUESTION_TEXT,
+            answer1Text: results[i].ANSWER_ONE_TEXT,
+            answer1: results[i].ANSWER_ONE,
+            answer2Text: results[i].ANSWER_TWO_TEXT,
+            answer2: results[i].ANSWER_TWO,
+            answer3Text: results[i].ANSWER_THREE_TEXT,
+            answer3: results[i].ANSWER_THREE,
+            answer4Text: results[i].ANSWER_FOUR_TEXT,
+            answer4: results[i].ANSWER_FOUR,
+            answer5Text: results[i].ANSWER_FIVE_TEXT,
+            answer5: results[i].ANSWER_FIVE,
+            answer6Text: results[i].ANSWER_SIX_TEXT,
+            answer6: results[i].ANSWER_SIX,
+            isMult: results[i].IS_MULTIPLE,
+  
+          }
+          questionList.push(question)
+        }
+        return result.json({
+          questionList
+        })
+      }
+    })
+  })
+
+ router.post('/deleteTest', (req, result) => {
+    const test = req.body.test
+    console.log(test);
+   //-----------------------------------------
+   // DB stuff here KOSTIN <3
+    console.log('does it hit');
+    
+ })
+
+ router.post('/deleteQuestion', (req, result) => {
+   const question = req.body.question.qID
+   console.log(question);
+    db.query("delete from QUESTION where QUESTION_ID = '"+question+"'", (err, res) => {
+      if(err) throw err
+      console.log('it works');
+      return result.json({output: 'good'})
+    }) 
+
+ })
+
+ router.post('/createTest', (req, result) => {
+    console.log(req.body.test) 
+    //-----------------------------------------
+   // DB stuff here KOSTIN <3
+ })
 
 module.exports = router

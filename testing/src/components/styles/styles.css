@@ -1,3 +1,38 @@
+.header a {
+    display: inline-block;
+    vertical-align: top; /* Adjust if multi-line text */
+    margin: 10px;
+    padding: 5px;
+    width: 120px;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+}
+.header a img {
+    margin: 1px;
+    border: 0;
+    background: none !important;
+    background-image:none;
+}
+.header span {
+    text-align: center;
+    color: #61dafb;
+    margin: 9px;
+    column-span: all;
+}
+.navbar-color {
+    color: #FFFFFF;
+    background-color: #7B18D1;
+}
+.img-box img {
+    background: none !important;
+    background-image:none;
+}
+
+
+.navbar-nav li a{
+    color: white !important;
+}
 .btn-space {
     margin-right: 20px;
     margin-left: 20px;
