@@ -9,6 +9,10 @@ class CreateTest extends React.Component {
     super()
     this.state = {
       isAdmin : true,
+      // testName: '',
+      // testDesc: '',
+      // testTime: '',
+
       // questionList : props.questionList,
       questionList : []
     }
@@ -93,6 +97,11 @@ class CreateTest extends React.Component {
   }
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
+    console.log(this.state.testName);
+    
+    console.log(e.target.value);
+    console.log(e.target.name);
+    
   }
   onSubmit(e){
     
@@ -155,7 +164,17 @@ class CreateTest extends React.Component {
         selectedQuestions.push(this.state.questionList[i])
       }
     }
-    axios.post('/api/admin/createTest', {test: selectedQuestions})
+    console.log(this.state.testName);
+    // var temp = this.state.testName
+    // console.log('this is testName' + temp);
+    
+    const input = {
+      // test: selectedQuestions,
+      tName: this.state.testName,
+      t: 'hello'
+    } 
+    
+    axios.post('/api/admin/createTest', input)
       .then(res => {
         console.log('it worked')
       })
@@ -182,8 +201,8 @@ class CreateTest extends React.Component {
                     <tr>
                       <td className="align-middle">
                         <div className="form-group">
-                            <input type="Test Name" className="form-control form-control-lg"
-                            placeholder="Test Name" name="Test Name"
+                            <input type="TestName" className="form-control form-control-lg"
+                            placeholder="Test Name" name="TestName"
                             value={this.state.testName}
                             onChange={this.onChange}
                             />
