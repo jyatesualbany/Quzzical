@@ -9,11 +9,9 @@ class CreateTest extends React.Component {
     super()
     this.state = {
       isAdmin : true,
-      // testName: '',
-      // testDesc: '',
-      // testTime: '',
-
-      // questionList : props.questionList,
+      testName: '',
+      testDesc: '',
+      testTime: '',
       questionList : []
     }
     this.onChange = this.onChange.bind(this)
@@ -96,16 +94,17 @@ class CreateTest extends React.Component {
       })
   }
   onChange(e){
-    this.setState({[e.target.name]: e.target.value})
-    console.log(this.state.testName);
-    
-    console.log(e.target.value);
-    console.log(e.target.name);
-    
+    if(e.target.name == 'Test Description'){
+      this.setState({testDesc : e.target.value})
+    }else if(e.target.name == 'TestName'){
+      this.setState({testName: e.target.value})
+    }else{
+      this.setState({testTime: e.target.value})
+    }
   }
-  onSubmit(e){
-    
-    e.preventDefault()
+  onSubmit(){
+    // e.preventDefault()
+    this.createTest()
   }
   isChecked(index){
     console.log("questionList:", this.state.questionList)
@@ -164,14 +163,13 @@ class CreateTest extends React.Component {
         selectedQuestions.push(this.state.questionList[i])
       }
     }
-    console.log(this.state.testName);
-    // var temp = this.state.testName
-    // console.log('this is testName' + temp);
+    console.log('this the the create test fn: ' + this.state.testName);
     
     const input = {
-      // test: selectedQuestions,
+      test: selectedQuestions,
       tName: this.state.testName,
-      t: 'hello'
+      tDes: this.state.testDesc,
+      tTime: this.state.testTime
     } 
     
     axios.post('/api/admin/createTest', input)
@@ -183,6 +181,9 @@ class CreateTest extends React.Component {
   }
   render() {
           return(
+            // <form onChange={this.onChange}>
+            <form onSubmit={this.onSubmit}>
+
             <div className="dashboard">
               <div className="row">
                 <div className="col-md-8 m-auto">
@@ -210,7 +211,7 @@ class CreateTest extends React.Component {
                       </td>
                       <td className="align-middle">
                         <div className="form-group">
-                            <input type="Test Description" className="form-control form-control-lg"
+                            <input type="testDesc" className="form-control form-control-lg"
                             placeholder="Test Description" name="Test Description"
                             value={this.state.testDesc}
                             onChange={this.onChange}
@@ -229,7 +230,8 @@ class CreateTest extends React.Component {
                       <td className="align-middle">
                         <div className="form-group">
                         <Link className="btn btn-success btn-space" to="/admindashboard"
-                            onClick={this.createTest.bind(this, this.state.questionList)}>Create Test</Link>
+                            // onClick={this.createTest.bind(this, this.state.questionList)}>Create Test</Link>
+                            onClick={this.onSubmit.bind(this, this.state.questionList)}>Create Test</Link>
                         </div>
                       </td>
                     </tr>
@@ -243,8 +245,8 @@ class CreateTest extends React.Component {
                     </table> 
               </div>
           </div>
+         </form>
           )
       }
 }
-
 export default CreateTest

@@ -339,18 +339,19 @@ router.get('/test', (req, result) => {
 
  router.post('/createTest', (req, result) => {
     // console.log(req.body.test) 
+    
     console.log(req.body);
     
     //-----------------------------------------
    // DB stuff here KOSTIN <3
 
-   db.query(insert, values, (err, res) => {
-     if(err){
-       return console.log(err.stack)
-     }else{
-       console.log('test add')
-     }
-   })
+  //  db.query(insert, values, (err, res) => {
+  //    if(err){
+  //      return console.log(err.stack)
+  //    }else{
+  //      console.log('test add')
+  //    }
+  //  })
 
  });
 
