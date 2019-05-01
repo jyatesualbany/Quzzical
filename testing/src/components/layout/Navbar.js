@@ -15,9 +15,9 @@ class Navbar extends React.Component {
 
             <div className="container div" >
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                  <Link className="nav-link" to="/">
-                    <img src={'https://icon2.kisspng.com/20180501/eiq/kisspng-university-at-albany-suny-albany-great-danes-men-heart-beat-logo-5ae80c0d308f12.9001985515251568771989.jpg'} ALIGN="left" alt=" UAlbany" width="50" height="50"/>
+              <li className="nav-item header">
+                  <Link className="nav-link header" to="/">
+                    <img src={'https://saltcitysniperslacrosse.com/wp-content/uploads/2016/08/albany.png'} ALIGN="left" alt=" UAlbany" width="50" height="50"/>
                     </Link>
                   </li>
               </ul>

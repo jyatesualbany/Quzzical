@@ -52,6 +52,7 @@ router.post('/register', (req, results) => {
   })
 });
 
+})
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
   const temp = req.file

@@ -11,7 +11,7 @@
 .header a img {
     margin: 1px;
     border: 0;
-    background: none !important;
+    mix-blend-mode: multiply;
     background-image:none;
 }
 .header span {
@@ -22,7 +22,7 @@
 }
 .navbar-color {
     color: #FFFFFF;
-    background-color: #7B18D1;
+    background-color: #401E6B;
 }
 .img-box img {
     background: none !important;
