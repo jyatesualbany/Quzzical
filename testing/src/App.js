@@ -12,6 +12,8 @@ import AdminViewTest from './components/adminTest/AdminViewTest.js';
 import questionView from './components/adminTest/questionView';
 import Test from './components/test/Test.js';
 import CreateTest from './components/adminTest/CreateTest.js';
+import AssginTest from './components/adminTest/AssignTest';
+import UpdatePassword from './components/auth/UpdatePassword'
 import './components/styles/styles.css';
 
 class App extends Component {
@@ -27,7 +29,9 @@ class App extends Component {
           <Route exact path="/custom" component={Custom} />
           <Route exact path="/admindashboard" component={AdminDashboard}/>
           <Route exact path="/userdashboard" component={UserDashboard}/>
+          <Route exact path="/updatepassword" component={UpdatePassword}/>
           <Route exact path="/createtest" component={CreateTest}/>
+          <Route exact path="/assgintest" component={AssginTest}/>
           <Route exact path="/logout" component={Logout} />
           <Route path='/adminViewTest' component={AdminViewTest} />
           <Route path='/questionView' component={questionView} />

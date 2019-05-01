@@ -13,7 +13,7 @@ router.post('/register', (req, results) => {
   const { errors, isValid } = validateRegister(req.body)
 
   if(!isValid){
-    return res.status(400).json(errors);
+    return results.status(400).json(errors);
   }
   const email = req.body.email;
 
@@ -23,9 +23,9 @@ router.post('/register', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack);
     }
-    if(res[0].emailCount != 0){
+    if(results[0].emailCount != 0){
       errors.email = 'Email already exists'
-      return res.status(400).json(errors);
+      return results.status(400).json(errors);
     }
     else{
       // create new user
@@ -51,6 +51,15 @@ router.post('/register', (req, results) => {
     }
   })
 });
+
+router.post('/getUsers', (req, result) => {
+  const n = 'n'
+  db.query("select * from USER where IS_ADMIN = '"+n+"'", (err, res) => {
+    if(err) throw err
+    console.log(res);
+    return result.json({users: res})
+  })
+})
 
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
@@ -339,7 +348,7 @@ router.get('/test', (req, result) => {
 
  router.post('/createTest', (req, result) => {
     // console.log(req.body.test) 
-    
+     
     console.log(req.body);
     
     //-----------------------------------------

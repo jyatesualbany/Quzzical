@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
           })
         }).catch(err =>  console.log(err.response.data))
 
-  axios.get('/api/users/test/',
+    axios.get('/api/users/test/',
     {params: {userId: this.state.userId}} )
         .then(res => {
           this.setState({
@@ -109,6 +109,7 @@ class Dashboard extends React.Component {
           <li className="list-group-item">User ID: {this.state.userId}</li>
           <li className="list-group-item">Email: {this.state.userEmail}</li>
           <li className="list-group-item">Account Type: {this.state.userType}</li>
+          <Link className="btn btn-success btn-space" to='/updatepassword'>Update Password</Link>
         </ul>
       </div>
       <div className="col-md-9">
