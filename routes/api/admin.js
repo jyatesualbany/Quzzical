@@ -50,9 +50,13 @@ router.post('/register', (req, results) => {
       })
     }
   })
+<<<<<<< Updated upstream
 });
 
+=======
 })
+//router.post('/custom', input.single('pic'), (req, res) => {}
+>>>>>>> Stashed changes
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
   const temp = req.file

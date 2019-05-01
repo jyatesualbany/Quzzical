@@ -11,8 +11,6 @@
 .header a img {
     margin: 1px;
     border: 0;
-    mix-blend-mode: multiply;
-    background-image:none;
 }
 .header span {
     text-align: center;
