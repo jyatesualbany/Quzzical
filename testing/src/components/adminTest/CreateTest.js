@@ -12,6 +12,7 @@ class CreateTest extends React.Component {
       testName: '',
       testDesc: '',
       testTime: '',
+      dateTime: null,
       questionList : []
     }
     this.onChange = this.onChange.bind(this)
@@ -98,6 +99,8 @@ class CreateTest extends React.Component {
       this.setState({testDesc : e.target.value})
     }else if(e.target.name == 'TestName'){
       this.setState({testName: e.target.value})
+    }else if(e.target.name == 'Test Date'){
+      this.setState({dateTime: e.target.value})
     }else{
       this.setState({testTime: e.target.value})
     }
@@ -169,7 +172,8 @@ class CreateTest extends React.Component {
       test: selectedQuestions,
       tName: this.state.testName,
       tDes: this.state.testDesc,
-      tTime: this.state.testTime
+      tTime: this.state.testTime,
+      dateTime: this.state.dateTime
     } 
     
     axios.post('/api/admin/createTest', input)
@@ -197,6 +201,7 @@ class CreateTest extends React.Component {
                       <th scope="col">Test Name:</th>
                       <th scope="col">Test Description:</th>
                       <th scope="col">Time Allotted (Minutes):</th>
+                      <th scope="col">Date of Test(YYYY-MM-DD HH:MI:SS):</th>
                       <th scope="col">Create Test: </th>
                     </tr>
                     <tr>
@@ -223,6 +228,15 @@ class CreateTest extends React.Component {
                             <input type="Test Time" className="form-control form-control-lg"
                             placeholder="Test Time" name="Test Time"
                             value={this.state.testTime}
+                            onChange={this.onChange}
+                            />
+                        </div>
+                      </td>
+                      <td className="align-middle">
+                        <div className="form-group">
+                            <input type="Test Date" className="form-control form-control-lg"
+                            placeholder="Test Date" name="Test Date"
+                            value={this.state.dateTime}
                             onChange={this.onChange}
                             />
                         </div>
