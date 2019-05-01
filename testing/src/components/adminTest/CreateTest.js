@@ -211,25 +211,27 @@ class CreateTest extends React.Component {
                             placeholder="Test Name" name="TestName"
                             value={this.state.testName}
                             onChange={this.onChange}
-                            />
+                                    autoFocus={true} required/>
                         </div>
                       </td>
                       <td className="align-middle">
                         <div className="form-group">
                             <input type="testDesc" className="form-control form-control-lg"
                             placeholder="Test Description" name="Test Description"
+
                             value={this.state.testDesc}
                             onChange={this.onChange}
-                            />
+                                   required={true}/>
                         </div>
                       </td>
                       <td className="align-middle">
                         <div className="form-group">
                             <input type="Test Time" className="form-control form-control-lg"
                             placeholder="Test Time" name="Test Time"
+
                             value={this.state.testTime}
                             onChange={this.onChange}
-                            />
+                                   required={true} />
                         </div>
                       </td>
                       <td className="align-middle">

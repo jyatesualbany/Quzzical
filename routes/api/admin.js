@@ -350,18 +350,45 @@ router.get('/test', (req, result) => {
     // console.log(req.body.test) 
      
     console.log(req.body);
-    
-    //-----------------------------------------
-   // DB stuff here KOSTIN <3
+    let testID = '';
+    let i;
+    let questionID;
+    const insert1 = 'INSERT INTO TEST(NAME, TEST_DESCRIPTION) VALUES (?,?);'
+   let values1 = [req.body.tName, req.body.tDes]
+   const insert2 = 'INSERT INTO TEST_ASSIGNMENT(TEST_ID, TIME_LIMIT, START_DATE) VALUES (?, ?, ?);'
 
-  //  db.query(insert, values, (err, res) => {
-  //    if(err){
-  //      return console.log(err.stack)
-  //    }else{
-  //      console.log('test add')
-  //    }
-  //  })
+   const insert3 = 'INSERT INTO TEST_LIST(TEST_ID, QUESTION_ID) VALUES (?, ?);'
+   db.query(insert1, values1, (err, res) => {
+     if(err){
+       return console.error(err.stack);
+     }else{
+       testID = res.insertId;
+       console.log(testID)
+       let values2 = [testID, req.body.tTime, req.body.dateTime]
 
+       db.query(insert2, values2, (err, res) => {
+         if(err){
+           return console.error(err.stack);
+         }else{
+           console.log(req.body.test.length)
+           for(i = 0; i < req.body.test.length; i++) {
+             questionID = req.body.test[i].qID
+             console.log(questionID)
+             let values3 = [testID, questionID]
+             db.query(insert3, values3, (err, res) => {
+               if (err) {
+                 return console.error(err.stack);
+               } else {
+                 console.log(testID)
+               }
+             })
+           }
+         }
+       })
+       return result.json({redirect: '/admindashboard'})
+     }
+   })
  });
+
 
 module.exports = router
