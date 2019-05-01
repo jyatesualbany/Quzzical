@@ -70,6 +70,9 @@ class Dashboard extends React.Component {
     axios.post('/api/users/current', userInfo)
       .then(res => {
         // console.log(res.data.email)
+        if(res.data.bad == 'bad'){
+          window.location = '/'
+        }
         this.setState({
           userEmail: res.data.email,
           userName: res.data.name
@@ -164,6 +167,7 @@ class Dashboard extends React.Component {
           <th scope="col">Test Name</th>
           <th scope="col">Description</th>
           <th scope="col">View Test</th>
+          <th scope="col">Assign Users</th>
           <th scope="col">Delete? </th>
         </tr>
       </thead>
@@ -179,6 +183,10 @@ class Dashboard extends React.Component {
           testName : this.state.testList[i].tn,
           timeLimit: this.state.testList[i].tl}
       }}>View</Link></td>)
+      children.push(<td><Link className="btn btn-warning btn-space" to={{ 
+        pathname : "/assgintest",
+        state : { test : this.state.testList[i] }
+      }}>Assign Test</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteTest.bind(this, this.state.testList[i])}>Delete</Link></td>)
       //Create the parent and add the children
@@ -219,18 +227,7 @@ class Dashboard extends React.Component {
       
       children.push(<td><Link className="btn btn-success btn-space" to={{
         pathname: "/questionView",
-        state: { question: this.state.questionList[i],
-                 /*questionId : this.state.questionList[i].qID,
-                 questName: this.state.questionList[i].q,
-                 questAns1: this.state.questionList[i].an1,
-                 questAns2: this.state.questionList[i].an2,
-                 questAns3: this.state.questionList[i].an3,
-                 questAns4: this.state.questionList[i].an4,
-                 questAns5: this.state.questionList[i].an5,
-                 questAns6: this.state.questionList[i].an6,
-                 isMult: this.state.questionList[i].isMult,
-                 correct: this.state.questionList[i].correct*/
-                }
+        state: { question: this.state.questionList[i] }
       }}>View</Link></td>)
       children.push(<td><Link className="btn btn-danger btn-space" to="/admindashboard"
       onClick={this.deleteQuestion.bind(this, this.state.questionList[i])}>Delete</Link></td>)
@@ -255,8 +252,8 @@ class Dashboard extends React.Component {
                       <th scope="col">Email:</th>
                       <th scope="col">Create Account</th>
                       <th scope="col">Create Test</th>
+                      <th scope="col">Create Question</th>
                       <th scope="col">Upload Test</th>
-                      <th scope="col">Update Password</th>
                       <th scope="col">Customize</th>
                     </tr>
                     <tr>
@@ -269,10 +266,10 @@ class Dashboard extends React.Component {
                         <Link className="btn btn-warning btn-space" to="/createtest">Create Test</Link>
                       </td>
                       <td className="align-middle">
-                        <Link className="btn btn-success btn-space" to="/upload">Upload Test</Link>
+                        <Link className="btn btn-warning btn-space" to="/createquestion">Create Question</Link>
                       </td>
                       <td className="align-middle">
-                        <Link className="btn btn-warning btn-space" to="/updatepassword">Update Password</Link>
+                        <Link className="btn btn-success btn-space" to="/upload">Upload Test</Link>
                       </td>
                       <td className="align-middle">
                         <Link className="btn btn-success btn-space" to="/custom">Customize</Link>

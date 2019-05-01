@@ -2,9 +2,6 @@ import React from 'react';
 import axios from 'axios' 
 import {Link} from 'react-router-dom';
 
-
-
-
 class Dashboard extends React.Component {
   constructor(props){
     super()
@@ -23,6 +20,9 @@ class Dashboard extends React.Component {
   componentDidMount(){
     axios.post('/api/users/current')
         .then(res => {
+          if(res.data.bad == 'bad'){
+            window.location = '/'
+          }
           this.setState({
             userName: res.data.name,
             userEmail: res.data.email,
@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
           })
         }).catch(err =>  console.log(err.response.data))
 
-  axios.get('/api/users/test/',
+    axios.get('/api/users/test/',
     {params: {userId: this.state.userId}} )
         .then(res => {
           this.setState({
@@ -40,7 +40,6 @@ class Dashboard extends React.Component {
           //console.log(this.state.testList[0].TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
-  
   
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
@@ -109,10 +108,13 @@ class Dashboard extends React.Component {
           <li className="list-group-item">User ID: {this.state.userId}</li>
           <li className="list-group-item">Email: {this.state.userEmail}</li>
           <li className="list-group-item">Account Type: {this.state.userType}</li>
+          <li className="list-group-item">
+            <Link className="btn btn-success btn-space" to='/updatepassword'>Update Password</Link> 
+          </li>
         </ul>
       </div>
       <div className="col-md-9">
-          <p className="lead text-center">TESTS GRADES:</p>
+          <p className="lead text-center">TESTS:</p>
           <table className="table">
               {this.createUserTable()}
           </table>

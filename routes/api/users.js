@@ -18,7 +18,7 @@ router.get('/test', (req, result) => {
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
       'WHERE UT.USER_ID=?'
   
-  console.log("this is req ses",req.session.userId)
+  //("this is req ses",req.session.userId)
   
   var values = [req.session.userId]
   res = db.query(select, req.session.userId, (err, results, fields) => {
@@ -51,13 +51,13 @@ router.post('/login', (req, result) => {
   const {errors, isValid} = validateLogin(req.body);
 
   if(!isValid){
-    console.log(req.body.name)
+    //console.log(req.body.name)
     return res.status(666).json(errors);
   }
 
   const email = req.body.email;
   const password = req.body.password;
-  console.log(email)
+  //console.log(email)
   var selectEmail = "select *from USER where email = '"+email+"'"
   // var selectEmail = "select *from USER where email = ?", email
 
@@ -70,7 +70,7 @@ router.post('/login', (req, result) => {
       return res.status(400).json(errors);
     }
     const pw = res[0].PASSWORD
-    console.log(pw);
+    //console.log(pw);
     const user = {
       email: email,
       isAdmin: res[0].IS_ADMIN,
@@ -79,10 +79,10 @@ router.post('/login', (req, result) => {
    
 
     if(pw == password){
-      console.log('logged in');
-      console.log(user.isAdmin)
+      //console.log('logged in');
+      //console.log(user.isAdmin)
       if(user.isAdmin == 'y'){
-        console.log(user.email)
+        //console.log(user.email)
         req.session.userId = res[0].USER_ID
         return result.json({redirect: '1'})
       }else{
@@ -95,7 +95,9 @@ router.post('/login', (req, result) => {
 
 router.post('/current', (req, result) => {
   const user = req.session.userId
-  console.log(user)
+  if(user == null){
+    return result.json({bad: 'bad'})
+  }
   var getUser = "select * from USER where USER_ID = '"+user+"'"
   db.query(getUser, (err, res) => {
     if(err) throw err
@@ -117,7 +119,7 @@ router.post('/getTest', (req, result) => {
   'WHERE UT.USER_ID = ? AND UT.TEST_ID = ?;'
 
 
-  console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
+  //console.log("this is req ses",req.session.userId, " ", req.body.params.testId)
 
   var values = [req.session.userId, req.body.params.testId]
   res = db.query(select, values, (err, results, fields) => {
@@ -149,7 +151,7 @@ router.post('/getTest', (req, result) => {
           name: results[i].NAME
         }
         questionList.push(question)
-        console.log(questionList[i].testTime)
+        //console.log(questionList[i].testTime)
       }
       //console.log("TESTLIST:" + testList)
       return result.json({
@@ -157,6 +159,15 @@ router.post('/getTest', (req, result) => {
       })
     }
   })
+})
+
+router.post('/updatePassword', (req, result) => {
+  //console.log(req.body);
+  const update = "UPDATE USER SET PASSWORD = '"+req.body.password+"'where NAME = '"+req.body.name+"'"
+  db.query(update, (err, res) => {
+    if(err) throw err
+    return result.json({output: 'good'})
+  })  
 })
 
 module.exports = router;

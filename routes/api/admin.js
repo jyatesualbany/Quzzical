@@ -13,7 +13,7 @@ router.post('/register', (req, results) => {
   const { errors, isValid } = validateRegister(req.body)
 
   if(!isValid){
-    return res.status(400).json(errors);
+    return results.status(400).json(errors);
   }
   const email = req.body.email;
 
@@ -23,9 +23,9 @@ router.post('/register', (req, results) => {
     if(err){
       console.error('Error connecting: ' + err.stack);
     }
-    if(res[0].emailCount != 0){
+    if(results[0].emailCount != 0){
       errors.email = 'Email already exists'
-      return res.status(400).json(errors);
+      return results.status(400).json(errors);
     }
     else{
       // create new user
@@ -44,7 +44,7 @@ router.post('/register', (req, results) => {
         if(err){
           return console.error(err.stack);
         }else{
-          console.log('hello new user');
+          //console.log('hello new user');
           return results.json({redirect: '/admindashboard'})
         }
       })
@@ -53,10 +53,19 @@ router.post('/register', (req, results) => {
 //<<<<<<< Updated upstream
 });
 
-//=======
-//})
-//router.post('/custom', input.single('pic'), (req, res) => {}
-//>>>>>>> Stashed changes
+router.post('/getUsers', (req, result) => {
+  const n = 'n'
+  db.query("select * from USER where IS_ADMIN = '"+n+"'", (err, res) => {
+    if(err) throw err
+    // console.log(res);
+    return result.json({users: res})
+  })
+})
+
+router.post('/assginTest', (req, result) => {
+  console.log('this is trying to get id: ' + req.body.test[0].USER_ID);
+})
+
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
   const temp = req.file
@@ -132,7 +141,7 @@ router.post('/upload', input.single('file'), (req, res) => {
             if(err){
               return console.log(err.stack)
             }else{
-              console.log('test add')
+              //console.log('test add')
             }
           })
         }
@@ -216,7 +225,7 @@ router.get('/test', (req, result) => {
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID;'
   
-  console.log("this is req ses",req.session.userId)
+  //console.log("this is req ses",req.session.userId)
   
   res = db.query(select, (err, results, fields) => {
     let testList = []
@@ -282,7 +291,7 @@ router.get('/test', (req, result) => {
             name: results[i].NAME
           }
           questionList.push(question)
-          console.log(questionList[i].testTime)
+          // console.log(questionList[i].testTime)
         }
         //console.log("TESTLIST:" + testList)
         return result.json({
@@ -330,23 +339,23 @@ router.get('/test', (req, result) => {
 
  router.post('/deleteTest', (req, result) => {
     const test = req.body.test
-    console.log(test);
+    // console.log(test);
    //-----------------------------------------
    // DB stuff here KOSTIN <3
    db.query("delete from TEST where TEST_ID = '"+req.body.test.tID+"'", (err, res) => {
      if(err) throw err
-     console.log('it works');
+     //console.log('it works');
      return result.json({output: 'good'})
-    console.log('does it hit');
+    //console.log('does it hit');
    })
  });
 
  router.post('/deleteQuestion', (req, result) => {
    const question = req.body.question.qID
-   console.log(question);
+   //console.log(question);
     db.query("delete from QUESTION where QUESTION_ID = '"+question+"'", (err, res) => {
       if(err) throw err
-      console.log('it works');
+      //('it works');
       return result.json({output: 'good'})
     }) 
 
@@ -354,8 +363,8 @@ router.get('/test', (req, result) => {
 
  router.post('/createTest', (req, result) => {
     // console.log(req.body.test) 
-    
-    console.log(req.body);
+     
+    //console.log(req.body);
     
     //-----------------------------------------
    // DB stuff here KOSTIN <3
