@@ -2,9 +2,6 @@ import React from 'react';
 import axios from 'axios' 
 import {Link} from 'react-router-dom';
 
-
-
-
 class Dashboard extends React.Component {
   constructor(props){
     super()
@@ -40,7 +37,6 @@ class Dashboard extends React.Component {
           //console.log(this.state.testList[0].TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
-  
   
   onChange(e){
     this.setState({[e.target.name]: e.target.value})

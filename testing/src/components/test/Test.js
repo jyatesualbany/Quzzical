@@ -29,6 +29,7 @@ class Test extends React.Component {
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
     //Post to answers
+    axios.post('api/users/answers', )
     
   }
   onSubmit(e){
@@ -49,7 +50,7 @@ class Test extends React.Component {
         {params: {userId: this.state.userId, testId: this.state.testId}} )
         .then(res => {
           this.setState({
-            questionListFromDB: res.data.questionList
+            questionListFromDB: res.data.questionList,
           })
         }).catch(err =>  console.log(err.response.data))
 
@@ -59,11 +60,9 @@ class Test extends React.Component {
     let questionList = []
     let questionListFromDB = [] // FILL WITH QUERY
 
-
     for(let i=0; i < this.state.questionListFromDB.length; i++){
       this.state.questionListFromDB[i].questionNum = i + 1;
       if(this.state.questionListFromDB[i].isMult == true){
-        //var component = 
         questionList.push(<MultipleChoice {...this.state.questionListFromDB[i]}> </MultipleChoice>)
       }else{
         questionList.push(<TrueFalse {...this.state.questionListFromDB[i]}> </TrueFalse>)

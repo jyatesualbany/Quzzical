@@ -56,9 +56,14 @@ router.post('/getUsers', (req, result) => {
   const n = 'n'
   db.query("select * from USER where IS_ADMIN = '"+n+"'", (err, res) => {
     if(err) throw err
-    console.log(res);
+    // console.log(res);
     return result.json({users: res})
   })
+})
+
+router.post('/assginTest', (req, result) => {
+  console.log('this is trying to get id: ' + req.body.test[0].USER_ID);
+  
 })
 
 router.post('/upload', input.single('file'), (req, res) => {
@@ -276,7 +281,7 @@ router.get('/test', (req, result) => {
             name: results[i].NAME
           }
           questionList.push(question)
-          console.log(questionList[i].testTime)
+          // console.log(questionList[i].testTime)
         }
         //console.log("TESTLIST:" + testList)
         return result.json({
@@ -324,7 +329,7 @@ router.get('/test', (req, result) => {
 
  router.post('/deleteTest', (req, result) => {
     const test = req.body.test
-    console.log(test);
+    // console.log(test);
    //-----------------------------------------
    // DB stuff here KOSTIN <3
    db.query("delete from TEST where TEST_ID = '"+req.body.test.tID+"'", (err, res) => {
