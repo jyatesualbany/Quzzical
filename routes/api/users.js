@@ -159,4 +159,13 @@ router.post('/getTest', (req, result) => {
   })
 })
 
+router.post('/updatePassword', (req, result) => {
+  console.log(req.body);
+  const update = "UPDATE USER SET PASSWORD = '"+req.body.password+"'where NAME = '"+req.body.name+"'"
+  db.query(update, (err, res) => {
+    if(err) throw err
+    return result.json({output: 'good'})
+  })  
+})
+
 module.exports = router;
