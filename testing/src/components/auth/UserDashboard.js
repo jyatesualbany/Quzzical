@@ -20,6 +20,9 @@ class Dashboard extends React.Component {
   componentDidMount(){
     axios.post('/api/users/current')
         .then(res => {
+          if(res.data.bad == 'bad'){
+            window.location = '/'
+          }
           this.setState({
             userName: res.data.name,
             userEmail: res.data.email,

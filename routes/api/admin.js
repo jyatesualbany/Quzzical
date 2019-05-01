@@ -63,7 +63,6 @@ router.post('/getUsers', (req, result) => {
 
 router.post('/assginTest', (req, result) => {
   console.log('this is trying to get id: ' + req.body.test[0].USER_ID);
-  
 })
 
 router.post('/upload', input.single('file'), (req, res) => {
