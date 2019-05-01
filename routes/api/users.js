@@ -13,7 +13,7 @@ const db = connection.db
 // @desc    Tests users route
 // @access  Public
 router.get('/test', (req, result) => {
-  const select = 'SELECT UT.TEST_ID, TA.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
+  const select = 'SELECT UT.TEST_ID, T.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
       'WHERE UT.USER_ID=?'
@@ -109,7 +109,7 @@ router.post('/current', (req, result) => {
 })
 
 router.post('/getTest', (req, result) => {
-  const select = 'SELECT Q.*, UT.FINISHED, TA.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
+  const select = 'SELECT Q.*, UT.FINISHED, T.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
   'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n'+
   'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n'+
   'INNER JOIN TEST_LIST TL on T.TEST_ID = TL.TEST_ID\n' +
