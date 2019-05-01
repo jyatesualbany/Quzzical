@@ -50,13 +50,13 @@ router.post('/register', (req, results) => {
       })
     }
   })
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
 });
 
-=======
-})
+//=======
+//})
 //router.post('/custom', input.single('pic'), (req, res) => {}
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
   const temp = req.file
@@ -93,6 +93,7 @@ router.post('/upload', input.single('file'), (req, res) => {
               //or change to results[i][j] if you want to store A_ instead
             }
           }
+
           question = {
             quest: results[i][0],
             ans1: results[i][1],
@@ -109,6 +110,15 @@ router.post('/upload', input.single('file'), (req, res) => {
             F: f,
             correct: temp,
           }
+          if(results[0].length==5){
+            question.ans3=null;
+            question.C=null;
+            question.ans4=null;
+            question.D=null;
+            question.ans5=null;
+            question.E=null;
+            question.ans6=null;
+            question.F=null;
           //----------------------------------------------------
           // DB stuff goes here
           const insert = 'insert into QUESTION(QUESTION_TEXT, ANSWER_ONE_TEXT, ANSWER_ONE, ANSWER_TWO_TEXT, ANSWER_TWO, ANSWER_THREE_TEXT, ANSWER_THREE, ANSWER_FOUR_TEXT, ANSWER_FOUR, ANSWER_FIVE_TEXT, ANSWER_FIVE, ANSWER_SIX_TEXT, ANSWER_SIX, CORRECT, IS_MULTIPLE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'

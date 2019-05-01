@@ -7,7 +7,10 @@ import '../styles/styles.css';
 //<h1 className="display-12">UAlbany</h1>
 //<span>University at Albany</span>
 
+var logo='https://saltcitysniperslacrosse.com/wp-content/uploads/2016/08/albany.png'
+//}
 class Navbar extends React.Component {
+
 
   render() {
     return (
@@ -17,13 +20,13 @@ class Navbar extends React.Component {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item header">
                   <Link className="nav-link header" to="/">
-                    <img src={'https://saltcitysniperslacrosse.com/wp-content/uploads/2016/08/albany.png'} ALIGN="left" alt=" UAlbany" width="50" height="50"/>
+                    <img src={logo} ALIGN="left" alt=" UAlbany" width="50" height="50"/>
                     </Link>
                   </li>
               </ul>
               <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <h1 className="align-center">University at Albany</h1>
+                <li className="nav-item header">
+                  <h1 className="display-12 header">University at Albany</h1>
                 </li>
               </ul>
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">

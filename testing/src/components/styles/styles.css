@@ -3,18 +3,22 @@
     vertical-align: top; /* Adjust if multi-line text */
     margin: 10px;
     padding: 5px;
-    width: 120px;
-    color: #333;
+    width: 100px;
+    color: #401E6B;
     text-align: center;
     text-decoration: none;
 }
 .header a img {
     margin: 1px;
     border: 0;
+    content: "";
+    opacity: 1;
+
 }
-.header span {
+.header h1 {
     text-align: center;
-    color: #61dafb;
+    color: #FDB827;
+    font-family: Trajan Pro, serif;
     margin: 9px;
     column-span: all;
 }
