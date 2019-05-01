@@ -104,7 +104,7 @@ class Dashboard extends React.Component {
         this.setState({
           questionList: array 
         })
-        //console.log('state quest id: ' + this.state.questionList[0].qID)
+        //console.log(this.state.questionList[2].qID)
       })
 
     axios.post('/api/admin/getTest', {})
