@@ -119,15 +119,16 @@ router.post('/upload', input.single('file'), (req, res) => {
             F: f,
             correct: temp,
           }
-          if(results[0].length==5){
-            question.ans3=null;
-            question.C=null;
-            question.ans4=null;
-            question.D=null;
-            question.ans5=null;
-            question.E=null;
-            question.ans6=null;
-            question.F=null;
+          if(results[0].length==5) {
+            question.ans3 = null;
+            question.C = null;
+            question.ans4 = null;
+            question.D = null;
+            question.ans5 = null;
+            question.E = null;
+            question.ans6 = null;
+            question.F = null;
+          }
           //----------------------------------------------------
           // DB stuff goes here
           const insert = 'insert into QUESTION(QUESTION_TEXT, ANSWER_ONE_TEXT, ANSWER_ONE, ANSWER_TWO_TEXT, ANSWER_TWO, ANSWER_THREE_TEXT, ANSWER_THREE, ANSWER_FOUR_TEXT, ANSWER_FOUR, ANSWER_FIVE_TEXT, ANSWER_FIVE, ANSWER_SIX_TEXT, ANSWER_SIX, CORRECT, IS_MULTIPLE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
