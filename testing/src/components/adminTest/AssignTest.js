@@ -97,8 +97,8 @@ class AssignTest extends React.Component {
       tTime: this.state.testTime,
       dateTime: this.state.dateTime
     } 
-    
-    axios.post('/api/admin/createTest', input)
+   
+    axios.post('/api/admin/assginTest', input)
       .then(res => {
         console.log('it worked')
       })
