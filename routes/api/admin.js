@@ -44,7 +44,7 @@ router.post('/register', (req, results) => {
         if(err){
           return console.error(err.stack);
         }else{
-          console.log('hello new user');
+          //console.log('hello new user');
           return results.json({redirect: '/admindashboard'})
         }
       })
@@ -131,7 +131,7 @@ router.post('/upload', input.single('file'), (req, res) => {
             if(err){
               return console.log(err.stack)
             }else{
-              console.log('test add')
+              //console.log('test add')
             }
           })
         }
@@ -215,7 +215,7 @@ router.get('/test', (req, result) => {
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID;'
   
-  console.log("this is req ses",req.session.userId)
+  //console.log("this is req ses",req.session.userId)
   
   res = db.query(select, (err, results, fields) => {
     let testList = []
@@ -334,18 +334,18 @@ router.get('/test', (req, result) => {
    // DB stuff here KOSTIN <3
    db.query("delete from TEST where TEST_ID = '"+req.body.test.tID+"'", (err, res) => {
      if(err) throw err
-     console.log('it works');
+     //console.log('it works');
      return result.json({output: 'good'})
-    console.log('does it hit');
+    //console.log('does it hit');
    })
  });
 
  router.post('/deleteQuestion', (req, result) => {
    const question = req.body.question.qID
-   console.log(question);
+   //console.log(question);
     db.query("delete from QUESTION where QUESTION_ID = '"+question+"'", (err, res) => {
       if(err) throw err
-      console.log('it works');
+      //('it works');
       return result.json({output: 'good'})
     }) 
 
@@ -354,7 +354,7 @@ router.get('/test', (req, result) => {
  router.post('/createTest', (req, result) => {
     // console.log(req.body.test) 
      
-    console.log(req.body);
+    //console.log(req.body);
     
     //-----------------------------------------
    // DB stuff here KOSTIN <3

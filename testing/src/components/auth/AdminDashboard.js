@@ -249,6 +249,7 @@ class Dashboard extends React.Component {
                       <th scope="col">Email:</th>
                       <th scope="col">Create Account</th>
                       <th scope="col">Create Test</th>
+                      <th scope="col">Create Question</th>
                       <th scope="col">Upload Test</th>
                       <th scope="col">Customize</th>
                     </tr>
@@ -260,6 +261,9 @@ class Dashboard extends React.Component {
                       </td>
                       <td className="align-middle">
                         <Link className="btn btn-warning btn-space" to="/createtest">Create Test</Link>
+                      </td>
+                      <td className="align-middle">
+                        <Link className="btn btn-warning btn-space" to="/createquestion">Create Question</Link>
                       </td>
                       <td className="align-middle">
                         <Link className="btn btn-success btn-space" to="/upload">Upload Test</Link>

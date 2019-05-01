@@ -105,11 +105,13 @@ class Dashboard extends React.Component {
           <li className="list-group-item">User ID: {this.state.userId}</li>
           <li className="list-group-item">Email: {this.state.userEmail}</li>
           <li className="list-group-item">Account Type: {this.state.userType}</li>
-          <Link className="btn btn-success btn-space" to='/updatepassword'>Update Password</Link>
+          <li className="list-group-item">
+            <Link className="btn btn-success btn-space" to='/updatepassword'>Update Password</Link> 
+          </li>
         </ul>
       </div>
       <div className="col-md-9">
-          <p className="lead text-center">TESTS GRADES:</p>
+          <p className="lead text-center">TESTS:</p>
           <table className="table">
               {this.createUserTable()}
           </table>

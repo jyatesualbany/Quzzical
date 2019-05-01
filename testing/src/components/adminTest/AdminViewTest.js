@@ -79,7 +79,7 @@ class AdminViewTest extends React.Component {
           <div className="row">
             <div className="m-auto col-xl">
               {/*<div>Loading{"...".substr(0, this.state.counter % 3 + 1)}</div>*/}
-              <h1 className="display-4 text-center">Name: {this.state.testName}</h1>
+              <h1 className="display-4 text-center">Test Name: {this.state.testName}</h1>
               <p className="lead text-center">Test ID: {this.state.testId}</p>
               <p className="lead text-center">You have {this.state.timeLimit} minutes to complete the test</p>
               <form onSubmit={this.onSubmit}>
