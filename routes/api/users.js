@@ -95,7 +95,9 @@ router.post('/login', (req, result) => {
 
 router.post('/current', (req, result) => {
   const user = req.session.userId
-  //console.log(user)
+  if(user == null){
+    return result.json({bad: 'bad'})
+  }
   var getUser = "select * from USER where USER_ID = '"+user+"'"
   db.query(getUser, (err, res) => {
     if(err) throw err
