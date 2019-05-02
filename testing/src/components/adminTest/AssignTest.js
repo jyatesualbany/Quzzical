@@ -24,6 +24,12 @@ class AssignTest extends React.Component {
 
   }
   componentDidMount(){
+        axios.post('/api/users/current', {})
+          .then(res => {
+            if(res.data.bad == 'bad'){
+              window.location = '/'
+            }
+        }) 
     axios.post('/api/admin/getUsers', {})
     .then(res => {
         //console.log(res.data.users)

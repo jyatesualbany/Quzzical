@@ -6,11 +6,23 @@ import '../styles/styles.css';
 //<ul><img src={'./testing/src/Dog.png'} alt=" UAlbany" style={{color:'white'}}/></ul>
 //<h1 className="display-12">UAlbany</h1>
 //<span>University at Albany</span>
+import axios from 'axios'
 
 var logo='https://saltcitysniperslacrosse.com/wp-content/uploads/2016/08/albany.png'
 //}
 class Navbar extends React.Component {
 
+  checkSession(){
+    axios.post('/api/users/current', {})
+      .then(res => {
+        if(res.data.bad == 'bad'){
+        }else if(res.data.isAdmin == 'n'){
+          window.location = '/userdashboard'
+        }else{
+          window.location = '/admindashboard'
+        }
+      })
+  }
 
   render() {
     return (
@@ -20,6 +32,8 @@ class Navbar extends React.Component {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item header">
                   <Link className="nav-link header" to="/">
+                  {/* <Link className="nav-link header" to={this.checkSession()}> */}
+                  {/* <Link className="nav-link header" to={this.checkSession()}> */}
                     <img src={logo} ALIGN="left" alt=" UAlbany" width="50" height="50"/>
                     </Link>
                   </li>

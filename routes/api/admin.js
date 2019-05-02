@@ -105,9 +105,89 @@ router.post('/assignTest', (req, result) => {
   return result.json({redirect: '/admindashboard'})
 })
 
-
-
-
+router.post('/makeQuestion', (req, result) => {
+  // console.log(req.body);
+  var question
+  if(req.body.isMult == true){
+     question = {
+        quest: req.body.q,
+        ans1: req.body.ans1text,
+        A: 't',
+        ans2: req.body.ans2text,
+        B: 'f',
+        ans3: null,
+        C: null,
+        ans4: null,
+        D: null,
+        ans5: null,
+        E: null,
+        ans6: null,
+        F: null,
+        mult: 0
+    }
+  }else if(req.body.ans5text == null){
+     question = {
+      quest: req.body.q,
+      ans1: req.body.ans1text,
+      A: req.body.an1,
+      ans2: req.body.ans2text,
+      B: req.body.ans2,
+      ans3: req.body.anstext3,
+      C: req.body.ans3,
+      ans4:req.body.answer4text,
+      D: req.body.ans4,
+      ans5: null,
+      E: null,
+      ans6: null,
+      F: null,
+      correct: temp,
+      mult: 1,
+    }
+  }else if(req.body.ans6text == null){
+     question = {
+      quest: req.body.q,
+      ans1: req.body.ans1text,
+      A: req.body.an1,
+      ans2: req.body.ans2text,
+      B: req.body.ans2,
+      ans3: req.body.anstext3,
+      C: req.body.ans3,
+      ans4:req.body.answer4text,
+      D: req.body.ans4,
+      ans5: req.body.ans5text,
+      E: req.body.an5,
+      ans6: null,
+      F: null,
+      correct: temp,
+      mult: 1,
+    }
+  }else{
+    question = {
+      quest: req.body.q,
+      ans1: req.body.ans1text,
+      A: req.body.an1,
+      ans2: req.body.ans2text,
+      B: req.body.ans2,
+      ans3: req.body.anstext3,
+      C: req.body.ans3,
+      ans4:req.body.answer4text,
+      D: req.body.ans4,
+      ans5: req.body.ans5text,
+      E: req.body.an5,
+      ans6: req.body.ans6text,
+      F: an6,
+      correct: temp,
+      mult: 1,
+    }
+    const insert = 'insert into QUESTION(QUESTION_TEXT, ANSWER_ONE_TEXT, ANSWER_ONE, ANSWER_TWO_TEXT, ANSWER_TWO, ANSWER_THREE_TEXT, ANSWER_THREE, ANSWER_FOUR_TEXT, ANSWER_FOUR, ANSWER_FIVE_TEXT, ANSWER_FIVE, ANSWER_SIX_TEXT, ANSWER_SIX, CORRECT, IS_MULTIPLE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+     var values = [question.quest, question.ans1, question.A,
+       question.ans2, question.B, question.ans3,
+       question.C, question.ans4, question.D,
+       question.ans5, question.E, question.ans6, question.F, question.correct, question.mult] 
+  }
+})
+        
+        
 router.post('/upload', input.single('file'), (req, res) => {
   const results = []
   const temp = req.file

@@ -8,12 +8,12 @@ class CreateQuestion extends Component {
     this.state = {
       isMult : false,
       questionText : '',
-      ans1text : '',
-      ans2text : '',
-      ans3text : '',
-      ans4text : '',
-      ans5text : '',
-      ans6text : '',
+      ans1text : null,
+      ans2text : null,
+      ans3text : null,
+      ans4text : null,
+      ans5text : null,
+      ans6text : null,
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -35,27 +35,37 @@ class CreateQuestion extends Component {
 
   onSubmit(e){
     e.preventDefault()
-    //console.log(this.state.isMult)
-    /* console.log(this.state.userName);
-    
-    const newUser = {
-      name: this.state.userName,
-      email: this.state.userEmail,
-      password: this.state.password,
-      password2: this.state.password2,
-    }
-
-    console.log(newUser);
-    
-
-    axios.post('/api/users/updatePassword', newUser)
-         .then(res => {
-           if(res.data.output == 'good'){
-             window.location = '/userdashboard'
-           }
-         })
-         .catch(err => this.setState({errors: err.response.data}))
-         */
+    var quest
+    if(this.state.isMult == false){
+        quest = {
+        q: this.state.questionText,
+        mult: this.state.isMult,
+        ans1text: this.state.ans1text,
+        ans2text: this.state.ans2text,
+    }  
+    }else{
+        quest = {
+            q: this.state.questionText,
+            mult: this.state.isMult,
+            ans1text: this.state.ans1text,
+            an1: 'A',
+            ans2text: this.state.ans2text,
+            an2: 'B',
+            ans3text: this.state.ans3text,
+            an3: 'C',
+            ans4text: this.state.ans4text,
+            ans4: 'D',
+            ans5text: this.state.ans5text,
+            an5: 'E',
+            ans6text: this.state.ans6text,
+            an6: 'F',
+        }
+    }  
+    console.log(quest)
+    axios.post('/api/admin/makeQuestion', quest)
+        .then(res =>{
+            
+        })
   }
   render() {
     const { errors } = this.state;
