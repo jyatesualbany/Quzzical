@@ -11,7 +11,14 @@ class UploadTest extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this)
     }
-
+    componentDidMount(){
+        axios.post('/api/users/current', {})
+          .then(res => {
+            if(res.data.bad == 'bad'){
+              window.location = '/'
+            }
+        }) 
+    }
     //take in csv file from rendering
     onSubmit(e) {
         e.preventDefault()

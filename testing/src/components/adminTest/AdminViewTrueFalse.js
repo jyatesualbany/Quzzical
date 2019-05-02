@@ -9,7 +9,6 @@ class TrueFalse extends React.Component {
       question: props.q,
       answer: props.answer,
       questionNum: props.questionNum,
-
       pickedAnswer: null,
       saved: "unsaved",
       savedCSS: "btn btn-danger btn-space float-right",

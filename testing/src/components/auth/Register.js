@@ -21,7 +21,14 @@ class Register extends Component {
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
-
+  componentDidMount(){
+       axios.post('/api/users/current', {})
+         .then(res => {
+           if(res.data.bad == 'bad'){
+             window.location = '/'
+           }
+       }) 
+   }
   onSubmit(e){
     e.preventDefault()
 

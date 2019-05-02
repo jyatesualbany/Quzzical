@@ -23,6 +23,9 @@ class CreateQuestion extends React.Component{
             this.setState({quest: e.target.value})
         }
     }
+    onSubmit(e){
+        
+    }
 
     render(){
         return(

@@ -21,6 +21,9 @@ class UpdatePassword extends Component {
     axios.post('/api/users/current', {})
       .then(res => {
         // console.log(res.data.email)
+        if(res.data.bad == 'bad'){
+          window.location = '/'
+        }
         this.setState({
           userEmail: res.data.email,
           userName: res.data.name

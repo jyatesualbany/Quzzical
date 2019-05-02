@@ -9,6 +9,14 @@ class Upload extends Component{
             selectedFile: null
         }
     }
+componentDidMount(){
+        axios.post('/api/users/current', {})
+          .then(res => {
+            if(res.data.bad == 'bad'){
+              window.location = '/'
+            }
+        }) 
+    }
     onChangeHandler= e =>{
         this.setState({selectedFile: e.target.files[0]}, () =>{
             console.log(this.state.selectedFile)
