@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index.js --ignore './testing/'",
     "testing": "npm start --prefix testing",
-    "dev": "concurrently \"npm run server\" \"npm run testing\""
+    "start": "concurrently \"npm run server\" \"npm run testing\""
   },
   "author": "sean",
   "license": "ISC",
