@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/styles.css';
+import { log } from 'util';
 
 class MultipleChoice extends React.Component {
   constructor(props){
@@ -38,6 +39,8 @@ class MultipleChoice extends React.Component {
             this.setState({saved: "saved"})
             this.setState({savedCSS: "btn btn-success btn-space float-right"})
         }
+        console.log(this.state);
+        
     })
     //this.setState({isChecked:true})
   }
@@ -92,6 +95,18 @@ class MultipleChoice extends React.Component {
                         <label>
                             <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a4} onChange={this.onChange} />
                             {this.state.answer4}
+                        </label>
+                    </div>
+                   <div className="radio float-left radio-space-wrapper">
+                        <label>
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a5} onChange={this.onChange} />
+                            {this.state.answer5}
+                        </label>
+                    </div>
+                    <div className="radio float-left radio-space-wrapper">
+                        <label>
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a6} onChange={this.onChange} />
+                            {this.state.answer6}
                         </label>
                     </div>
                 </tr>
