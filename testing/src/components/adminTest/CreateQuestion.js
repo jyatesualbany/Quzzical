@@ -14,6 +14,7 @@ class CreateQuestion extends Component {
       ans4text : null,
       ans5text : null,
       ans6text : null,
+      correctAnswer : '',
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -72,125 +73,191 @@ class CreateQuestion extends Component {
         return (
         <div className="createQuestion">
             <div className="container">
+            {/*<form>*/}
             <div className="row">
                 <div className="col-lg-12 m-auto">
                     <h1 className="display-4 text-center">Create your question</h1>
+                    <p className="lead text-4">Select the correct answer from the buttons on the left</p>
                     <label className="lead text-center">
                         <input className="form-check-input float-right" type="checkbox" onClick={this.isChecked}/>
                         True/False?
                     </label>
                 </div>
                 <div className="col-lg-12 m-auto">
-                <form noValidate onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password
-                        })}
-                        placeholder="Question Text"
-                        name="questionText"
-                        value={this.state.questionText}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password && (
-                        <div className="invalid-feedback">{errors.password}</div>
-                    )}*/}
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Question Text"
+                            name="questionText"
+                            value={this.state.questionText}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password2
-                        })}
-                        placeholder="Answer 1 Text"
-                        name="ans1text"
-                        value={this.state.ans1text}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password2 && (
-                        <div className="invalid-feedback">{errors.password2}</div>
-                    )}*/}
+                  </div>
+                <table className="col-lg-12 m-auto">
+                <tr>
+                    <td>
+                      <div className="radio float-left radio-space-wrapper">
+                          <label>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="1" id="defaultChecked" onChange={this.onChange}/>
+                              {this.state.answer1}
+                          </label> 
+                      </div>
+                    </td>
+                    <td>
+                    <div className="col-lg-12 m-auto">
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Answer 1 Text"
+                            name="ans1text"
+                            value={this.state.ans1text}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password2
-                        })}
-                        placeholder="Answer 2 Text"
-                        name="ans2text"
-                        value={this.state.ans2text}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password2 && (
-                        <div className="invalid-feedback">{errors.password2}</div>
-                    )}*/}
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <div className="radio float-left radio-space-wrapper">
+                          <label>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="2" onChange={this.onChange}/>
+                              {this.state.answer1}
+                          </label> 
+                      </div>
+                    </td>
+                    <td>
+                    <div className="col-lg-12 m-auto">
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Answer 2 Text"
+                            name="ans2text"
+                            value={this.state.ans2text}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password2
-                        })}
-                        placeholder="Answer 3 text"
-                        name="ans3text"
-                        value={this.state.ans3text}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password2 && (
-                        <div className="invalid-feedback">{errors.password2}</div>
-                    )}*/}
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <div className="radio float-left radio-space-wrapper">
+                          <label>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="3" onChange={this.onChange}/>
+                              {this.state.answer1}
+                          </label> 
+                      </div>
+                    </td>
+                    <td>
+                    <div className="col-lg-12 m-auto">
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Answer 3 Text"
+                            name="ans3text"
+                            value={this.state.ans3text}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password2
-                        })}
-                        placeholder="Answer 4 text"
-                        name="ans4text"
-                        value={this.state.ans4text}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password2 && (
-                        <div className="invalid-feedback">{errors.password2}</div>
-                    )}*/}
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <div className="radio float-left radio-space-wrapper">
+                          <label>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="4" onChange={this.onChange}/>
+                              {this.state.answer1}
+                          </label> 
+                      </div>
+                    </td>
+                    <td>
+                    <div className="col-lg-12 m-auto">
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Answer 4 Text"
+                            name="ans4text"
+                            value={this.state.ans4text}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password2
-                        })}
-                        placeholder="Answer 5 text"
-                        name="ans5text"
-                        value={this.state.ans5text}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password2 && (
-                        <div className="invalid-feedback">{errors.password2}</div>
-                    )}*/}
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <div className="radio float-left radio-space-wrapper">
+                          <label>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="5" onChange={this.onChange}/>
+                              {this.state.answer1}
+                          </label> 
+                      </div>
+                    </td>
+                    <td>
+                    <div className="col-lg-12 m-auto">
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Answer 5 Text"
+                            name="ans5text"
+                            value={this.state.ans5text}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <div className="form-group">
-                    <input
-                        type="text"
-                        className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password2
-                        })}
-                        placeholder="Answer 6 text"
-                        name="ans6text"
-                        value={this.state.ans6text}
-                        onChange={this.onChange}
-                    />
-                    {/*{errors.password2 && (
-                        <div className="invalid-feedback">{errors.password2}</div>
-                    )}*/}
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <div className="radio float-left radio-space-wrapper">
+                          <label>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="6" onChange={this.onChange}/>
+                              {this.state.answer1}
+                          </label> 
+                      </div>
+                    </td>
+                    <td>
+                    <div className="col-lg-12 m-auto">
+                        <div className="form-group">
+                        <input
+                            type="text"
+                            className={classnames('form-control form-control-lg', {
+                            'is-invalid': errors.password
+                            })}
+                            placeholder="Answer 6 Text"
+                            name="ans6text"
+                            value={this.state.ans6text}
+                            onChange={this.onChange}
+                        />
                     </div>
-                    <input type="submit" className="btn btn-info btn-block mt-4" />
-                </form>
-                </div>
+                  </div>
+                  </td>
+                </tr>
+                </table>
+                    <input type="submit" className="btn btn-info btn-block mt-4" onClick={this.onSubmit}/>
             </div>
+            {/*</form>*/}
             </div>
         </div>
         );
