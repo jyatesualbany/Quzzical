@@ -88,7 +88,7 @@ class Test extends React.Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
               <button type="button" class="btn btn-success btn-space" name="isStarted" onClick={this.onChange} value = "true">Yes</button>
-              <button type="button" class="btn btn-danger btn-space" name="isStarted" value = "false">No</button>
+              <Link className="btn btn-danger btn-space" to="/userdashboard" name="isStarted" value = "false">No </Link>
           </div>
         </form>
         </div>

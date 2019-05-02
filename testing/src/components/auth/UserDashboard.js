@@ -68,7 +68,7 @@ class Dashboard extends React.Component {
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       let grade = this.state.testList[i].grade
-      console.log("grade", grade)
+      //console.log("grade", grade)
       if(grade != null){
         count = count + 1
         average += grade
@@ -103,7 +103,7 @@ class Dashboard extends React.Component {
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
-    console.log("count", count)
+    //console.log("count", count)
     average = Number((average/count ).toFixed(2))
     if(average < 65){ 
       list.push(<div className="btn btn-danger btn-space">Average: {average}</div>)

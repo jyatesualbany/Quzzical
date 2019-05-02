@@ -41,7 +41,7 @@ class CreateQuestion extends Component {
     if(this.state.isMult == false){
         quest = {
         q: this.state.questionText,
-        mult: this.state.isMult,
+        isMult: false,
         ans1text: this.state.ans1text,
         ans2text: this.state.ans2text,
         correct: this.state.correctAnswer
@@ -68,7 +68,9 @@ class CreateQuestion extends Component {
     console.log(quest)
     axios.post('/api/admin/makeQuestion', quest)
         .then(res =>{
-            
+            if(res.data.output == 'good'){
+              window.location='/admindashboard'
+            }
         })
   }
   render() {

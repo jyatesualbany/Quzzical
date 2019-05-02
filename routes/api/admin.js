@@ -186,11 +186,13 @@ router.post('/makeQuestion', (req, result) => {
        question.ans2, question.B, question.ans3,
        question.C, question.ans4, question.D,
        question.ans5, question.E, question.ans6, question.F, question.correct, question.mult] 
+    console.log(question)   
     db.query(insert, values, (err, res) => {
     if(err){
       return console.log(err.stack)
     }else{
       console.log('question add')
+      return result.json({output: 'good'})
     }
   })
 })
