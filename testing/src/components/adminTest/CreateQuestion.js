@@ -6,7 +6,7 @@ class CreateQuestion extends Component {
   constructor(){
     super()
     this.state = {
-      isMult : false,
+      isMult : true,
       questionText : '',
       ans1text : null,
       ans2text : null,
@@ -14,7 +14,7 @@ class CreateQuestion extends Component {
       ans4text : null,
       ans5text : null,
       ans6text : null,
-      correctAnswer : '',
+      correctAnswer : "A",
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -36,6 +36,7 @@ class CreateQuestion extends Component {
 
   onSubmit(e){
     e.preventDefault()
+    //console.log(this.state.ans6text)
     var quest
     if(this.state.isMult == false){
         quest = {
@@ -43,23 +44,25 @@ class CreateQuestion extends Component {
         mult: this.state.isMult,
         ans1text: this.state.ans1text,
         ans2text: this.state.ans2text,
+        correct: this.state.correctAnswer
     }  
     }else{
         quest = {
             q: this.state.questionText,
             mult: this.state.isMult,
             ans1text: this.state.ans1text,
-            an1: 'A',
+            ans1: 'A',
             ans2text: this.state.ans2text,
-            an2: 'B',
+            ans2: 'B',
             ans3text: this.state.ans3text,
-            an3: 'C',
+            ans3: 'C',
             ans4text: this.state.ans4text,
             ans4: 'D',
             ans5text: this.state.ans5text,
-            an5: 'E',
+            ans5: 'E',
             ans6text: this.state.ans6text,
-            an6: 'F',
+            ans6: 'F',
+            correct: this.state.correctAnswer
         }
     }  
     console.log(quest)
@@ -102,7 +105,7 @@ class CreateQuestion extends Component {
                     <td>
                       <div className="radio float-left radio-space-wrapper">
                           <label>
-                              <input className="radio-space" name="correctAnswer" type="radio" value="1" id="defaultChecked" onChange={this.onChange}/>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="A" id="defaultChecked" onChange={this.onChange}/>
                               {this.state.answer1}
                           </label> 
                       </div>
@@ -128,7 +131,7 @@ class CreateQuestion extends Component {
                     <td>
                       <div className="radio float-left radio-space-wrapper">
                           <label>
-                              <input className="radio-space" name="correctAnswer" type="radio" value="2" onChange={this.onChange}/>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="B" onChange={this.onChange}/>
                               {this.state.answer1}
                           </label> 
                       </div>
@@ -154,7 +157,7 @@ class CreateQuestion extends Component {
                     <td>
                       <div className="radio float-left radio-space-wrapper">
                           <label>
-                              <input className="radio-space" name="correctAnswer" type="radio" value="3" onChange={this.onChange}/>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="C" onChange={this.onChange}/>
                               {this.state.answer1}
                           </label> 
                       </div>
@@ -180,7 +183,7 @@ class CreateQuestion extends Component {
                     <td>
                       <div className="radio float-left radio-space-wrapper">
                           <label>
-                              <input className="radio-space" name="correctAnswer" type="radio" value="4" onChange={this.onChange}/>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="D" onChange={this.onChange}/>
                               {this.state.answer1}
                           </label> 
                       </div>
@@ -206,7 +209,7 @@ class CreateQuestion extends Component {
                     <td>
                       <div className="radio float-left radio-space-wrapper">
                           <label>
-                              <input className="radio-space" name="correctAnswer" type="radio" value="5" onChange={this.onChange}/>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="E" onChange={this.onChange}/>
                               {this.state.answer1}
                           </label> 
                       </div>
@@ -232,7 +235,7 @@ class CreateQuestion extends Component {
                     <td>
                       <div className="radio float-left radio-space-wrapper">
                           <label>
-                              <input className="radio-space" name="correctAnswer" type="radio" value="6" onChange={this.onChange}/>
+                              <input className="radio-space" name="correctAnswer" type="radio" value="F" onChange={this.onChange}/>
                               {this.state.answer1}
                           </label> 
                       </div>

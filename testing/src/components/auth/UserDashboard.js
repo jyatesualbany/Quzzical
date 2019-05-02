@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
           this.setState({
             testList: res.data.testList
           })
-        console.log(this.state.testList[0].grade)
+        //console.log(this.state.testList[0].grade)
           //console.log(this.state.testList[0].TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
@@ -64,24 +64,35 @@ class Dashboard extends React.Component {
         </tr>
       </thead>
     )
+    let count = 0
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
       let grade = this.state.testList[i].grade
-      average += grade
+      console.log("grade", grade)
+      if(grade != null){
+        count = count + 1
+        average += grade
+      }
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
-      children.push(<td><Link className="btn btn-success btn-space" to={{
-        pathname: "/Test",
-        state: { 
-          testId : this.state.testList[i].testId,
-          timeLimit : this.state.testList[i].timeLimit,
-          testName : this.state.testList[i].testName,
-          testGrade: this.state.testList[i].grade
-        }
-      }}>Take Test</Link></td>)
+      if(grade == null){
+        children.push(<td><Link className="btn btn-success btn-space" to={{
+          pathname: "/Test",
+          state: { 
+            testId : this.state.testList[i].testId,
+            timeLimit : this.state.testList[i].timeLimit,
+            testName : this.state.testList[i].testName,
+            testGrade: this.state.testList[i].grade
+          }
+        }}>Take Test</Link></td>)
+      }else{
+        children.push(<td> <div className="btn btn-primary btn-space"> Test Was Taken </div></td>)
+      }
       //children.push(<td>{this.state.testList[i].grade}</td>)
-      if(grade < 65){
+      if(grade == null){
+        children.push(<td> <div className="btn btn-primary btn-space"> N/A </div></td>)
+      }else if(grade < 65){
         children.push(<td> <div className="btn btn-danger btn-space"> {grade} </div></td>)
       }else if(grade >= 65 && grade < 85){
         children.push(<td> <div className="btn btn-warning btn-space"> {grade} </div></td>)
@@ -92,9 +103,9 @@ class Dashboard extends React.Component {
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
-
-    average = average/this.state.testList.length
-    if(average < 65){
+    console.log("count", count)
+    average = Number((average/count ).toFixed(2))
+    if(average < 65){ 
       list.push(<div className="btn btn-danger btn-space">Average: {average}</div>)
     }else if(average >= 65 && average < 85){
       list.push(<div className="btn btn-warning btn-space">Average: {average}</div>)
