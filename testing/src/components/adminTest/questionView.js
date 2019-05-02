@@ -34,7 +34,7 @@ class questionView extends React.Component {
       return<TrueFalse {...this.state.question}> </TrueFalse>
     }
     else{
-      //console.log("MULT:", this.state.question)
+      console.log("MULT:", this.state.question)
       return<MultipleChoice {...this.state.question}> </MultipleChoice>
     }
   }

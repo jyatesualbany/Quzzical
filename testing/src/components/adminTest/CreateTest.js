@@ -60,6 +60,7 @@ class CreateTest extends React.Component {
         correct: x.CORRECT,
         isChecked: false
       }
+      return input
     }
   }
   componentDidMount(){

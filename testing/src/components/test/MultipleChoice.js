@@ -17,6 +17,10 @@ class MultipleChoice extends React.Component {
         a3: props.answer3,
       answer4: props.answer4Text,
         a4: props.answer4,
+      answer5: props.answer5Text,
+        a5: props.answer5,
+      answer6: props.answer6Text,
+        a6: props.answer6,    
       questionNum: props.questionNum,
       pickedAnswer: null,
       isChecked: false,
@@ -93,6 +97,18 @@ class MultipleChoice extends React.Component {
                         <label>
                             <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a4} onChange={this.onChange} />
                             {this.state.answer4}
+                        </label>
+                    </div>
+                    <div className="radio float-left radio-space-wrapper">
+                        <label>
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a5} onChange={this.onChange} />
+                            {this.state.answer5}
+                        </label>
+                    </div>
+                    <div className="radio float-left radio-space-wrapper">
+                        <label>
+                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a6} onChange={this.onChange} />
+                            {this.state.answer6}
                         </label>
                     </div>
                 </tr>
