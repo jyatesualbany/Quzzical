@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index.js --ignore './testing/'",
     "testing": "npm start --prefix testing",
-    "start": "concurrently \"npm run server\" \"npm run testing\""
+    "dev": "concurrently \"npm run server\" \"npm run testing\"",
+    "heroku-postbuild":
+      "NPM_CONFIG_PRODUCTION=false npm install --prefix testing && npm run build --prefix testing"
   },
   "author": "sean",
   "license": "ISC",

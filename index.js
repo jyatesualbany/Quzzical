@@ -28,4 +28,12 @@ app.use('/api/admin', admins)
 
 const port = process.env.PORT || 5000;
 
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('testing/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'testing', 'build', 'index.html'));
+  });
+}
 app.listen(port, () => console.log(`Server runing on port ${port}`))
