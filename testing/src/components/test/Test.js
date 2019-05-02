@@ -43,6 +43,7 @@ class Test extends React.Component {
           this.setState({
             grade: res.data.grade
           })
+          window.location = '/userdashboard'
         }).catch(err => this.setState({errors: err.response.data}))
   }
 
