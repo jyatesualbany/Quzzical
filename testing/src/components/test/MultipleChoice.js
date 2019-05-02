@@ -1,11 +1,13 @@
 import React from 'react';
 import '../styles/styles.css';
+import axios from 'axios';
 
 class MultipleChoice extends React.Component {
   constructor(props){
     super()
     this.state = {
-        questionID: props.questionId,
+        utID: props.usertestId,
+        qID: props.questionId,
       question: props.questionText,
       answer1: props.answer1Text,
         a1: props.answer1,
@@ -33,6 +35,9 @@ class MultipleChoice extends React.Component {
             //console.log(this.state.pickedAnswer)
             this.setState({saved: "saved"})
             this.setState({savedCSS: "btn btn-success btn-space float-right"})
+            axios.post('/api/users/selectAnswer',
+                {pickedAnswer: this.state.pickedAnswer, utID: this.state.utID, qID: this.state.qID })
+                .catch(err =>  console.log(err.response.data))
         }
     })
     //this.setState({isChecked:true})

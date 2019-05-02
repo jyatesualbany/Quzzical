@@ -3,6 +3,7 @@ import TrueFalse from './TrueFalse.js'
 import '../styles/styles.css';
 import axios from 'axios' 
 import MultipleChoice from './MultipleChoice.js';
+import {Link} from "react-router-dom";
 
 const questions = {
   questionListFromDB : []
@@ -18,6 +19,7 @@ class Test extends React.Component {
       testDescription: props.testDescription,
       isStarted: props.isStarted,
       questionListFromDB : [],
+      grade: '',
       counter: 0,
       errors: {}
 
@@ -29,14 +31,21 @@ class Test extends React.Component {
   onChange(e){
     this.setState({[e.target.name]: e.target.value})
     //Post to answers
-    axios.post('api/users/answers', )
+
     
   }
   onSubmit(e){
     e.preventDefault()
-    console.log('hi');
-    
+    axios.post('/api/users/grade',
+        {usertestId: this.state.questionListFromDB[0].usertestId} )
+        .then(res => {
+          console.log(res)
+          this.setState({
+            grade: res.data.grade
+          })
+        }).catch(err => this.setState({errors: err.response.data}))
   }
+
   componentDidMount(){
     axios.post('/api/users/current')
         .then(res => {
@@ -52,7 +61,8 @@ class Test extends React.Component {
           this.setState({
             questionListFromDB: res.data.questionList,
           })
-        }).catch(err =>  console.log(err.response.data))
+        }).catch(err =>  console.log(err))
+
 
   }
 
@@ -96,8 +106,10 @@ class Test extends React.Component {
           <form onSubmit={this.onSubmit}>
               {this.createTest()}
             <div className="form-group">
+              <Link className="btn btn-success btn-space" to="/userdashboard"
+                  // onClick={this.createTest.bind(this, this.state.questionList)}>Create Test</Link>
+                    onClick={this.onSubmit.bind(this)}>Submit Test</Link>
             </div>
-            <input type="submit"Enter className="btn btn-info btn-block mt-4" />
           </form>
         </div>
       </div>

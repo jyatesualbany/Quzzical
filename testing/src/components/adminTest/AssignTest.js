@@ -9,7 +9,8 @@ class AssignTest extends React.Component {
     super()
     this.state = {
       isAdmin : true,
-      test : props.location.state.test,
+      test: props.location.state.test,
+      testID: props.location.state.test.tID,
       testName: props.location.state.test.tn,
       testDesc: props.location.state.test.td,
       testTime: props.location.state.test.tl,
@@ -31,6 +32,7 @@ class AssignTest extends React.Component {
             array.push(x)
         })
         this.setState({ userList: array })
+
     })
   }
   onChange(e){
@@ -92,20 +94,19 @@ class AssignTest extends React.Component {
     //console.log('this the the create test fn: ' + this.state.testName);
     
     const input = {
-      test: selectedUsers,
-      tName: this.state.testName,
-      tDes: this.state.testDesc,
-      tTime: this.state.testTime,
-      dateTime: this.state.dateTime
+      users: selectedUsers,
+      testID: this.state.testID,
+      test: this.state.test
     } 
    
-    axios.post('/api/admin/assginTest', input)
+    axios.post('/api/admin/assignTest', input)
       .then(res => {
         console.log('it worked')
       })
     //console.log("SELECTED QUESTIONS:", selectedUsers)
     //console.log("Test Name:", this.state.testName)
     // QUERY DB WITH LIST OF SELECTED QUESTIONS AND TEXT FROM INPUT BOXES
+
   }
   render() {
           return(
