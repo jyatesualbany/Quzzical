@@ -113,8 +113,8 @@ router.post('/upload', input.single('file'), (req, res) => {
   const temp = req.file
   fs.createReadStream(temp.path).pipe(csv()).on('data', (data) => results.push(data))
       .on('end', () => {
-        //use results[i]
-        // console.log(results[0][9])
+        // use results[i]
+        console.log('length of results' + results[0].length)
         var question = {
           quest: null,
           ans1: null,
@@ -142,6 +142,14 @@ router.post('/upload', input.single('file'), (req, res) => {
               results[i][j] = results[i][j].charAt(1)
               temp=results[i][j]
               //or change to results[i][j] if you want to store A_ instead
+            }
+            if(j == 9){
+              an5 = results[i][j];
+              e = results[i][j+1]
+            }
+            if(j == 11){
+              an6 = results[i][j]
+              f = results[i][j+1]
             }
           }
 
@@ -171,6 +179,7 @@ router.post('/upload', input.single('file'), (req, res) => {
             question.ans6 = null;
             question.F = null;
           }
+
           //----------------------------------------------------
           // DB stuff goes here
           const insert = 'insert into QUESTION(QUESTION_TEXT, ANSWER_ONE_TEXT, ANSWER_ONE, ANSWER_TWO_TEXT, ANSWER_TWO, ANSWER_THREE_TEXT, ANSWER_THREE, ANSWER_FOUR_TEXT, ANSWER_FOUR, ANSWER_FIVE_TEXT, ANSWER_FIVE, ANSWER_SIX_TEXT, ANSWER_SIX, CORRECT, IS_MULTIPLE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
@@ -179,12 +188,11 @@ router.post('/upload', input.single('file'), (req, res) => {
             question.C, question.ans4, question.D,
             question.ans5, question.E, question.ans6, question.F, question.correct, 1]
 
-          // console.log(question)
           db.query(insert, values, (err, res) => {
             if(err){
               return console.log(err.stack)
             }else{
-              //console.log('test add')
+              console.log('test add')
             }
           })
         }
@@ -334,9 +342,7 @@ router.get('/test', (req, result) => {
             name: results[i].NAME
           }
           questionList.push(question)
-          // console.log(questionList[i].testTime)
         }
-        //console.log("TESTLIST:" + testList)
         return result.json({
           questionList
         })

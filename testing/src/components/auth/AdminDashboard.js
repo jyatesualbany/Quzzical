@@ -64,6 +64,7 @@ class Dashboard extends React.Component {
         isMult: x.IS_MULTIPLE,
         correct: x.CORRECT
       }
+      return input
     }
   }
   componentDidMount(){
@@ -81,7 +82,7 @@ class Dashboard extends React.Component {
     
     axios.post('/api/admin/getQuestion', {})
       .then(res => {
-        //console.log(res.data.ques)
+        console.log(res.data)
         var array = []
         res.data.ques.forEach(x => {
           if(x.IS_MULTIPLE == 0){
@@ -100,6 +101,7 @@ class Dashboard extends React.Component {
           }else{
             var input = {}
             input = this.makeObj(input, x)
+
             // console.log(input);
             array.push(input)
           }
@@ -107,7 +109,7 @@ class Dashboard extends React.Component {
         this.setState({
           questionList: array 
         })
-        //console.log(this.state.questionList[2].qID)
+        console.log(this.state.questionList)
       })
 
     axios.post('/api/admin/getTest', {})
