@@ -13,7 +13,7 @@ const db = connection.db
 // @desc    Tests users route
 // @access  Public
 router.get('/test', (req, result) => {
-  const select = 'SELECT UT.TEST_ID, T.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
+  const select = 'SELECT UT.TEST_ID, UT.USER_TEST_ID, T.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
       'WHERE UT.USER_ID=?'
@@ -32,6 +32,7 @@ router.get('/test', (req, result) => {
       for(let i =0; i<results.length; i++){
         let test = {
           testId : results[i].TEST_ID,
+          usertestId : results[i].USER_TEST_ID,
           testDesc : results[i].TEST_DESCRIPTION,
           testName : results[i].NAME,
           timeLimit: results[i].TIME_LIMIT
@@ -111,7 +112,7 @@ router.post('/current', (req, result) => {
 })
 
 router.post('/getTest', (req, result) => {
-  const select = 'SELECT Q.*, UT.FINISHED, T.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME FROM USER_TEST UT\n'+
+  const select = 'SELECT Q.*, UT.FINISHED, T.TEST_DESCRIPTION, TA.TIME_LIMIT, T.NAME, UT.USER_TEST_ID FROM USER_TEST UT\n'+
   'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n'+
   'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n'+
   'INNER JOIN TEST_LIST TL on T.TEST_ID = TL.TEST_ID\n' +
@@ -132,6 +133,7 @@ router.post('/getTest', (req, result) => {
       //console.log("test id: " + results[0].TEST_ID)
       for(let i =0; i<results.length; i++){
         let question = {
+          usertestId: results[i].USER_TEST_ID,
           questionId: results[i].QUESTION_ID,
           questionText: results[i].QUESTION_TEXT,
           answer1Text: results[i].ANSWER_ONE_TEXT,
@@ -167,7 +169,50 @@ router.post('/updatePassword', (req, result) => {
   db.query(update, (err, res) => {
     if(err) throw err
     return result.json({output: 'good'})
-  })  
+  })
 })
 
+
+router.post('/selectAnswer', (req, result) => {
+  console.log(req.body);
+  let update = 'UPDATE ANSWERS SET SELECTED = ? WHERE USER_TEST_ID = ? AND QUESTION_ID = ?;'
+  let values = [req.body.pickedAnswer, req.body.utID, req.body.qID]
+  db.query(update, values, (err, res) => {
+    if(err) throw err
+    return result.json({output: 'good'})
+  })
+})
+
+router.post('/grade', (req, result) => {
+    let g;
+  let t;
+  let tc;
+  let total = 'SELECT COUNT(*) AS count FROM ANSWERS WHERE USER_TEST_ID = ?;'
+  let totalCorrect = 'SELECT COUNT(*) AS correct FROM ANSWERS A\n' +
+      'INNER JOIN QUESTION Q on A.QUESTION_ID = Q.QUESTION_ID\n' +
+      'WHERE A.USER_TEST_ID = ? AND  A.SELECTED = Q.CORRECT;'
+
+    db.query(total, req.body.usertestId,(err, res, fields) => {
+      let questionList = []
+      if(err){
+        return console.error(err.stack);
+      }else {
+        console.log(res[0].count)
+        t = res[0].count
+        db.query(totalCorrect, req.body.usertestId, (err, res) => {
+          if(err) {
+            return console.error(err.stack);
+          }
+          else {
+            tc = res[0].correct
+            let grade = tc / t * 100;
+            console.log(grade)
+              g = grade
+          }
+        })
+          return result.json({redirect: '/userdashboard' , grade: g})
+      }
+    })
+
+})
 module.exports = router;
