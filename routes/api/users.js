@@ -13,7 +13,7 @@ const db = connection.db
 // @desc    Tests users route
 // @access  Public
 router.get('/test', (req, result) => {
-  const select = 'SELECT UT.TEST_ID, UT.USER_TEST_ID, T.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
+  const select = 'SELECT UT.TEST_ID, UT.USER_TEST_ID, UT.GRADE, T.TEST_DESCRIPTION, T.NAME, TA.TIME_LIMIT FROM USER_TEST UT\n' +
       'INNER JOIN TEST_ASSIGNMENT TA on UT.TEST_ID = TA.TEST_ID\n' +
       'INNER JOIN TEST T on TA.TEST_ID = T.TEST_ID\n' +
       'WHERE UT.USER_ID=?'
@@ -35,8 +35,10 @@ router.get('/test', (req, result) => {
           usertestId : results[i].USER_TEST_ID,
           testDesc : results[i].TEST_DESCRIPTION,
           testName : results[i].NAME,
-          timeLimit: results[i].TIME_LIMIT
+          timeLimit: results[i].TIME_LIMIT,
+          grade: results[i].GRADE
         }
+        console.log(test.grade)
         testList.push(test)
       }
       //console.log("TESTLIST:" + testList)
@@ -184,7 +186,7 @@ router.post('/selectAnswer', (req, result) => {
 })
 
 router.post('/grade', (req, result) => {
-    let g;
+
   let t;
   let tc;
   let total = 'SELECT COUNT(*) AS count FROM ANSWERS WHERE USER_TEST_ID = ?;'
@@ -207,12 +209,15 @@ router.post('/grade', (req, result) => {
             tc = res[0].correct
             let grade = tc / t * 100;
             console.log(grade)
-              g = grade
+            let update2 = 'UPDATE USER_TEST SET GRADE = ?, FINISHED = \'y\' WHERE USER_TEST_ID = ?;'
+            let values2 = [grade, req.body.usertestId]
+            db.query(update2, values2, (err, res) => {
+              if(err) throw err
+              return result.json({output: 'good'})
+            })
           }
         })
-          return result.json({redirect: '/userdashboard' , grade: g})
       }
     })
-
 })
 module.exports = router;

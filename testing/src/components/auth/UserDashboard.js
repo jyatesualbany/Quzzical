@@ -11,6 +11,7 @@ class Dashboard extends React.Component {
       userEmail: '',
       userType: '',
       userId: '',
+      testGrade: '',
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -37,6 +38,7 @@ class Dashboard extends React.Component {
           this.setState({
             testList: res.data.testList
           })
+        console.log(this.state.testList[0].grade)
           //console.log(this.state.testList[0].TEST_ID)
         }).catch(err =>  console.log(err.response.data))
   }
@@ -64,6 +66,8 @@ class Dashboard extends React.Component {
     )
     for (let i = 0; i < this.state.testList.length; i++) {
       let children = []
+      let grade = this.state.testList[i].grade
+      average += grade
       children.push(<td className="align-middle">{i+1}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testName}</td>)
       children.push(<td className="align-middle">{this.state.testList[i].testId}</td>)
@@ -72,23 +76,30 @@ class Dashboard extends React.Component {
         state: { 
           testId : this.state.testList[i].testId,
           timeLimit : this.state.testList[i].timeLimit,
-          testName : this.state.testList[i].testName
+          testName : this.state.testList[i].testName,
+          testGrade: this.state.testList[i].grade
         }
       }}>Take Test</Link></td>)
-      children.push(<td>{this.state.testList[i].testGrade}</td>)
+      //children.push(<td>{this.state.testList[i].grade}</td>)
+      if(grade < 65){
+        children.push(<div className="btn btn-danger btn-space"> {grade}</div>)
+      }else if(grade >= 65 && grade < 85){
+        children.push(<div className="btn btn-warning btn-space"> {grade}</div>)
+      }else if(grade > 85){
+        children.push(<div className="btn btn-success btn-space"> {grade}</div>)
+      }
       children.push(<td>{this.state.testList[i].timeLimit}</td>)
-
-      average += this.state.testList[i].testGrade
       //Create the parent and add the children
       list.push(<tr>{children}</tr>)
     }
-    average = average / this.state.testList.length
+
+    average = average/this.state.testList.length
     if(average < 65){
-      list.push(<div className="btn btn-danger btn-space"> Average: {average}</div>)
+      list.push(<div className="btn btn-danger btn-space">Average: {average}</div>)
     }else if(average >= 65 && average < 85){
-      list.push(<div className="btn btn-warning btn-space"> Average: {average}</div>)
+      list.push(<div className="btn btn-warning btn-space">Average: {average}</div>)
     }else if(average > 85){
-      list.push(<div className="btn btn-success btn-space"> Average: {average}</div>)
+      list.push(<div className="btn btn-success btn-space">Average: {average}</div>)
     }
     return list
   }
