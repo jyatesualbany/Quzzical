@@ -30,6 +30,7 @@ class MultipleChoice extends React.Component {
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.createTable = this.createTable.bind(this)
 
   }
   onChange(e){
@@ -46,6 +47,62 @@ class MultipleChoice extends React.Component {
   }
   onSubmit(e){
     e.preventDefault()
+  }
+  createTable = () => {
+    let list = []
+    list.push(<tr>
+      <div className="radio float-left radio-space-wrapper">
+          <label>
+              <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a1} onChange={this.onChange}/>
+              {this.state.answer1}
+          </label> 
+      </div>
+      </tr>)
+  list.push(<tr>
+    <div className="radio float-left radio-space-wrapper">
+        <label>
+            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a2} onChange={this.onChange}/>
+            {this.state.answer2}
+        </label> 
+    </div>
+    </tr>)
+  list.push(<tr>
+    <div className="radio float-left radio-space-wrapper">
+        <label>
+            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a3} onChange={this.onChange}/>
+            {this.state.answer3}
+        </label> 
+    </div>
+    </tr>)
+    list.push(<tr>
+      <div className="radio float-left radio-space-wrapper">
+          <label>
+              <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a4} onChange={this.onChange}/>
+              {this.state.answer4}
+          </label> 
+      </div>
+      </tr>)
+      if(this.state.answer5 != null){
+        list.push(<tr>
+          <div className="radio float-left radio-space-wrapper">
+              <label>
+                  <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a5} onChange={this.onChange}/>
+                  {this.state.answer5}
+              </label> 
+          </div>
+          </tr>)
+      }
+      if(this.state.answer6 != null){
+        list.push(<tr>
+          <div className="radio float-left radio-space-wrapper">
+              <label>
+                  <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a6} onChange={this.onChange}/>
+                  {this.state.answer6}
+              </label> 
+          </div>
+          </tr>)
+      }
+    return list
   }
   render() {
     return (
@@ -65,51 +122,8 @@ class MultipleChoice extends React.Component {
     <div className="row">
         <form onSubmit={this.onSubmit}>
             <div className="float-left">
-            <tabel>
-                <tr>
-                    <div className="radio float-left radio-space-wrapper">
-                        <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a1} onChange={this.onChange}/>
-                            {this.state.answer1}
-                        </label> 
-                    </div>
-                </tr>
-                <tr>
-                    <div className="radio float-left radio-space-wrapper">   
-                        <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a2} onChange={this.onChange}/>
-                            {this.state.answer2}
-                        </label>
-                    </div>
-                </tr>
-                <tr>
-                    <div className="radio float-left radio-space-wrapper">     
-                        <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a3} onChange={this.onChange} />
-                            {this.state.answer3}
-                        </label>
-                    </div>
-                </tr>
-                <tr>
-                    <div className="radio float-left radio-space-wrapper">
-                        <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a4} onChange={this.onChange} />
-                            {this.state.answer4}
-                        </label>
-                    </div>
-                   <div className="radio float-left radio-space-wrapper">
-                        <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a5} onChange={this.onChange} />
-                            {this.state.answer5}
-                        </label>
-                    </div>
-                    <div className="radio float-left radio-space-wrapper">
-                        <label>
-                            <input className="radio-space" name="pickedAnswer" type="radio" value={this.state.a6} onChange={this.onChange} />
-                            {this.state.answer6}
-                        </label>
-                    </div>
-                </tr>
+            <tabel className="table table-striped">
+              {this.createTable()}
             </tabel>
             </div>
         {/*} <input type="submit" Enter className="btn btn-info btn-block mt-4 text-center" />*/}
