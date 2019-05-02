@@ -8,8 +8,7 @@
     "server": "nodemon index.js --ignore './testing/'",
     "testing": "npm start --prefix testing",
     "dev": "concurrently \"npm run server\" \"npm run testing\"",
-    "build": "webpack"
-    
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix testing && npm run build --prefix testing"
   },
   "author": "sean",
   "license": "ISC",
