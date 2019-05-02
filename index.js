@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session')
-
+const path = require('path');
 const users = require('./routes/api/users.js');
 const admins = require('./routes/api/admin.js');
 const app = express();
