@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import update from 'react-addons-update';
+//import update from 'react-addons-update';
 
 
 class CreateTest extends React.Component {

@@ -9,6 +9,7 @@ class AssignTest extends React.Component {
     super()
     this.state = {
       isAdmin : true,
+      test : props.location.state.test,
       testName: props.location.state.test.tn,
       testDesc: props.location.state.test.td,
       testTime: props.location.state.test.tl,

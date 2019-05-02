@@ -70,6 +70,9 @@ class Dashboard extends React.Component {
     axios.post('/api/users/current', userInfo)
       .then(res => {
         // console.log(res.data.email)
+        if(res.data.bad == 'bad'){
+          window.location = '/'
+        }
         this.setState({
           userEmail: res.data.email,
           userName: res.data.name
@@ -249,6 +252,7 @@ class Dashboard extends React.Component {
                       <th scope="col">Email:</th>
                       <th scope="col">Create Account</th>
                       <th scope="col">Create Test</th>
+                      <th scope="col">Create Question</th>
                       <th scope="col">Upload Test</th>
                       <th scope="col">Customize</th>
                     </tr>
@@ -262,10 +266,13 @@ class Dashboard extends React.Component {
                         <Link className="btn btn-warning btn-space" to="/createtest">Create Test</Link>
                       </td>
                       <td className="align-middle">
+                        <Link className="btn btn-warning btn-space" to="/createquestion">Create Question</Link>
+                      </td>
+                      <td className="align-middle">
                         <Link className="btn btn-success btn-space" to="/upload">Upload Test</Link>
                       </td>
                       <td className="align-middle">
-                        <Link className="btn btn-warning btn-space" to="/custom">Customize</Link>
+                        <Link className="btn btn-success btn-space" to="/custom">Customize</Link>
                       </td>
                     </tr>
                   </table>

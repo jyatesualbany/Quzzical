@@ -34,7 +34,7 @@ class AdminCustom extends Component{
                         <form method="post" action="#" id="#">
                             <div className="form-group files">
                                 <label>Upload New Header Image </label>
-                                <input type="file" name="file" onChange={this.onChangeHandler}/>
+                                <input type="file" name="pic" onChange={this.onChangeHandler}/>
                             </div>
                             <button type="button" className="btn btn-success btn-block" onClick={this.onClickHandler}>Upload</button>
                         </form>
