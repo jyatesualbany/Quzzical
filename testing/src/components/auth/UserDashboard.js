@@ -82,11 +82,11 @@ class Dashboard extends React.Component {
       }}>Take Test</Link></td>)
       //children.push(<td>{this.state.testList[i].grade}</td>)
       if(grade < 65){
-        children.push(<div className="btn btn-danger btn-space"> {grade}</div>)
+        children.push(<td> <div className="btn btn-danger btn-space"> {grade} </div></td>)
       }else if(grade >= 65 && grade < 85){
-        children.push(<div className="btn btn-warning btn-space"> {grade}</div>)
+        children.push(<td> <div className="btn btn-warning btn-space"> {grade} </div></td>)
       }else if(grade > 85){
-        children.push(<div className="btn btn-success btn-space"> {grade}</div>)
+        children.push(<td> <div className="btn btn-success btn-space"> {grade} </div></td>)
       }
       children.push(<td>{this.state.testList[i].timeLimit}</td>)
       //Create the parent and add the children
