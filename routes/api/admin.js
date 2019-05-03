@@ -16,14 +16,17 @@ router.post('/register', (req, results) => {
     return results.status(400).json(errors);
   }
   const email = req.body.email;
+  console.log(email);
+  
 
   // query to find if email is in db
   const selectEmail = "select count(*) as emailCount from USER where email = '" + email + "'";
+
   db.query(selectEmail, (err, res) => {
     if(err){
-      console.error('Error connecting: ' + err.stack);
+      // console.error('Error connecting: ' + err.stack);
     }
-    if(results[0].emailCount != 0){
+    if(res[0].emailCount != 0){
       errors.email = 'Email already exists'
       return results.status(400).json(errors);
     }

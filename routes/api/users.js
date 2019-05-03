@@ -69,8 +69,10 @@ router.post('/login', (req, result) => {
     if(err){
       console.error('Error connecting: ' + err.stack);
     }
-    if(res == null){
-      return res.status(400).json(errors);
+    console.log(res.length);
+    
+    if(res.length == 0 || res[0].PASSWORD == 'undefined'){
+      return result.status(400).json(errors);
     }
     const pw = res[0].PASSWORD
     //console.log(pw);
