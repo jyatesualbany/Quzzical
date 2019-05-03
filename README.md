@@ -1,8 +1,8 @@
 # Login info
-Admin
+1. Admin
     - email: kgalusha@albany.edu
     - password: helloworld
-User
+2. User
     - email: temp@temp.com
     - password: helloworld
 ## Before you start testing
