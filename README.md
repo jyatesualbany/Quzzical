@@ -1,7 +1,7 @@
 # Login info
 1. Admin
-    email: kgalusha@albany.edu
-    password: helloworld
+    - email: kgalusha@albany.edu
+    - password: helloworld
 
 ## Before you start testing
 
