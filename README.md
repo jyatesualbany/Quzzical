@@ -1,8 +1,10 @@
 # Login info
-1. Admin
+Admin
     - email: kgalusha@albany.edu
     - password: helloworld
-
+User
+    - email: temp@temp.com
+    - password: helloworld
 ## Before you start testing
 
 I didn't include the node_modules becuase there huge and its bad practice to include them.
